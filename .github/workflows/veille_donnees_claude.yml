@@ -1,0 +1,197 @@
+name: Automatisme de Veille Technologique Données Universelles (Claude)
+
+on:
+  schedule:
+    # Se déclenche automatiquement tous les lundis à 6h00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    # Permet de lancer la veille manuellement depuis l'interface GitHub
+
+jobs:
+  run-veille:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Récupération du code du dépôt
+      uses: actions/checkout@v4
+
+    - name: Configuration de l'environnement Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Installation des dépendances requises
+      run: |
+        python -m pip install --upgrade pip
+        pip install anthropic requests
+
+    - name: Exécution du script de veille, Dédoublonnage et Push API
+      env:
+        # Vos clés secrètes configurées dans l'interface de GitHub
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python - <<EOF
+        import os
+        import json
+        import base64
+        import requests
+        from anthropic import Anthropic
+
+        # 1. Vérification des variables d'environnement
+        anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+        github_token = os.getenv("GITHUB_TOKEN")
+        repo = os.getenv("GITHUB_REPOSITORY")
+
+        if not anthropic_key or not github_token or not repo:
+            print("Erreur : Les secrets GITHUB_TOKEN ou ANTHROPIC_API_KEY sont manquants.")
+            exit(1)
+
+        # 2. Définition du chemin cible dans le dépôt GitHub
+        file_path = "data/veille_datasets.json"
+        github_api_url = f"https://github.com{repo}/contents/{file_path}"
+        
+        # 3. Définition du prompt universel de veille multi-métiers
+        prompt_universel = """
+        Agis en tant qu'ingénieur de données principal et journaliste d'investigation technique.
+        Ton objectif est de dresser un inventaire mondial exhaustif de toutes les plateformes, registres, dépôts et APIs massives distribuant des jeux de données, sans aucune restriction thématique. Cet inventaire universel servira de base de connaissances externe pour alimenter des applications d'IA via des pipelines RAG afin d'éradiquer les hallucinations. La langue d'origine ou la provenance géographique n'a aucune importance.
+        
+        Tu devez utiliser l'outil 'sauvegarder_inventaire' fourni pour structurer l'intégralité de tes résultats. Remplis le tableau avec le maximum de registres récents et pertinents découverts à travers le monde.
+        """
+
+        # Definition du schéma de sortie forcé via les Tools d'Anthropic
+        schema_inventaire = {
+            "name": "sauvegarder_inventaire",
+            "description": "Sauvegarde le catalogue complet des jeux de données identifiés",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "datasets": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "string", "description": "Un UUID unique généré pour l'enregistrement"},
+                                "nom_ressource": {"type": "string", "description": "Nom exact de la ressource"},
+                                "editeur_organisation": {"type": "string", "description": "Entité responsable de la gouvernance"},
+                                "domaine_principal": {
+                                    "type": "string",
+                                    "enum": [
+                                        "Metiers & Emploi", "Transport & Logistique", "Ventes, Commerce & Marketing",
+                                        "Demographie, Social & Citoyennete", "Politique & Elections", "Medical & Sante",
+                                        "Judiciaire & Droit", "Psychologie & Sciences Cognitives", "Alimentation & Agriculture",
+                                        "Meteo, Climat & Environnement", "Cybersecurite & Informatique", "Recherche Academique"
+                                    ]
+                                },
+                                "protocoles_acces": {"type": "array", "items": {"type": "string"}},
+                                "formats_fichiers": {"type": "array", "items": {"type": "string"}},
+                                "frequence_mise_a_jour": {"type": "string"},
+                                "score_anti_hallucination": {"type": "integer", "minimum": 1, "maximum": 5},
+                                "methode_integration_technique": {"type": "string"},
+                                "url_source_donnees": {"type": "string"},
+                                "url_documentation_integration": {"type": "string"}
+                            },
+                            "required": [
+                                "id", "nom_ressource", "editeur_organisation", "domaine_principal", 
+                                "protocoles_acces", "formats_fichiers", "frequence_mise_a_jour", 
+                                "score_anti_hallucination", "methode_integration_technique", 
+                                "url_source_donnees", "url_documentation_integration"
+                            ]
+                        }
+                    }
+                },
+                "required": ["datasets"]
+            }
+        }
+
+        print("Interrogation de l'API Claude (Anthropic)...")
+        client = Anthropic(api_key=anthropic_key)
+        
+        response = client.messages.create(
+            model="claude-3-5-sonnet-latest",
+            max_tokens=4096,
+            system="Tu es un robot d'extraction de données techniques. Tu dois obligatoirement répondre en appelant l'outil mis à ta disposition.",
+            messages=[{"role": "user", "content": prompt_universel}],
+            tools=[schema_inventaire],
+            tool_choice={"type": "tool", "name": "sauvegarder_inventaire"}
+        )
+        
+        tool_use_block = next((block for block in response.content if block.type == "tool_use"), None)
+        if not tool_use_block:
+            print("Erreur : Claude n'a pas utilisé l'outil pour structurer sa réponse.")
+            exit(1)
+            
+        nouvelles_donnees = tool_use_block.input.get("datasets", [])
+
+        # 4. Récupération de la version existante pour fusion et dédoublonnage
+        headers = {
+            "Authorization": f"Bearer {github_token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+        
+        print("Vérification de l'existence d'une version précédente sur GitHub...")
+        get_response = requests.get(github_api_url, headers=headers)
+        
+        sha = None
+        donnees_existantes = []
+        
+        if get_response.status_code == 200:
+            sha = get_response.json().get("sha")
+            # Décoder le contenu actuel du fichier existant
+            content_b64 = get_response.json().get("content", "")
+            try:
+                content_json = json.loads(base64.b64decode(content_b64).decode('utf-8'))
+                # S'assurer de gérer l'ancienne structure si elle était encapsulée
+                donnees_existantes = content_json if isinstance(content_json, list) else content_json.get("datasets", [])
+                print(f"Fichier existant détecté ({len(donnees_existantes)} entrées). SHA trouvé : {sha}")
+            except Exception as e:
+                print(f"Impossible de parser l'ancien fichier (création d'un nouveau flux) : {e}")
+        
+        # 5. Algorithme de dédoublonnage par URL source unique
+        # On utilise l'URL ou le nom de la ressource comme clé métier de dédoublonnage
+        index_existants = {item["url_source_donnees"].strip().lower(): item for item in donnees_existantes if "url_source_donnees" in item}
+        
+        compteur_maj = 0
+        compteur_nouveau = 0
+        
+        for new_item in nouvelles_donnees:
+            url_cle = new_item.get("url_source_donnees", "").strip().lower()
+            if url_cle in index_existants:
+                # Mise à jour de l'élément existant avec les nouvelles métadonnées (en gardant le même ID)
+                new_item["id"] = index_existants[url_cle]["id"]
+                index_existants[url_cle] = new_item
+                compteur_maj += 1
+            else:
+                # Ajout du nouvel élément dans l'index
+                index_existants[url_cle] = new_item
+                compteur_nouveau += 1
+                
+        # Reconstruction de la liste finale triée
+        fusion_totale = list(index_existants.values())
+        print(f"Dédoublonnage terminé : {compteur_nouveau} ajouts, {compteur_maj} mises à jour. Total : {len(fusion_totale)} entrées.")
+        
+        # Enveloppement dans la structure racine propre
+        dictionnaire_final = {"datasets": fusion_totale}
+        clean_json_str = json.dumps(dictionnaire_final, indent=2, ensure_ascii=False)
+
+        # 6. Encodage en Base64 et Push sur GitHub
+        blob_content_b64 = base64.b64encode(clean_json_str.encode('utf-8')).decode('utf-8')
+        
+        put_payload = {
+            "message": f"Feeds de veille automatisée (Claude) : {compteur_nouveau} nouveaux, {compteur_maj} MAJ",
+            "content": blob_content_b64
+        }
+        
+        if sha:
+            put_payload["sha"] = sha
+
+        print("Téléversement de la base consolidée sur le dépôt...")
+        put_response = requests.put(github_api_url, headers=headers, json=put_payload)
+        
+        if put_response.status_code in:
+            print("Succès ! La base de données incrémentale a été sauvegardée.")
+        else:
+            print(f"Échec du push sur GitHub : {put_response.status_code} - {put_response.text}")
+            exit(1)
+        EOF
