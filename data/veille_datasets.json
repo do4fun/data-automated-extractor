@@ -3,7 +3,7 @@
     {
       "id": "a3f7c2d1-4b8e-4a3f-9c1d-2e5f7a8b0c3e",
       "nom_ressource": "World Bank Open Data",
-      "description": "Base de données mondiale de la Banque mondiale offrant plus de 15 000 indicateurs économiques, sociaux et de développement couvrant 217 économies depuis les années 1960. Données sur la gouvernance, les finances publiques, la population, l'éducation et la santé à l'échelle mondiale. Exemples d'usage : (1) RAG sur les indicateurs de gouvernance mondiale pour alimenter un dashboard IA d'aide à la décision politique ; (2) Comparaison automatisée des indices de développement humain entre pays pour des rapports analytiques.",
+      "description": "Portail mondial de la Banque Mondiale proposant plus de 20 000 indicateurs de développement pour 217 économies depuis 1960 : gouvernance, finances publiques, éducation, santé, pauvreté, environnement. Base de référence internationale pour l'analyse comparative des politiques publiques. Usage RAG : pipeline de contextualisation géopolitique pour un LLM analysant les rapports pays ; assistant de recherche sur l'efficacité des programmes d'aide publique au développement.",
       "editeur_organisation": "The World Bank Group",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
@@ -11,16 +11,16 @@
         "Téléchargement direct"
       ],
       "formats_fichiers": [
+        "CSV",
         "JSON",
         "XML",
-        "CSV",
         "XLSX"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST versionnée : https://api.worldbank.org/v2/. Endpoint principal : /country/{code}/indicator/{indicator}?format=json. Paramètres : date= (plage temporelle), per_page= (pagination), mrv= (most recent values). Réponse JSON avec métadonnées et tableau de valeurs annuelles.",
+      "methode_integration_technique": "API REST v2 : endpoint https://api.worldbank.org/v2/country/{country}/indicator/{indicator} — paramètres : date, format (json/xml), per_page, page, mrv (most recent values). Réponse JSON/XML. Pas d'authentification requise. Ex : /v2/country/FR/indicator/NY.GDP.MKTP.CD?format=json.",
       "url_source_donnees": "https://data.worldbank.org",
-      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392"
+      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/898581"
     },
     {
       "id": "b1e4d7f2-5c9a-4b2e-8d3f-1a6c0e9b4d7a",
@@ -45,57 +45,56 @@
     },
     {
       "id": "c5a8e3f1-7d2b-4c5a-ae3f-3b9d1f0c8e2b",
-      "nom_ressource": "Eurostat – Statistiques économiques et financières",
-      "description": "Office statistique de l'Union Européenne fournissant des données harmonisées sur les économies des 27 États membres : comptes nationaux, déficits publics, prix à la consommation (IPCH), marché du travail. Couverture Europe, comparables entre pays. Usage RAG : alimentation d'un chatbot sur la convergence économique de la zone euro ; extraction de séries temporelles pour modèles prédictifs d'inflation.",
-      "editeur_organisation": "Eurostat – Commission Européenne",
+      "nom_ressource": "Eurostat — Statistiques économiques et financières",
+      "description": "Base de données officielle de l'Office statistique de l'Union européenne, couvrant les comptes nationaux, les prix à la consommation (IPCH), les finances publiques, le commerce extérieur et les marchés du travail pour les 27 États membres et pays partenaires. Usage RAG : enrichissement d'un assistant IA sur la conformité budgétaire des États membres ; génération de contexte pour l'analyse de divergences d'inflation au sein de la zone euro.",
+      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
       "domaine_principal": "Finance & Economie",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct",
-        "SDMX"
+        "Téléchargement CSV",
+        "SPARQL"
       ],
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "SDMX-XML",
-        "TSV"
+        "TSV",
+        "SDMX-ML"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API SDMX/JSON : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset_code}?geo={pays}&time={période}. Paramètres : dataset_code (ex: nama_10_gdp), geo (code pays ISO2), unit, na_item. Réponse JSON-stat. Pagination non requise pour la plupart des séries.",
+      "methode_integration_technique": "API REST SDMX : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}?format=JSON&lang=EN&geo={geo}&time={time}. Paramètres : datasetCode (ex: nama_10_gdp), geo (code pays UE), time (année ou période). Réponse JSON-STAT avec dimensions et valeurs. Pas d'authentification requise.",
       "url_source_donnees": "https://ec.europa.eu/eurostat/data/database",
-      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Getting+started+with+statistics+API"
     },
     {
       "id": "d9b2f6a4-3e1c-4d9b-bf6a-7c4e2a1d5f8c",
-      "nom_ressource": "FRED – Federal Reserve Economic Data",
-      "description": "Base de données de la Réserve Fédérale de Saint-Louis comptant plus de 800 000 séries temporelles économiques et financières : taux directeurs, chômage, CPI, M2, spreads obligataires. Focus États-Unis avec extensions internationales. Usage RAG : pipeline de récupération contextuelle sur la politique monétaire américaine ; vectorisation de séries macro pour détection d'anomalies économiques.",
-      "editeur_organisation": "Federal Reserve Bank of St. Louis",
+      "nom_ressource": "FRED — Federal Reserve Economic Data",
+      "description": "Base de données de la Réserve fédérale de Saint-Louis regroupant plus de 800 000 séries temporelles économiques et financières (taux d'intérêt Fed, indices boursiers, masse monétaire M2, emploi, inflation US, etc.). Couverture principalement américaine, données disponibles jusqu'en temps quasi-réel. Usage RAG : alimentation d'un pipeline de questions-réponses sur la politique monétaire américaine ; extraction de contexte pour des modèles de prévision des taux directeurs.",
+      "editeur_organisation": "Federal Reserve Bank of Saint Louis (FRED)",
       "domaine_principal": "Finance & Economie",
       "protocoles_acces": [
         "API REST"
       ],
       "formats_fichiers": [
         "JSON",
-        "XML",
         "CSV",
-        "XLS"
+        "XML",
+        "Excel"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Endpoint : https://api.stlouisfed.org/fred/series/observations?series_id={ID}&api_key={KEY}&file_type=json. Paramètres clés : series_id (ex: FEDFUNDS, CPIAUCSL), observation_start/end, units (lin/chg/pch), frequency. Clé API gratuite requise. Réponse JSON avec tableau 'observations'.",
+      "methode_integration_technique": "API REST avec clé : https://api.stlouisfed.org/fred/series/observations?series_id={SERIES_ID}&api_key={KEY}&file_type=json. Paramètres clés : series_id (ex: FEDFUNDS, CPIAUCSL), observation_start, observation_end, frequency (d/w/m/q/a). Clé API gratuite sur inscription. Pagination via offset/limit.",
       "url_source_donnees": "https://fred.stlouisfed.org",
       "url_documentation_integration": "https://fred.stlouisfed.org/docs/api/fred/"
     },
     {
       "id": "e2c5a9d3-6f0b-4e2c-9a5d-8b7f3c4e1a0d",
-      "nom_ressource": "Yahoo Finance API (via yfinance / RapidAPI)",
-      "description": "Source de données de marché financier en quasi-temps réel : cours d'actions, ETF, indices boursiers, crypto-monnaies, données fondamentales d'entreprises cotées. Couverture mondiale (NYSE, NASDAQ, Euronext, TSE, NSE, etc.). Usage RAG : enrichissement d'un assistant d'analyse boursière avec des données fondamentales actualisées ; construction d'un retriever sur les fiches entreprises pour due diligence automatisée.",
-      "editeur_organisation": "Yahoo Inc. / Verizon Media",
+      "nom_ressource": "Yahoo Finance API (via yfinance Python library)",
+      "description": "Source de données financières de marché couvrant actions, ETF, obligations, indices boursiers et cryptomonnaies à l'échelle mondiale : cours historiques OHLCV, dividendes, splits, données fondamentales et informations sur les entreprises. Usage RAG : ingestion de données de marché historiques pour alimenter un assistant d'analyse de portefeuille ; extraction de bilans et comptes de résultats pour enrichir des documents d'analyse fondamentale.",
+      "editeur_organisation": "Yahoo Inc. / Verizon Media (données agrégées de marché)",
       "domaine_principal": "Finance & Economie",
       "protocoles_acces": [
-        "API REST",
-        "Bibliothèque Python (yfinance)"
+        "API REST"
       ],
       "formats_fichiers": [
         "JSON",
@@ -103,37 +102,38 @@
       ],
       "frequence_mise_a_jour": "Temps réel",
       "score_anti_hallucination": 3,
-      "methode_integration_technique": "Via bibliothèque Python yfinance : yf.Ticker('AAPL').history(period='1y'). Ou API non officielle via RapidAPI (Yahoo Finance). Données OHLCV, dividendes, splits, bilans financiers. Limitation : pas d'API officielle publique documentée, usage via reverse-engineering ou wrappers communautaires.",
+      "methode_integration_technique": "Intégration principale via la librairie Python 'yfinance' (pip install yfinance). Appel : yf.Ticker('AAPL').history(period='1y'). Retourne un DataFrame pandas. Endpoint sous-jacent non officiel : https://query1.finance.yahoo.com/v8/finance/chart/{symbol}. Usage en production déconseillé sans accord commercial ; adapté à la recherche et au prototypage.",
       "url_source_donnees": "https://finance.yahoo.com",
-      "url_documentation_integration": "https://pypi.org/project/yfinance/"
+      "url_documentation_integration": "https://github.com/ranaroussi/yfinance"
     },
     {
       "id": "f7d1b4c8-2a3e-4f7d-b4c8-5e0a9f2b6d1e",
-      "nom_ressource": "OCDE.Stat – OECD Statistics",
-      "description": "Plateforme statistique de l'OCDE proposant des données économiques comparatives pour 38 pays membres et partenaires : productivité, commerce international, fiscalité, investissements directs étrangers, comptes nationaux. Usage RAG : réponse à des questions comparatives sur les politiques fiscales entre pays de l'OCDE ; extraction de données pour un modèle de scoring de risque pays.",
-      "editeur_organisation": "Organisation de Coopération et de Développement Économiques (OCDE)",
-      "domaine_principal": "Finance & Economie",
+      "nom_ressource": "OECD.Stat – Statistics Portal de l'OCDE",
+      "description": "Base de données statistiques de l'Organisation de Coopération et de Développement Économiques couvrant 38 pays membres et de nombreux partenaires : finances publiques, fiscalité, gouvernance, éducation (PISA), emploi, santé. Référence mondiale pour la comparaison des politiques publiques. Usage RAG : pipeline de benchmarking automatisé des politiques fiscales nationales ; assistant de recherche comparative sur les systèmes de protection sociale des pays membres.",
+      "editeur_organisation": "Organisation for Economic Co-operation and Development (OECD)",
+      "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
         "SDMX",
         "Téléchargement direct"
       ],
       "formats_fichiers": [
+        "CSV",
         "JSON",
         "XML",
-        "CSV",
-        "SDMX"
+        "SDMX-JSON",
+        "XLSX"
       ],
-      "frequence_mise_a_jour": "Annuel",
+      "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API SDMX-JSON : https://stats.oecd.org/SDMX-JSON/data/{dataset}/{filter}/all?startTime={année}&endTime={année}. Paramètres : dataset (ex: SNA_TABLE1), filter (combinaison de dimensions), startTime/endTime. Réponse SDMX-JSON. Documentation des datasets via le Data Explorer interactif.",
+      "methode_integration_technique": "API SDMX-JSON : endpoint https://stats.oecd.org/SDMX-JSON/data/{datasetCode}/{filter}/{agency} — paramètres : startTime, endTime, dimensionAtObservation. Réponse SDMX-JSON. Exploration des datasets via https://stats.oecd.org/restsdmx/sdmx.ashx/GetDataStructure/ALL.",
       "url_source_donnees": "https://stats.oecd.org",
       "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
     },
     {
       "id": "07e3c6b5-9f4d-4078-a3c6-1d2b8e5f0a7c",
-      "nom_ressource": "Alpha Vantage – Financial Market Data API",
-      "description": "API financière fournissant données boursières temps réel et historiques, indicateurs techniques (RSI, MACD, Bollinger), données fondamentales et taux de change pour plus de 100 devises et milliers de titres mondiaux. Usage RAG : enrichissement d'un pipeline de génération de rapports financiers automatisés ; alimentation d'un retriever sur les indicateurs techniques pour assistant de trading algorithmique.",
+      "nom_ressource": "Alpha Vantage — Données de marchés financiers",
+      "description": "API financière commerciale avec tier gratuit offrant des données sur les cours d'actions (intraday, journalier, hebdomadaire), les devises (Forex), les cryptomonnaies, les indicateurs techniques (RSI, MACD) et les fondamentaux d'entreprises. Couverture mondiale des principales bourses. Usage RAG : construction d'un assistant d'analyse technique boursière avec contexte en temps quasi-réel ; enrichissement de documents de recherche avec des métriques fondamentales d'entreprises.",
       "editeur_organisation": "Alpha Vantage Inc.",
       "domaine_principal": "Finance & Economie",
       "protocoles_acces": [
@@ -145,39 +145,38 @@
       ],
       "frequence_mise_a_jour": "Temps réel",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "Endpoint : https://www.alphavantage.co/query?function={FUNCTION}&symbol={TICKER}&apikey={KEY}. Fonctions clés : TIME_SERIES_DAILY, TIME_SERIES_INTRADAY, FX_DAILY, OVERVIEW (fondamentaux). Clé API gratuite (25 req/jour) ou payante. Réponse JSON avec métadonnées et séries temporelles.",
+      "methode_integration_technique": "API REST : https://www.alphavantage.co/query?function={FUNCTION}&symbol={SYMBOL}&apikey={KEY}. Fonctions clés : TIME_SERIES_DAILY, FX_DAILY, DIGITAL_CURRENCY_DAILY, OVERVIEW. Clé API gratuite (25 req/jour) ou premium. Réponse JSON avec métadonnées et séries temporelles. Pas de pagination, paramètre outputsize=full pour l'historique complet.",
       "url_source_donnees": "https://www.alphavantage.co",
       "url_documentation_integration": "https://www.alphavantage.co/documentation/"
     },
     {
       "id": "18f4d7a6-0b5e-4189-b4d7-2e3c9f6a1b0e",
-      "nom_ressource": "Banque de France – Webstat",
-      "description": "Portail de données statistiques de la Banque de France : taux d'intérêt, agrégats monétaires, statistiques bancaires et financières, balance des paiements de la France. Données officielles conformes aux standards BCE. Usage RAG : extraction contextuelle sur la politique monétaire française ; construction d'un index de séries financières françaises pour un assistant réglementaire.",
+      "nom_ressource": "Banque de France — Données et statistiques",
+      "description": "Portail open data de la Banque de France publiant des séries statistiques sur les taux d'intérêt directeurs, les agrégats monétaires de la zone euro, le crédit aux ménages et entreprises, la balance des paiements française et les comptes financiers nationaux. Usage RAG : alimentation d'un assistant IA spécialisé en politique monétaire européenne avec des données granulaires sur le crédit français ; extraction de séries sur le financement des PME pour des analyses sectorielles.",
       "editeur_organisation": "Banque de France",
       "domaine_principal": "Finance & Economie",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct",
-        "SDMX"
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "XML",
-        "SDMX"
+        "SDMX-ML",
+        "Excel"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API SDMX via Webstat : https://webstat.banque-france.fr/api/. Sélection de séries via interface Webstat puis export en CSV/JSON/SDMX. Endpoint SDMX compatible avec les standards BCE pour intégration automatisée. Documentation complète disponible sur le portail.",
+      "methode_integration_technique": "API SDMX REST : https://webstat.banque-france.fr/api/v1/data/{flow}/{key}?format=csvdata. Paramètres : flow (ex: BSI pour agrégats monétaires), key (combinaison de dimensions SDMX). Réponse en CSV ou JSON-STAT. Accès libre sans authentification. Documentation disponible sur le portail Webstat.",
       "url_source_donnees": "https://webstat.banque-france.fr",
-      "url_documentation_integration": "https://webstat.banque-france.fr/fr/help"
+      "url_documentation_integration": "https://webstat.banque-france.fr/fr/documentation-api/"
     },
     {
       "id": "29a5e8b7-1c6f-429a-a5e8-3f4d0a7b2c1f",
-      "nom_ressource": "African Development Bank – Africa Infrastructure Knowledge Program (AIKP)",
-      "description": "Programme de données sur les infrastructures africaines couvrant les secteurs de l'énergie, transports, eau et télécommunications pour 54 pays africains, incluant des indicateurs de capacité installée, investissements et lacunes infrastructurelles. Usage RAG : pipeline RAG pour l'assistance à la planification de projets d'ingénierie civile en Afrique subsaharienne ; chatbot de conseil pour investisseurs en infrastructures cherchant à identifier les marchés sous-équipés par secteur.",
+      "nom_ressource": "Portail Open Data Afrique – African Development Bank Open Data",
+      "description": "Portail de la Banque Africaine de Développement proposant des indicateurs socio-économiques, d'infrastructure et de gouvernance pour 54 pays africains. Données couvrant : PIB, dette publique, investissements, accès aux services, gouvernance. Couverture temporelle : 1990–présent. Usage RAG : construction d'un dashboard IA de suivi des ODD en Afrique subsaharienne ; pipeline d'analyse de la capacité fiscale des États africains pour des rapports de financement.",
       "editeur_organisation": "African Development Bank Group (AfDB)",
-      "domaine_principal": "Ingenierie & Industrie",
+      "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct"
@@ -185,13 +184,14 @@
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "Excel"
+        "XML",
+        "XLSX"
       ],
       "frequence_mise_a_jour": "Annuel",
-      "score_anti_hallucination": 4,
-      "methode_integration_technique": "Accès via portail open data de l'AfDB : https://dataportal.opendataforafrica.org. API REST disponible avec paramètres country, indicator, year. Réponse JSON. Téléchargement direct en CSV/Excel disponible sans authentification. Jeux de données thématiques téléchargeables par secteur.",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : endpoint https://api.opendataforafrica.org/api/1.0/ — paramètres : datasource, country, indicator, period. Réponse JSON avec séries temporelles. Documentation SDMX disponible. Clé API non requise pour les données publiques.",
       "url_source_donnees": "https://dataportal.opendataforafrica.org",
-      "url_documentation_integration": "https://dataportal.opendataforafrica.org/nmvejaf/africa-infrastructure-development-index"
+      "url_documentation_integration": "https://dataportal.opendataforafrica.org/api"
     },
     {
       "id": "3ab6f9c8-2d7a-43ab-b6f9-4a5e1b8c3d2a",
@@ -321,23 +321,22 @@
     },
     {
       "id": "d27a05f3-91bc-4f17-b8d9-6e2c1a8e3049",
-      "nom_ressource": "Global Carbon Project - Global Carbon Budget",
-      "description": "Jeu de données annuel de référence mondiale sur le bilan du carbone : émissions de CO₂ fossiles, flux terrestres et océaniques, concentration atmosphérique de CO₂, couvrant 1750 à aujourd'hui à l'échelle mondiale et nationale. Produit par un consortium de 80+ institutions scientifiques. Usage RAG : alimenter un assistant IA sur les politiques climatiques avec des données d'émissions nationales vérifiées ; construire un pipeline de génération de rapports IPCC-ready sur les trajectoires d'émissions.",
-      "editeur_organisation": "Global Carbon Project (GCP) / ICOS Carbon Portal",
+      "nom_ressource": "Global Carbon Project – Global Carbon Budget Dataset",
+      "description": "Dataset annuel faisant autorité sur le bilan mondial du carbone, incluant les émissions de CO₂ fossiles, les flux terrestres et océaniques, la croissance atmosphérique, couvrant 1750 à nos jours. Publié chaque année avec révision des séries historiques. Usage RAG : alimentation d'un système QA sur les contributions nationales aux émissions mondiales pour des rapports de durabilité ; contexte chiffré pour un assistant IA spécialisé en politiques climatiques.",
+      "editeur_organisation": "Global Carbon Project (GCP) – consortium international de recherche",
       "domaine_principal": "Meteo, Climat & Environnement",
       "protocoles_acces": [
-        "FTP",
-        "API REST"
+        "FTP"
       ],
       "formats_fichiers": [
-        "XLSX",
-        "CSV"
+        "CSV",
+        "XLSX"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Téléchargement direct des fichiers Excel/CSV depuis le portail ICOS Carbon Portal (https://www.icos-cp.eu/science-and-impact/global-carbon-budget). Chaque édition annuelle est un fichier structuré avec onglets séparés (émissions fossiles, LULUCF, budget global). Intégration dans un pipeline RAG via parsing pandas avec lecture par onglet (sheet_name).",
+      "methode_integration_technique": "Téléchargement direct depuis le dépôt Zenodo (DOI stable) ou le site GCP. Pas d'API dédiée. Fichiers CSV structurés par pays et par flux (fossil, land-use-change, atmosphere). Intégration dans pipeline RAG via ingestion batch, vectorisation des séries temporelles et des métadonnées pays.",
       "url_source_donnees": "https://www.globalcarbonproject.org/carbonbudget/",
-      "url_documentation_integration": "https://essd.copernicus.org/articles/15/5301/2023/"
+      "url_documentation_integration": "https://zenodo.org/records/10177738"
     },
     {
       "id": "e59b17c6-38a1-4de8-bd02-7f4d9e0c2a13",
@@ -382,9 +381,9 @@
     },
     {
       "id": "91c7e25a-bd43-4f60-a3d8-0e5b2f9c1748",
-      "nom_ressource": "Japan Meteorological Agency (JMA) - Global Climate Data",
-      "description": "Portail open data de l'Agence météorologique japonaise offrant des données historiques d'observations de surface (températures, précipitations, typhons) pour le Japon et l'Asie-Pacifique, ainsi que des réanalyses climatiques JRA-55. Couverture régionale Asie-Pacifique, historique depuis 1850 pour certaines variables. Usage RAG : enrichir une base de connaissances sur les événements météo extrêmes en Asie ; analyser les trajectoires de typhons historiques pour un modèle d'évaluation des risques d'assurance.",
-      "editeur_organisation": "Japan Meteorological Agency (JMA) - 気象庁",
+      "nom_ressource": "Japan Meteorological Agency (JMA) – AMeDAS & Climate Data",
+      "description": "Données météorologiques officielles du Japon issues du réseau AMeDAS (Automated Meteorological Data Acquisition System), couvrant ~1 300 stations terrestres avec des données horaires depuis 1976. Inclut également des données typhons, tsunamis et sismiques. Couverture régionale Asie-Pacifique. Usage RAG : construction d'un index de connaissances sur les typhons historiques au Japon pour un assistant en gestion de risques ; analyse des tendances de précipitations extrêmes en Asie de l'Est.",
+      "editeur_organisation": "Japan Meteorological Agency (JMA) – Ministère des Terres, des Infrastructures, des Transports et du Tourisme du Japon",
       "domaine_principal": "Meteo, Climat & Environnement",
       "protocoles_acces": [
         "API REST",
@@ -392,13 +391,12 @@
       ],
       "formats_fichiers": [
         "CSV",
-        "NetCDF",
-        "GRIB2",
-        "XML"
+        "XML",
+        "JSON"
       ],
       "frequence_mise_a_jour": "Quotidien",
-      "score_anti_hallucination": 5,
-      "methode_integration_technique": "Accès au portail de données climatiques via https://www.data.jma.go.jp/gmd/risk/obsdl/. Interface web pour la sélection de stations, variables et période temporelle avec export CSV. Données de réanalyse JRA-55 accessibles via le portail JRA : https://jra.kishou.go.jp/JRA-55/. API disponible pour les bulletins météo via le flux XML/ATOM.",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Portail de données climatiques JMA : accès au téléchargement CSV via interface web https://www.data.jma.go.jp/gmd/risk/obsdl/. API REST disponible pour données en temps réel (observations synoptiques) via endpoint officiel JMA. Paramétrage par station ID, variable et période. Documentation partielle en anglais.",
       "url_source_donnees": "https://www.data.jma.go.jp/gmd/risk/obsdl/",
       "url_documentation_integration": "https://www.jma.go.jp/jma/en/Activities/observations.html"
     },
@@ -444,9 +442,9 @@
     },
     {
       "id": "5c9f3d17-a824-4e76-b15a-9e0d2c6f4830",
-      "nom_ressource": "Bureau of Meteorology (BOM) Australia - Climate Data Online",
-      "description": "Portail de données climatiques du Bureau météorologique australien fournissant des observations historiques de plus de 17 000 stations en Australie et Océanie : températures, précipitations, ensoleillement, évaporation, depuis le XIXe siècle pour certaines stations. Usage RAG : construire un tableau de bord de suivi des sécheresses australiennes pour un pipeline de gestion des risques agricoles ; répondre à des questions sur les records climatiques en Océanie dans un assistant conversationnel.",
-      "editeur_organisation": "Bureau of Meteorology (BOM), Australian Government",
+      "nom_ressource": "Australian Bureau of Meteorology (BOM) – Climate Data Online",
+      "description": "Base de données climatiques nationale australienne contenant des observations historiques de plus de 17 000 stations depuis le XIXe siècle : températures, précipitations, humidité, radiation solaire, vent. Couverture Australie, Pacifique Sud et Antarctique. Usage RAG : création d'un assistant IA sur la gestion des risques de feux de brousse avec données de sécheresse et température ; analyse des tendances d'El Niño/La Niña sur la région Pacifique.",
+      "editeur_organisation": "Australian Bureau of Meteorology (BOM) – Gouvernement australien",
       "domaine_principal": "Meteo, Climat & Environnement",
       "protocoles_acces": [
         "API REST",
@@ -454,31 +452,31 @@
       ],
       "formats_fichiers": [
         "CSV",
-        "NetCDF"
+        "JSON"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Accès via le portail Climate Data Online (CDO) : http://www.bom.gov.au/climate/data/. Requêtes par station, élément climatique et période via formulaire web avec export CSV. API JSONAPI disponible pour les données temps réel : http://www.bom.gov.au/fwo/{STATE_ID}.json. Données grillées (AWAP/AGCD) accessibles via NCI Australia en format NetCDF.",
+      "methode_integration_technique": "API REST publique : endpoint http://www.bom.gov.au/fwo/{state_code}/{station_id}.{format} pour observations en temps réel (JSON/XML). Pour l'historique : téléchargement CSV via Climate Data Online (https://www.bom.gov.au/climate/data/). Paramétrage par station, variable et période. FTP disponible pour données de grilles climatiques.",
       "url_source_donnees": "http://www.bom.gov.au/climate/data/",
-      "url_documentation_integration": "http://www.bom.gov.au/climate/data-services/"
+      "url_documentation_integration": "http://www.bom.gov.au/catalogue/anon-ftp.shtml"
     },
     {
       "id": "1e4a7f63-b092-4d58-c8e5-2a9b0d3f6519",
-      "nom_ressource": "Global Biodiversity Information Facility (GBIF) - Environmental Occurrence Data",
-      "description": "Infrastructure mondiale agrégeant plus de 2,5 milliards d'occurrences d'espèces biologiques géolocalisées issues de 100+ pays, permettant de croiser données environnementales et biodiversité. Couvre toutes les régions du globe, données historiques depuis le XVIIe siècle. Usage RAG : alimenter un assistant de veille environnementale sur l'impact du changement climatique sur la distribution des espèces ; construire un pipeline d'analyse de corrélation entre anomalies climatiques et disparitions d'espèces.",
+      "nom_ressource": "Global Biodiversity Information Facility (GBIF) – Occurrence Dataset",
+      "description": "Agrégateur mondial de données sur la biodiversité, hébergeant plus de 2,3 milliards d'occurrences d'espèces géoréférencées collectées par des institutions de recherche, musées et citoyens scientifiques du monde entier. Couvre toutes les espèces animales, végétales et fongiques. Usage RAG : réponse à des requêtes sur la distribution géographique d'espèces menacées dans un assistant IA conservation ; corrélation de données de présence d'espèces avec des variables climatiques ERA5.",
       "editeur_organisation": "Global Biodiversity Information Facility (GBIF) Secretariat",
       "domaine_principal": "Meteo, Climat & Environnement",
       "protocoles_acces": [
         "API REST"
       ],
       "formats_fichiers": [
-        "JSON",
         "CSV",
+        "JSON",
         "Darwin Core Archive"
       ],
-      "frequence_mise_a_jour": "Hebdomadaire",
+      "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST : endpoint https://api.gbif.org/v1/occurrence/search?taxonKey={ID}&country={CC}&year={YYYY}&limit=300&offset={n}. Paramètres : taxonKey, country (ISO 3166-1), decimalLatitude, decimalLongitude, year/month. Pagination via limit/offset (max 300/page, 200 000 max par requête). Format JSON avec champ results[] et endOfRecords. Download massif via occurrences/download endpoint (nécessite compte GBIF gratuit).",
+      "methode_integration_technique": "API REST publique sans authentification pour lecture : endpoint https://api.gbif.org/v1/occurrence/search, paramètres : taxonKey, country, year, hasCoordinate, geometry (WKT). Réponse JSON avec pagination (offset/limit, max 300/requête). Téléchargements massifs via endpoint /occurrence/download (authentification requise, format Darwin Core Archive ZIP).",
       "url_source_donnees": "https://www.gbif.org/occurrence/search",
       "url_documentation_integration": "https://www.gbif.org/developer/occurrence"
     },
@@ -503,9 +501,9 @@
     },
     {
       "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-      "nom_ressource": "data.gouv.fr — Portail national des données ouvertes de la France",
-      "description": "Portail officiel français d'open data regroupant plus de 45 000 jeux de données couvrant l'administration publique, les collectivités territoriales, la justice, l'éducation, et bien d'autres domaines. Données majoritairement à l'échelle nationale avec certaines déclinaisons régionales ou communales. Exemples d'usage : (1) Pipeline RAG pour répondre à des questions sur les marchés publics français via les données DECP ; (2) Enrichissement d'un chatbot administratif avec les données des services publics locaux.",
-      "editeur_organisation": "Direction interministérielle du numérique (DINUM) — Gouvernement français",
+      "nom_ressource": "data.gouv.fr – Plateforme ouverte des données publiques françaises",
+      "description": "Portail national français regroupant plus de 45 000 jeux de données couvrant l'ensemble des politiques publiques : budget de l'État, cadastre, élections, démographie, santé, transport, éducation. Couverture géographique : France entière, avec granularité communale. Usage RAG : alimentation d'un assistant répondant à des questions sur les marchés publics français ; enrichissement d'un pipeline de veille réglementaire avec les textes officiels publiés en open data.",
+      "editeur_organisation": "Direction interministérielle du numérique (DINUM) – République française",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
@@ -514,39 +512,42 @@
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "XML",
         "GeoJSON",
-        "XLS"
+        "XML",
+        "ODS",
+        "XLSX"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST disponible via https://www.data.gouv.fr/api/1/. Paramètres clés : ?q= (recherche textuelle), ?organization= (filtrage par organisation), ?tag= (filtrage par thématique). Réponse JSON paginée avec champ 'next_page'. Téléchargement direct des ressources via les URLs de chaque dataset.",
+      "methode_integration_technique": "API REST v1 : endpoint principal https://www.data.gouv.fr/api/1/datasets/ — paramètres clés : q (recherche textuelle), tag, organization, page, page_size. Réponse JSON paginée avec métadonnées et liens de téléchargement. Pagination via champs `next_page` et `previous_page`.",
       "url_source_donnees": "https://www.data.gouv.fr",
       "url_documentation_integration": "https://doc.data.gouv.fr/api/reference/"
     },
     {
       "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
-      "nom_ressource": "data.gov — Open Data Portal of the United States Federal Government",
-      "description": "Portail fédéral américain centralisant plus de 300 000 jeux de données issus de plus de 100 agences gouvernementales (EPA, NASA, Census Bureau, etc.). Couvre des thématiques larges : agriculture, énergie, santé, transports, finances publiques, sur l'ensemble du territoire américain. Exemples d'usage : (1) RAG sur les données budgétaires fédérales pour un assistant fiscal IA ; (2) Extraction de datasets réglementaires pour un moteur de conformité automatisé.",
-      "editeur_organisation": "General Services Administration (GSA) — U.S. Federal Government",
+      "nom_ressource": "Data.gov – US Federal Open Data Portal",
+      "description": "Portail fédéral américain référençant plus de 300 000 jeux de données issus de l'ensemble des agences fédérales (EPA, FDA, NASA, Census Bureau, etc.). Couvre : données climatiques, santé publique, finances fédérales, géospatiales, transports. Usage RAG : indexation des rapports d'audit de l'administration fédérale pour un assistant d'analyse budgétaire ; extraction de données Census pour un pipeline d'enrichissement démographique.",
+      "editeur_organisation": "General Services Administration (GSA) – U.S. Federal Government",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct",
-        "SPARQL"
+        "OGC WFS"
       ],
       "formats_fichiers": [
         "CSV",
         "JSON",
         "XML",
+        "GeoJSON",
+        "KML",
         "RDF",
-        "Shapefile"
+        "XLSX"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API CKAN disponible via https://catalog.data.gov/api/3/. Endpoint /action/package_search?q= pour la recherche, /action/package_show?id= pour le détail d'un dataset. Réponse JSON avec résultats paginés via paramètres rows= et start=.",
+      "methode_integration_technique": "API CKAN : endpoint https://catalog.data.gov/api/3/action/package_search — paramètres : q, fq (filtres Solr), rows, start. Réponse JSON avec liste de datasets, métadonnées et ressources téléchargeables. Supporte aussi l'API data.json pour harvesting.",
       "url_source_donnees": "https://data.gov",
-      "url_documentation_integration": "https://catalog.data.gov/api/3/"
+      "url_documentation_integration": "https://www.data.gov/developers/apis"
     },
     {
       "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
@@ -620,9 +621,9 @@
     },
     {
       "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
-      "nom_ressource": "India Government Open Data Platform — data.gov.in",
-      "description": "Portail officiel du gouvernement indien centralisant plus de 900 000 ressources open data issues de ministères, départements et organisations gouvernementales. Couvre des domaines variés : agriculture, éducation, santé, infrastructures, finances publiques, avec une couverture nationale et par États. Exemples d'usage : (1) RAG pour un assistant IA dédié aux politiques agricoles et aux schémas de subventions gouvernementaux indiens ; (2) Analyse automatisée des statistiques d'état civil et démographiques par district.",
-      "editeur_organisation": "National Informatics Centre (NIC) — Ministry of Electronics & Information Technology, Government of India",
+      "nom_ressource": "Open Government Data Platform India (OGD India)",
+      "description": "Portail officiel indien rassemblant plus de 800 000 ressources de données issues de ministères fédéraux et États fédérés indiens : agriculture, santé rurale, éducation, recensements, transport ferroviaire. Couverture géographique : sous-continent indien avec granularité district. Usage RAG : construction d'un pipeline de comparaison des indicateurs de développement par État ; assistant répondant sur les programmes gouvernementaux de subvention agricole.",
+      "editeur_organisation": "Ministry of Electronics and Information Technology (MeitY) – Government of India",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
@@ -632,39 +633,41 @@
         "CSV",
         "JSON",
         "XML",
-        "XLS",
-        "ODS"
+        "ODS",
+        "XLSX"
       ],
-      "frequence_mise_a_jour": "Hebdomadaire",
+      "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST avec clé d'accès (inscription gratuite). Endpoint : https://api.data.gov.in/resource/{resource_id}?api-key={KEY}&format=json&limit=100&offset=0. Paramètres de filtrage par colonne disponibles. Réponse JSON avec champs 'total', 'count' et tableau 'records'.",
+      "methode_integration_technique": "API REST : endpoint https://data.gov.in/backend/dmspublic/v1/resources — paramètres : api-key (inscription requise), filters, format, offset, limit. Réponse JSON avec records et métadonnées. Authentification par clé API gratuite après enregistrement.",
       "url_source_donnees": "https://data.gov.in",
-      "url_documentation_integration": "https://data.gov.in/help/api"
+      "url_documentation_integration": "https://data.gov.in/help/api-integration"
     },
     {
       "id": "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
-      "nom_ressource": "Australian Government Open Data — data.gov.au",
-      "description": "Portail officiel australien d'open data hébergeant plus de 30 000 jeux de données publiés par des agences fédérales, étatiques et des collectivités locales. Données couvrant l'ensemble des États et Territoires australiens, incluant des informations géospatiales, environnementales, économiques et administratives. Exemples d'usage : (1) Pipeline RAG pour répondre à des questions réglementaires sur les politiques environnementales australiennes ; (2) Extraction et indexation des données de marchés publics fédéraux pour un outil d'audit IA.",
-      "editeur_organisation": "Digital Transformation Agency (DTA) — Australian Government",
+      "nom_ressource": "Australian Government Open Data – data.gov.au",
+      "description": "Portail national australien regroupant plus de 30 000 jeux de données issus des agences fédérales et des États australiens : statistiques ABS, données géospatiales, environnement, santé, transports, budget fédéral. Couverture géographique : Australie et territoires. Usage RAG : alimentation d'un assistant de veille sur la réglementation environnementale australienne ; pipeline d'extraction et d'indexation des données de recensement ABS pour analyse démographique.",
+      "editeur_organisation": "Digital Transformation Agency (DTA) – Australian Government",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct",
-        "OGC WFS"
+        "OGC WFS",
+        "OGC WMS"
       ],
       "formats_fichiers": [
         "CSV",
         "JSON",
         "GeoJSON",
-        "Shapefile",
         "XML",
-        "XLSX"
+        "KML",
+        "XLSX",
+        "SHP"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API CKAN disponible via https://data.gov.au/data/api/3/action/. Recherche : package_search?q=&rows=20. Détail d'un dataset : package_show?id=. Accès aux ressources géospatiales via OGC WFS. Réponse JSON complète avec métadonnées et liens directs.",
+      "methode_integration_technique": "API CKAN v3 : endpoint https://data.gov.au/data/api/3/action/package_search — paramètres : q, fq (tags, organization, res_format), rows, start. Réponse JSON. Supporte aussi l'harvesting OAI-PMH et DCAT.",
       "url_source_donnees": "https://data.gov.au",
-      "url_documentation_integration": "https://data.gov.au/page/api"
+      "url_documentation_integration": "https://data.gov.au/dataset/ds-dga-ckan-api"
     },
     {
       "id": "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
@@ -690,9 +693,9 @@
     },
     {
       "id": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
-      "nom_ressource": "Portail Open Data de la Ville de New York — NYC Open Data",
-      "description": "Portail open data municipal de New York City publiant plus de 3 000 jeux de données opérationnelles issues de plus de 100 agences municipales : NYPD, MTA, Department of Finance, Department of Education, etc. Données à granularité très fine (quartier, bloc, bâtiment). Exemples d'usage : (1) RAG hyperlocalISÉ pour un assistant citoyen répondant aux questions sur les permis de construire et violations dans un quartier donné ; (2) Pipeline d'enrichissement pour un outil IA d'analyse de la sécurité publique par zone géographique.",
-      "editeur_organisation": "City of New York — NYC Office of Technology and Innovation",
+      "nom_ressource": "Portail Open Data – Ville de New York (NYC Open Data)",
+      "description": "Portail municipal de la ville de New York publiant plus de 3 000 jeux de données de 80 agences municipales : permis de construire, données policières (NYPD), transport (MTA), arbres urbains, plaintes 311, écoles publiques. Référence mondiale des open data municipaux. Usage RAG : assistant de cartographie des incidents de sécurité publique par quartier ; pipeline d'analyse de la répartition des services municipaux pour un outil de civic tech.",
+      "editeur_organisation": "NYC Mayor's Office of Data Analytics (MODA) – City of New York",
       "domaine_principal": "Administration & Open Data",
       "protocoles_acces": [
         "API REST",
@@ -702,12 +705,14 @@
         "CSV",
         "JSON",
         "GeoJSON",
-        "Shapefile",
-        "XLSX"
+        "XML",
+        "KML",
+        "XLSX",
+        "Shapefile"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API Socrata (SODA) : endpoint générique https://data.cityofnewyork.us/resource/{dataset_id}.json. Paramètres : $where= (filtres SQL-like), $limit=, $offset=, $select= (colonnes). Authentification optionnelle via app token (header X-App-Token). Réponse JSON tabulaire.",
+      "methode_integration_technique": "API Socrata (SODA 2.0) : endpoint https://data.cityofnewyork.us/resource/{dataset_id}.json — paramètres : $where (filtres SQL-like), $select, $limit, $offset, $order. Authentification optionnelle via app_token pour lever les limites de débit. Réponse JSON.",
       "url_source_donnees": "https://opendata.cityofnewyork.us",
       "url_documentation_integration": "https://dev.socrata.com/foundry/data.cityofnewyork.us/"
     },
@@ -796,60 +801,58 @@
     },
     {
       "id": "f2c618d0-9a34-4e7b-b123-5a80264d9c3f",
-      "nom_ressource": "AlienVault OTX – Open Threat Exchange",
-      "description": "Plateforme communautaire mondiale de partage d'indicateurs de compromission (IoC) : adresses IP, domaines, hashes, URLs malveillantes et règles YARA. Plus de 20 millions d'IoC contributifs issus de 140 pays. Usage RAG : enrichissement en temps réel d'un pipeline d'analyse de logs réseau ; construction d'une base vectorielle de rapports de menaces pour un moteur de recherche de threat intelligence.",
-      "editeur_organisation": "AT&T Cybersecurity (AlienVault)",
+      "nom_ressource": "AlienVault Open Threat Exchange (OTX)",
+      "description": "Plus grande plateforme communautaire mondiale de partage d'indicateurs de compromission (IoC) : adresses IP malveillantes, domaines, hashes de fichiers, URLs. Données contributives provenant de millions d'utilisateurs dans 140 pays. Usage RAG : alimentation d'un moteur de détection capable de répondre à 'Cette IP est-elle référencée comme malveillante ?' ; enrichissement automatique de rapports SOC avec les pulses de menaces associés.",
+      "editeur_organisation": "AT&T Cybersecurity (LevelBlue)",
       "domaine_principal": "Cybersecurite & Informatique",
       "protocoles_acces": [
         "API REST"
       ],
       "formats_fichiers": [
         "JSON",
-        "CSV",
         "STIX",
-        "OpenIOC"
+        "CSV"
       ],
       "frequence_mise_a_jour": "Temps réel",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "Endpoint principal : https://otx.alienvault.com/api/v1/. Routes clés : /pulses/subscribed (flux d'IoC), /indicators/domain/{domain}/general, /indicators/IPv4/{ip}/reputation. Authentification par header X-OTX-API-KEY. Pagination via next_page_url dans la réponse JSON.",
+      "methode_integration_technique": "Endpoint principal : https://otx.alienvault.com/api/v1/. Clé API requise (header X-OTX-API-KEY, obtention gratuite). Routes clés : /indicators/IPv4/{ip}/general, /pulses/subscribed, /indicators/domain/{domain}/malware. Pagination via paramètre page. SDK Python officiel 'OTXv2' disponible.",
       "url_source_donnees": "https://otx.alienvault.com/",
       "url_documentation_integration": "https://otx.alienvault.com/api"
     },
     {
       "id": "7a1b3e95-c047-4d81-9f67-2e5d8b0c4a12",
-      "nom_ressource": "Shodan – Internet-Wide Scan Data",
-      "description": "Moteur de recherche d'appareils connectés à Internet (serveurs, IoT, systèmes industriels SCADA) avec bannières de services, certificats TLS et métadonnées géolocalisées. Couverture mondiale et mise à jour continue. Usage RAG : alimentation d'un assistant d'audit d'exposition réseau pour répondre à des requêtes sur la surface d'attaque d'une organisation ; détection de services vulnérables exposés dans un pipeline de gestion des actifs.",
+      "nom_ressource": "Shodan - Internet of Everything Search Engine",
+      "description": "Moteur de recherche mondial sur les appareils connectés à Internet (serveurs, IoT, ICS/SCADA, caméras) avec données de bannières, certificats TLS, ports ouverts et vulnérabilités détectées. Couverture mondiale et continue depuis 2009. Usage RAG : construction d'un assistant de surface d'attaque capable de répondre à 'Quels services exposés sont liés à ce domaine ?' ; intégration dans des workflows d'audit d'exposition périmétriques.",
       "editeur_organisation": "Shodan LLC",
       "domaine_principal": "Cybersecurite & Informatique",
       "protocoles_acces": [
-        "API REST",
-        "Téléchargement direct"
+        "API REST"
       ],
       "formats_fichiers": [
-        "JSON"
+        "JSON",
+        "CSV"
       ],
       "frequence_mise_a_jour": "Temps réel",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "Endpoint principal : https://api.shodan.io/. Routes clés : /shodan/host/{ip}?key=API_KEY, /shodan/host/search?query=...&key=API_KEY. Pagination par paramètre page. Accès aux dumps historiques via https://bulk.shodan.io (abonnement commercial). Librairie Python officielle : shodan.",
+      "methode_integration_technique": "Endpoint principal : https://api.shodan.io/. Clé API payante requise (paramètre key). Routes clés : /shodan/host/{ip}, /shodan/host/search?query=..., /shodan/ports. Bibliothèque Python officielle 'shodan'. Résultats JSON avec pagination via facets. Quota de recherche selon plan.",
       "url_source_donnees": "https://www.shodan.io/",
       "url_documentation_integration": "https://developer.shodan.io/api"
     },
     {
       "id": "3c9d52a4-6f1e-4b7d-8e20-91a0c7f3b584",
-      "nom_ressource": "CIRCL Common Vulnerability Scoring System (cve-search)",
-      "description": "Instance open source et européenne d'agrégation de CVE, CPE et CAPEC maintenue par le CERT luxembourgeois, offrant une API REST complète et un dump complet en JSON. Couverture mondiale des vulnérabilités avec enrichissement EPSS (score de probabilité d'exploitation). Usage RAG : backend alternatif NVD pour des pipelines RAG nécessitant une souveraineté européenne des données ; croisement CVE/CPE pour identifier automatiquement les produits affectés dans un inventaire SI.",
-      "editeur_organisation": "CIRCL – Computer Incident Response Center Luxembourg",
+      "nom_ressource": "CIRCL Common Vulnerabilities & Exposures (CVE Search)",
+      "description": "Instance publique européenne de recherche CVE hébergée par le CIRCL (Luxembourg), offrant une API REST légère et rapide sur la base des données CVE/NVD. Complète le NVD avec des métadonnées additionnelles (CWE, références CPE). Usage RAG : intégration dans un pipeline de veille cyber pour enrichir en temps réel des alertes avec contexte CVE ; interrogation rapide par produit ou éditeur logiciel.",
+      "editeur_organisation": "Computer Incident Response Center Luxembourg (CIRCL)",
       "domaine_principal": "Cybersecurite & Informatique",
       "protocoles_acces": [
-        "API REST",
-        "Téléchargement direct"
+        "API REST"
       ],
       "formats_fichiers": [
         "JSON"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "Endpoint principal : https://cve.circl.lu/api/. Routes : /cve/{CVE-ID} (détail CVE), /last (30 dernières CVE), /search/{vendor}/{product}. Pas d'authentification requise pour usage public. Dump complet téléchargeable sur https://cve.circl.lu/dumps/. Réponse JSON sans pagination pour les requêtes unitaires.",
+      "methode_integration_technique": "Endpoint principal : https://cve.circl.lu/api/. Routes clés : GET /cve/{CVE-ID} pour une CVE précise, GET /search/{vendor}/{product} pour la recherche par produit, GET /last pour les 30 dernières CVE. Pas d'authentification requise. Réponse JSON directe sans pagination.",
       "url_source_donnees": "https://cve.circl.lu/",
       "url_documentation_integration": "https://cve.circl.lu/api/"
     },
@@ -919,24 +922,23 @@
     },
     {
       "id": "c7d3f509-2e41-4b8c-a372-8d1047b6c920",
-      "nom_ressource": "ENISA – European Union Agency for Cybersecurity Threat Landscape Reports & Data",
-      "description": "Rapports annuels et datasets de l'Agence de l'Union Européenne pour la Cybersécurité couvrant les tendances de menaces, statistiques d'incidents et analyses sectorielles sur l'ensemble des États membres de l'UE. Couverture européenne avec perspective mondiale. Usage RAG : construction d'une base documentaire réglementaire pour un assistant de conformité NIS2/RGPD ; analyse comparative des niveaux de maturité cyber par secteur industriel en Europe.",
-      "editeur_organisation": "ENISA – European Union Agency for Cybersecurity",
+      "nom_ressource": "ENISA Threat Landscape Reports",
+      "description": "Rapports annuels et thématiques de l'Agence de l'Union Européenne pour la Cybersécurité couvrant les principales menaces cyber en Europe et mondiales : ransomware, phishing, supply chain, IA adversariale. Données qualitatives et statistiques sur les incidents. Usage RAG : alimentation d'une base de connaissances réglementaire et stratégique pour des assistants IA de conformité NIS2 ; analyse de tendances sur l'évolution des menaces cyber en Europe.",
+      "editeur_organisation": "Agence de l'Union Européenne pour la Cybersécurité (ENISA)",
       "domaine_principal": "Cybersecurite & Informatique",
       "protocoles_acces": [
         "Téléchargement direct"
       ],
       "formats_fichiers": [
         "PDF",
-        "JSON",
-        "Excel",
-        "CSV"
+        "CSV",
+        "JSON"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Téléchargement direct depuis le portail de publications : https://www.enisa.europa.eu/publications. Données structurées du ENISA Threat Landscape disponibles en JSON/Excel sur la page dédiée. Intégration RAG : ingestion PDF via pipelines OCR (ex. Unstructured.io) + chunking sémantique. Pas d'API REST publique ; accès par navigation ou scraping éthique du catalogue.",
+      "methode_integration_technique": "Téléchargement direct depuis la page de publications ENISA. Les rapports ETL (Threat Landscape) incluent des annexes de données structurées CSV. Intégration RAG recommandée par extraction PDF (PyMuPDF/pdfplumber) + chunking sémantique. Pas d'API publique dédiée.",
       "url_source_donnees": "https://www.enisa.europa.eu/topics/cyber-threats/enisa-threat-landscape",
-      "url_documentation_integration": "https://www.enisa.europa.eu/publications/enisa-threat-landscape-2023"
+      "url_documentation_integration": "https://www.enisa.europa.eu/publications"
     },
     {
       "id": "4f0a8c36-7b52-4e1d-9d84-3e2c6f1b0a97",
@@ -1027,12 +1029,12 @@
     {
       "id": "c14a9b72-3d56-4f08-a2e7-581bc0d34e90",
       "nom_ressource": "NIST Materials Data Repository (MDR)",
-      "description": "Dépôt de données matériaux du National Institute of Standards and Technology couvrant propriétés mécaniques, thermiques, électriques et chimiques de matériaux industriels. Inclut données expérimentales et de simulation issues de projets de recherche fédéraux américains. Usage RAG : alimentation d'un assistant IA de sélection de matériaux pour ingénieurs (comparaison de résistances, conductivités) ; construction d'un pipeline d'inférence de propriétés de nouveaux alliages par analogie avec des matériaux référencés.",
+      "description": "Référentiel américain de données matériaux couvrant propriétés mécaniques, thermiques, électriques et chimiques de milliers de matériaux industriels (métaux, polymères, céramiques, composites). Données issues d'expériences certifiées NIST. Usage RAG : alimentation d'un assistant de sélection de matériaux pour ingénieurs, ou création d'un moteur de recommandation pour la substitution de matériaux critiques.",
       "editeur_organisation": "National Institute of Standards and Technology (NIST)",
       "domaine_principal": "Ingenierie & Industrie",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement bulk"
       ],
       "formats_fichiers": [
         "JSON",
@@ -1041,19 +1043,19 @@
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Accès via portail web et API NIST MDR. Endpoint de recherche : https://materialsdata.nist.gov/api/dataset. Paramètres : keyword, organization, subject. Réponse JSON avec métadonnées et liens de téléchargement. Pas de pagination complexe, réponse directe.",
+      "methode_integration_technique": "API REST via https://materialsdata.nist.gov/api ; authentification par token (inscription gratuite) ; requête par matériau, propriété ou source expérimentale ; réponse JSON avec métadonnées et valeurs tabulaires ; pagination via paramètres offset/limit.",
       "url_source_donnees": "https://materialsdata.nist.gov",
-      "url_documentation_integration": "https://materialsdata.nist.gov/about"
+      "url_documentation_integration": "https://materialsdata.nist.gov/handle/11256/975"
     },
     {
       "id": "d29e4c81-5b63-4a17-b3f8-692ad7e0f145",
       "nom_ressource": "NASA Technical Reports Server (NTRS)",
-      "description": "Serveur de rapports techniques de la NASA donnant accès à plus de 500 000 documents d'ingénierie aérospatiale, mécanique des fluides, propulsion, matériaux et structures, couvrant des décennies de recherche publique américaine depuis les années 1910. Usage RAG : création d'un moteur de recherche sémantique sur l'ingénierie aérospatiale pour identifier rapidement des solutions à des problèmes de conception ; intégration dans un pipeline de synthèse de l'état de l'art sur des technologies de propulsion ou de gestion thermique.",
+      "description": "Bibliothèque ouverte de plus de 1,5 million de rapports techniques, articles et données d'ingénierie aérospatiale produits par la NASA depuis les années 1950. Couvre aérodynamique, propulsion, matériaux, systèmes embarqués et simulation. Usage RAG : indexation de documentation technique pour un assistant IA en ingénierie aérospatiale, ou extraction de spécifications de composants pour des systèmes de GMAO.",
       "editeur_organisation": "National Aeronautics and Space Administration (NASA)",
       "domaine_principal": "Ingenierie & Industrie",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement bulk"
       ],
       "formats_fichiers": [
         "PDF",
@@ -1061,9 +1063,9 @@
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST NTRS : endpoint https://ntrs.nasa.gov/api/citations/search avec paramètres 'q' (texte libre), 'page[size]', 'page[number]'. Réponse JSON avec métadonnées et URL de téléchargement PDF. Pas d'authentification requise pour l'accès public.",
+      "methode_integration_technique": "API REST sur https://ntrs.nasa.gov/api/citations/search ; paramètres : q (texte libre), sort, from/size (pagination) ; réponse JSON structurée avec title, abstract, authors, downloadLink (PDF direct) ; aucune authentification requise pour lecture.",
       "url_source_donnees": "https://ntrs.nasa.gov",
-      "url_documentation_integration": "https://ntrs.nasa.gov/about"
+      "url_documentation_integration": "https://ntrs.nasa.gov/api/openapi.json"
     },
     {
       "id": "e57f1d94-8c24-4b5e-a6d9-074e3f2c8a32",
@@ -1112,24 +1114,24 @@
     },
     {
       "id": "07c6a3b8-2e95-4d84-b7f1-39da5ce8f2a4",
-      "nom_ressource": "UNIDO Industrial Statistics Database (INDSTAT)",
-      "description": "Base de données de l'Organisation des Nations Unies pour le Développement Industriel couvrant les statistiques de la valeur ajoutée, emploi, salaires et production industrielle pour plus de 170 pays selon la classification ISIC Rev.3 et Rev.4. Série temporelle depuis 1963. Usage RAG : alimentation d'un système de veille économique comparant la productivité industrielle mondiale par secteur (textile, chimie, automobile) ; intégration dans un pipeline RAG de conseil en implantation industrielle à l'international.",
-      "editeur_organisation": "United Nations Industrial Development Organization (UNIDO)",
+      "nom_ressource": "Global Manufacturing & Industrialisation Summit (GMIS) – Industrial Data Platform",
+      "description": "Plateforme internationale de données sur l'industrialisation mondiale, couvrant indicateurs de valeur ajoutée manufacturière, intensité technologique, emploi industriel et innovation par pays (focus Afrique, Asie du Sud, Moyen-Orient). Publiée conjointement par UNIDO et UAE. Usage RAG : analyse comparative de la compétitivité industrielle pour des rapports de consulting, ou enrichissement d'un assistant de politique industrielle pour marchés émergents.",
+      "editeur_organisation": "United Nations Industrial Development Organization (UNIDO) / GMIS",
       "domaine_principal": "Ingenierie & Industrie",
       "protocoles_acces": [
-        "Téléchargement direct",
+        "Téléchargement bulk",
         "API REST"
       ],
       "formats_fichiers": [
         "CSV",
-        "Excel",
-        "SDMX"
+        "XLSX",
+        "JSON"
       ],
       "frequence_mise_a_jour": "Annuel",
-      "score_anti_hallucination": 5,
-      "methode_integration_technique": "Accès principal via portail UNIDO STAT : https://stat.unido.org. Téléchargement tabulaire en CSV/Excel après sélection des filtres (pays, ISIC, indicateur, période). API SDMX disponible pour requêtes programmatiques avec endpoint documenté sur le portail.",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Téléchargement direct depuis le portail UNIDO INDSTAT (stat.unido.org) ; sélection par pays, secteur ISIC, indicateur et période ; export CSV ou Excel ; API SDMX disponible pour requêtes structurées sur les séries temporelles manufacturières.",
       "url_source_donnees": "https://stat.unido.org",
-      "url_documentation_integration": "https://stat.unido.org/content/publications/indstat-2-2023,-isic-revision-3"
+      "url_documentation_integration": "https://stat.unido.org/content/learning-center/how-to-use-unido-statistics-data-portal"
     },
     {
       "id": "1b4d7f29-a8c3-4e61-8d05-246f0b3e7c58",
@@ -4168,6 +4170,702 @@
       "methode_integration_technique": "Données hébergées sur le portail CGIAR GARDIAN et Dataverse. API GARDIAN : https://gardian.bigdata.cgiar.org/api/v1/datasets?keywords=rice+africa . Réponse JSON listant datasets avec DOI et liens de téléchargement. Certains datasets directement sur https://dataverse.harvard.edu/ avec organisation AfricaRice.",
       "url_source_donnees": "https://africarice.org/our-tools-and-resources/open-access-resources",
       "url_documentation_integration": "https://gardian.bigdata.cgiar.org/"
+    },
+    {
+      "id": "b1e9d4f2-5c3a-4f1e-8d2b-3a6c9e0b8f7d",
+      "nom_ressource": "IMF Data (International Monetary Fund)",
+      "description": "Portail de données du FMI regroupant les statistiques financières internationales (IFS), les perspectives économiques mondiales (WEO), les données de balance des paiements et de dette. Couverture mondiale, données trimestrielles et annuelles. Usage RAG : extraction de séries temporelles sur la dette souveraine pour enrichir des rapports d'analyse de risque ; contexte macroéconomique pour un chatbot de conseil en investissement.",
+      "editeur_organisation": "Fonds Monétaire International (IMF)",
+      "domaine_principal": "Finance & Economie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV",
+        "Téléchargement Excel"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "Excel",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Trimestriel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API JSON REST via endpoint : http://dataservices.imf.org/REST/SDMX_JSON.svc/CompactData/{database}/{series}. Paramètres : database (ex: IFS, WEO), dimensions SDMX (fréquence, zone géo, indicateur). Réponse JSON avec séries temporelles et metadata. Pas d'authentification requise.",
+      "url_source_donnees": "https://data.imf.org",
+      "url_documentation_integration": "https://datahelp.imf.org/knowledgebase/articles/667681-using-json-restful-web-service"
+    },
+    {
+      "id": "a6d4c9e7-0b8f-4e6d-d27a-8f1b4d5a3e2c",
+      "nom_ressource": "OpenFIGI — Identifiants financiers mondiaux",
+      "description": "API de Bloomberg permettant de résoudre et mapper des identifiants financiers (ISIN, CUSIP, SEDOL, ticker) vers des FIGI (Financial Instrument Global Identifier) pour des milliers d'instruments financiers mondiaux (actions, obligations, dérivés, ETF). Usage RAG : normalisation des identifiants d'instruments dans un pipeline d'ingestion de données financières hétérogènes ; enrichissement de métadonnées d'instruments pour un moteur de recherche sémantique financier.",
+      "editeur_organisation": "Bloomberg L.P. (OpenFIGI Program)",
+      "domaine_principal": "Finance & Economie",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST POST : https://api.openfigi.com/v3/mapping. Corps JSON avec liste de jobs [{idType, idValue, exchCode?, currency?}]. Clé API optionnelle (header X-OPENFIGI-APIKEY) pour quotas étendus. Réponse JSON avec tableau de résultats FIGI. Limite : 100 jobs/requête sans clé, 250 avec clé.",
+      "url_source_donnees": "https://www.openfigi.com",
+      "url_documentation_integration": "https://www.openfigi.com/api"
+    },
+    {
+      "id": "c8f6e1a9-2d0b-4a8f-f49c-0b3d6f7c5a4e",
+      "nom_ressource": "Reserve Bank of India — Database on Indian Economy (DBIE)",
+      "description": "Base de données de la Banque centrale indienne couvrant les indicateurs macroéconomiques, monétaires et bancaires de l'Inde : taux de change roupie, agrégats monétaires, crédit bancaire, indices de prix, comptes publics et données sur le système de paiement. Couvre l'Asie du Sud depuis les années 1950. Usage RAG : contexte sur l'économie indienne pour un assistant d'analyse des marchés émergents ; extraction de données de politique monétaire pour des modèles de prévision sur l'Asie.",
+      "editeur_organisation": "Reserve Bank of India (RBI)",
+      "domaine_principal": "Finance & Economie",
+      "protocoles_acces": [
+        "Téléchargement CSV",
+        "Téléchargement Excel"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Excel",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès par téléchargement direct depuis le portail DBIE. Navigation par thème (Money & Banking, Prices, External Sector). Sélection de la série, choix de la période et export en CSV/Excel. Pas d'API REST documentée publiquement ; intégration via scripts de scraping ou téléchargement programmé des fichiers bulk.",
+      "url_source_donnees": "https://dbie.rbi.org.in",
+      "url_documentation_integration": "https://dbie.rbi.org.in/DBIE/dbie.rbi?site=publications"
+    },
+    {
+      "id": "f1c9b4d2-5a3e-4d1c-c72f-3e6a9c0f8d7b",
+      "nom_ressource": "OCDE — Global Revenue Statistics Database",
+      "description": "Base de données fiscales mondiale de l'OCDE couvrant les recettes fiscales de plus de 100 pays (OCDE, Afrique, Asie-Pacifique, Amérique latine) : taux d'imposition, structure des recettes, pression fiscale en % du PIB, depuis 1965. Usage RAG : alimentation d'un assistant fiscal comparatif international pour cabinets d'audit ; extraction de contexte sur la fiscalité des pays émergents pour des rapports de due diligence.",
+      "editeur_organisation": "Organisation de Coopération et de Développement Économiques (OCDE)",
+      "domaine_principal": "Finance & Economie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV",
+        "Téléchargement Excel"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Excel",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accessible via l'API OCDE SDMX (même infrastructure qu'OCDE.Stat) ou téléchargement direct des fichiers Excel/CSV depuis la page dédiée. URL bulk data : https://www.oecd.org/tax/tax-policy/global-revenue-statistics-database.htm. Intégration RAG recommandée par téléchargement annuel du fichier CSV consolidé et indexation vectorielle.",
+      "url_source_donnees": "https://stats.oecd.org/index.aspx?DataSetCode=RS_GBL",
+      "url_documentation_integration": "https://www.oecd.org/tax/tax-policy/global-revenue-statistics-database.htm"
+    },
+    {
+      "id": "a3f7c2e1-4b89-4d3a-9c12-8e5f0b1d6a7f",
+      "nom_ressource": "ERA5 Reanalysis Dataset – ECMWF Climate Data Store",
+      "description": "Réanalyse climatique mondiale horaire couvrant 1940 à aujourd'hui, produite par l'ECMWF. Contient température, vent, précipitations, humidité, pression atmosphérique sur grille 0.25°. Usage RAG : alimentation d'un pipeline de questions-réponses sur les tendances climatiques historiques régionales ; génération de contexte météorologique pour des modèles de prévision agricole.",
+      "editeur_organisation": "European Centre for Medium-Range Weather Forecasts (ECMWF)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "NetCDF",
+        "GRIB"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès via l'API CDS (Climate Data Store) : endpoint https://cds.climate.copernicus.eu/api/v2, authentification par clé API (fichier .cdsapirc), paramétrage par variable, niveau de pression, zone géographique et période. Réponse en GRIB ou NetCDF, pas de pagination (téléchargement par lot via jobs asynchrones).",
+      "url_source_donnees": "https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels",
+      "url_documentation_integration": "https://cds.climate.copernicus.eu/api-how-to"
+    },
+    {
+      "id": "b8d42f3c-71a5-4e9b-bc34-2d0f7e8a5c91",
+      "nom_ressource": "NOAA Global Surface Summary of Day (GSOD)",
+      "description": "Résumés météorologiques quotidiens provenant de plus de 9 000 stations terrestres mondiales gérées par la NOAA, disponibles depuis 1929. Couvre température max/min/moyenne, précipitations, vitesse du vent, visibilité. Usage RAG : enrichissement d'un index de documents sur les événements climatiques extrêmes par station ; construction d'un chatbot de données météo historiques pour l'assurance.",
+      "editeur_organisation": "National Oceanic and Atmospheric Administration (NOAA) – National Centers for Environmental Information (NCEI)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API NCEI Web Services : endpoint https://www.ncei.noaa.gov/access/services/data/v1?dataset=global-summary-of-the-day, paramètres : stations (GHCND IDs), startDate, endDate, dataTypes, format. Réponse JSON ou CSV, pagination via offset/limit (max 1000 enregistrements par requête).",
+      "url_source_donnees": "https://www.ncei.noaa.gov/access/search/data-search/global-summary-of-the-day",
+      "url_documentation_integration": "https://www.ncei.noaa.gov/support/access-data-service-api-user-documentation"
+    },
+    {
+      "id": "c1e56a84-293d-4f7c-a8b0-5d3c9f2e7b48",
+      "nom_ressource": "Copernicus Atmosphere Monitoring Service (CAMS) – Global Reanalysis EAC4",
+      "description": "Service européen de surveillance de l'atmosphère fournissant des données mondiales sur la qualité de l'air, les aérosols, les gaz à effet de serre et l'ozone, couvrant 2003 à aujourd'hui. Résolution spatiale de 0.75°, pas de temps 3 heures. Usage RAG : réponse à des requêtes sur la pollution atmosphérique par région dans un assistant IA environnemental ; analyse de l'impact des incendies sur la qualité de l'air.",
+      "editeur_organisation": "European Centre for Medium-Range Weather Forecasts (ECMWF) / Copernicus Programme (Commission Européenne)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "NetCDF",
+        "GRIB"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès via l'API ADS (Atmosphere Data Store) de Copernicus : endpoint https://ads.atmosphere.copernicus.eu/api/v2, même paradigme que CDS (clé API, requêtes asynchrones). Paramètres : variable (ex. particulate_matter_2.5um), date, area, format. Téléchargement en lot.",
+      "url_source_donnees": "https://ads.atmosphere.copernicus.eu/cdsapp#!/dataset/cams-global-reanalysis-eac4",
+      "url_documentation_integration": "https://confluence.ecmwf.int/display/CKB/CAMS+global+reanalysis+%28EAC4%29%3A+data+documentation"
+    },
+    {
+      "id": "d9b73e05-58c7-4a21-b6f1-0e4d8a3c1f62",
+      "nom_ressource": "NASA POWER (Prediction of Worldwide Energy Resources)",
+      "description": "API NASA fournissant des paramètres météorologiques et d'énergie solaire/éolienne mondiaux issus des modèles GEOS-5 et MERRA-2, couvrant 1981 à aujourd'hui avec résolution 0.5°×0.625°. Données horaires, quotidiennes, mensuelles et climatologiques. Usage RAG : alimentation d'un système QA pour le dimensionnement de panneaux solaires selon la localisation ; contexte énergétique pour des rapports automatisés sur les énergies renouvelables.",
+      "editeur_organisation": "NASA Langley Research Center (LaRC)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "NetCDF"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST sans authentification : endpoint https://power.larc.nasa.gov/api/temporal/daily/point, paramètres : latitude, longitude, start, end, parameters (ex. T2M, ALLSKY_SFC_SW_DWN), community (AG/RE/SB). Réponse JSON structuré avec header et données. Pas de pagination, limite de 366 jours par requête pour le mode daily.",
+      "url_source_donnees": "https://power.larc.nasa.gov/data-access-viewer/",
+      "url_documentation_integration": "https://power.larc.nasa.gov/docs/services/api/"
+    },
+    {
+      "id": "e4c81b29-a06f-4d58-97e3-7f2b5d9e0a14",
+      "nom_ressource": "Open-Meteo – Free Weather API",
+      "description": "API météo open source combinant les données de plusieurs modèles NWP (ECMWF, GFS, DWD, MeteoFrance) pour fournir des prévisions horaires et historiques mondiales sans clé API pour usage non commercial. Couvre température, précipitations, vent, rayonnement, code météo WMO. Usage RAG : enrichissement en temps réel de chunks documentaires avec le contexte météo local pour un chatbot agricole ; génération automatique de bulletins météo pour des newsletters IA.",
+      "editeur_organisation": "Open-Meteo (organisation open source indépendante, Suisse)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST sans authentification (usage commercial : abonnement) : endpoint https://api.open-meteo.com/v1/forecast, paramètres : latitude, longitude, hourly/daily (variables), start_date, end_date, timezone. Pour l'historique : endpoint https://archive-api.open-meteo.com/v1/archive. Réponse JSON avec arrays temporels, pas de pagination.",
+      "url_source_donnees": "https://open-meteo.com/",
+      "url_documentation_integration": "https://open-meteo.com/en/docs"
+    },
+    {
+      "id": "c5e18f70-4a23-4d87-b901-6d9e2c4f1b37",
+      "nom_ressource": "South African Weather Service (SAWS) – Climate Data Portal",
+      "description": "Service météorologique national sud-africain proposant des données climatiques historiques et des prévisions pour l'Afrique australe, incluant précipitations, température, humidité et événements extrêmes depuis les années 1960 pour certaines stations. Couverture géographique : Afrique du Sud et sous-région SADC. Usage RAG : enrichissement de pipelines IA sur la sécurité alimentaire en Afrique australe avec des données de sécheresse ; contexte climatique pour des applications d'aide humanitaire.",
+      "editeur_organisation": "South African Weather Service (SAWS)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 3,
+      "methode_integration_technique": "Accès via le portail SAWS Climate Data Portal (https://www.weathersa.co.za). Certaines données sont disponibles en téléchargement libre (CSV), d'autres nécessitent une inscription. API REST en cours de déploiement pour les partenaires institutionnels. Pour des données afriques plus larges, le portail ENACTS/IRI Data Library (https://iridl.ldeo.columbia.edu) est recommandé en complément.",
+      "url_source_donnees": "https://www.weathersa.co.za/home/historicaldata",
+      "url_documentation_integration": "https://www.weathersa.co.za/home/aboutservices"
+    },
+    {
+      "id": "e9d40c62-7b15-4f38-a3e8-1c5f9b2d7e83",
+      "nom_ressource": "Copernicus Land Service – Global Land Cover (CGLS-LC100)",
+      "description": "Produit mondial d'occupation des sols à 100 mètres de résolution produit annuellement par le service Copernicus Land, couvrant la période 2015-2019 (série dynamique). Classifie 23 types d'occupation (forêts, prairies, zones humides, surfaces artificielles, etc.) à partir d'images Sentinel et PROBA-V. Usage RAG : enrichissement sémantique de données géospatiales pour un assistant IA sur la déforestation ; contexte d'occupation des sols pour des modèles de risques d'inondation.",
+      "editeur_organisation": "Copernicus Land Monitoring Service (CLMS) – Agence Spatiale Européenne (ESA) / Commission Européenne",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket"
+      ],
+      "formats_fichiers": [
+        "GeoTIFF",
+        "NetCDF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement via le portail Copernicus Land (https://lcviewer.vito.be/) ou via l'API WCS (Web Coverage Service) : endpoint https://phenology.vgt.vito.be/wcs, paramètres REQUEST=GetCoverage, COVERAGEID, SUBSET (lat/lon bbox), FORMAT. Accès S3 possible pour partenaires Copernicus. Données en tuiles GeoTIFF indexables par zone géographique.",
+      "url_source_donnees": "https://lcviewer.vito.be/2019",
+      "url_documentation_integration": "https://land.copernicus.eu/global/products/lc"
+    },
+    {
+      "id": "f3c57d90-2e84-4b16-d1a9-9b6e0c8a4f71",
+      "nom_ressource": "Berkeley Earth Surface Temperature (BEST) Dataset",
+      "description": "Dataset académique de référence sur les températures de surface terrestres et océaniques mondiales, couvrant 1750 à aujourd'hui pour les terres et 1850 pour les océans, intégrant plus de 40 000 stations météorologiques. Fournit anomalies de température, incertitudes statistiques et données brutes. Usage RAG : réponse documentée sur les tendances du réchauffement climatique par pays/région pour un assistant IA spécialisé en sciences du climat ; alimentation de pipelines de vérification de faits climatiques avec sources académiques vérifiées.",
+      "editeur_organisation": "Berkeley Earth (organisation indépendante à but non lucratif, USA)",
+      "domaine_principal": "Meteo, Climat & Environnement",
+      "protocoles_acces": [
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "NetCDF",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct depuis le serveur Berkeley Earth : http://berkeleyearth.org/data/, fichiers CSV et NetCDF organisés par type (terres, océans, pays, villes). Pas d'API REST native. Intégration RAG via ingestion batch des fichiers pays (ex. country-list.txt + fichiers individuels par pays) avec vectorisation des séries temporelles et des métadonnées.",
+      "url_source_donnees": "http://berkeleyearth.org/data/",
+      "url_documentation_integration": "http://berkeleyearth.org/data-sources/"
+    },
+    {
+      "id": "b8e2d4f6-5c90-4a11-8f67-2g3h4i5j6k7l",
+      "nom_ressource": "European Data Portal (data.europa.eu)",
+      "description": "Portail officiel de l'Union Européenne agrégeant plus de 1,8 million de jeux de données provenant des 27 États membres, institutions européennes et pays associés. Couvre : finances publiques, législation, statistiques Eurostat, environnement, transport. Usage RAG : construction d'un moteur de recherche sémantique sur la législation européenne en vigueur ; pipeline d'analyse comparative des dépenses publiques entre États membres.",
+      "editeur_organisation": "Commission Européenne – Publications Office of the European Union",
+      "domaine_principal": "Administration & Open Data",
+      "protocoles_acces": [
+        "API REST",
+        "SPARQL",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "JSON-LD",
+        "RDF",
+        "XML",
+        "GeoJSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API DCAT-AP : endpoint https://data.europa.eu/api/hub/search/ — paramètres : query, filter, limit, page. SPARQL endpoint disponible à https://data.europa.eu/sparql pour requêtes sur le graphe RDF. Réponse JSON-LD avec métadonnées standardisées DCAT-AP 2.1.",
+      "url_source_donnees": "https://data.europa.eu/en",
+      "url_documentation_integration": "https://data.europa.eu/en/developer-corner/api-documentation"
+    },
+    {
+      "id": "d2e4f6a8-7b19-4c33-0h89-4i5j6k7l8m9n",
+      "nom_ressource": "UK Open Government Data – data.gov.uk",
+      "description": "Portail national du Royaume-Uni publiant plus de 50 000 jeux de données gouvernementaux : dépenses publiques (spending), données géographiques Ordnance Survey, statistiques ONS, données hospitalières NHS. Couverture : Angleterre, Écosse, Pays de Galles, Irlande du Nord. Usage RAG : alimentation d'un chatbot répondant sur les dépenses ministérielles britanniques ; pipeline de veille sur les appels d'offres publics (Contracts Finder).",
+      "editeur_organisation": "Cabinet Office – His Majesty's Government (UK)",
+      "domaine_principal": "Administration & Open Data",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "SPARQL"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "RDF",
+        "XML",
+        "GeoJSON",
+        "ODS"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API CKAN v3 : endpoint https://data.gov.uk/api/3/action/package_search — paramètres : q, fq, rows, start. Réponse JSON. Le SPARQL endpoint Linked Data est accessible via https://data.gov.uk/sparql pour les données RDF liées.",
+      "url_source_donnees": "https://www.data.gov.uk",
+      "url_documentation_integration": "https://guidance.data.gov.uk/publish_and_manage_data/get_data/api/"
+    },
+    {
+      "id": "f6a8b0c2-9d31-4e55-2j01-6k7l8m9n0o1p",
+      "nom_ressource": "Portail Données Ouvertes – Canada (open.canada.ca)",
+      "description": "Portail fédéral canadien hébergeant plus de 100 000 jeux de données de plus de 100 organisations fédérales : statistiques Statistique Canada, données environnementales, géospatiales NRCan, finances publiques, santé. Couverture : Canada entier, bilingue français/anglais. Usage RAG : enrichissement d'un assistant bilingue sur les programmes fédéraux canadiens ; pipeline d'extraction des données de finances publiques fédérales pour analyse budgétaire.",
+      "editeur_organisation": "Treasury Board of Canada Secretariat (TBS) – Government of Canada",
+      "domaine_principal": "Administration & Open Data",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "OGC WFS",
+        "OGC WMS"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "GeoJSON",
+        "XML",
+        "FGDB",
+        "GPKG",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API CKAN v3 : endpoint https://open.canada.ca/data/api/3/action/package_search — paramètres : q, fq, rows, start, sort. Réponse JSON. Supporte aussi le harvesting via data.json. Services géospatiaux OGC disponibles via geo.ca.",
+      "url_source_donnees": "https://open.canada.ca/data/en/dataset",
+      "url_documentation_integration": "https://open.canada.ca/en/using-open-data"
+    },
+    {
+      "id": "f2a4b6c8-5d97-4e11-8p67-2q3r4s5t6u7v",
+      "nom_ressource": "UNSD – United Nations Data (UNdata)",
+      "description": "Entrepôt de données statistiques des Nations Unies agrégeant des données de 30+ bases onusiennes (PNUD, FAO, OMS, UNICEF, etc.) couvrant 200+ pays : démographie, gouvernance, ODD, commerce, financement du développement. Référence institutionnelle pour les données mondiales de gouvernance. Usage RAG : indexation des rapports de suivi des ODD pour un assistant de politique internationale ; pipeline d'extraction des statistiques de gouvernance mondiale pour enrichir des documents de stratégie.",
+      "editeur_organisation": "United Nations Statistics Division (UNSD)",
+      "domaine_principal": "Administration & Open Data",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "SDMX"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XML",
+        "SDMX",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST UNdata : endpoint https://data.un.org/ws/rest/data/{agencyID}/{flowRef}/{key} — format SDMX-REST. Téléchargement bulk via https://data.un.org/Explorer.aspx. SDG API disponible à https://unstats.un.org/SDGAPI/v1/sdg/.",
+      "url_source_donnees": "https://data.un.org",
+      "url_documentation_integration": "https://unstats.un.org/sdgs/iaeg-sdgs/sdg-api/documentation/"
+    },
+    {
+      "id": "a3f7c2e1-4b89-4d12-9c3a-1e5f8b2d7a90",
+      "nom_ressource": "NVD - National Vulnerability Database",
+      "description": "Base de données officielle du gouvernement américain recensant l'ensemble des vulnérabilités logicielles connues (CVE), enrichies de scores CVSS, vecteurs d'attaque et références. Couverture mondiale depuis 1999, mise à jour en quasi temps-réel. Usage RAG : enrichissement automatique de rapports de sécurité avec le détail d'une CVE ; alimentation d'un assistant de patch management capable de répondre à 'Quelle est la criticité de CVE-2023-XXXX ?'.",
+      "editeur_organisation": "National Institute of Standards and Technology (NIST) - U.S. Department of Commerce",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://services.nvd.nist.gov/rest/json/cves/2.0. Paramètres clés : cveId, cvssV3Severity, pubStartDate/pubEndDate, keywordSearch. Réponse JSON paginée (startIndex + resultsPerPage, max 2000 items/page). Authentification par clé API optionnelle (header apiKey) pour augmenter le rate limit.",
+      "url_source_donnees": "https://nvd.nist.gov/",
+      "url_documentation_integration": "https://nvd.nist.gov/developers/vulnerabilities"
+    },
+    {
+      "id": "b81d4f63-22ac-4e57-8b1c-9f3d0e6c5a47",
+      "nom_ressource": "MITRE ATT&CK Framework",
+      "description": "Base de connaissances mondiale sur les tactiques, techniques et procédures (TTP) utilisées par les acteurs malveillants, structurée en matrices (Enterprise, Mobile, ICS). Maintenue par MITRE, couverture mondiale, mise à jour semestrielle. Usage RAG : construction d'un chatbot de threat intelligence capable de mapper une technique d'attaque observée sur sa fiche ATT&CK ; génération automatique de playbooks de réponse à incident.",
+      "editeur_organisation": "The MITRE Corporation",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "TAXII"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "STIX",
+        "Excel"
+      ],
+      "frequence_mise_a_jour": "Semestriel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Serveur TAXII 2.1 : https://attack-taxii.mitre.org/taxii2/ — Collections disponibles via GET /api/v21/collections/. Données STIX 2.1 téléchargeables sur GitHub (mitre-attack/attack-stix-data). Possibilité d'utiliser la bibliothèque Python 'mitreattack-python' pour requêter localement.",
+      "url_source_donnees": "https://attack.mitre.org/",
+      "url_documentation_integration": "https://github.com/mitre-attack/attack-stix-data"
+    },
+    {
+      "id": "f1b6d3e8-50a2-4c79-a4f1-3c9b7d2e8f05",
+      "nom_ressource": "VirusTotal Public API",
+      "description": "Plateforme d'analyse de fichiers, URLs, domaines et adresses IP via plus de 70 moteurs antivirus et outils de sandboxing. Données agrégées mondiales, couverture temps réel. Usage RAG : enrichissement automatique d'alertes de sécurité avec le score de détection d'un hash malveillant ; chatbot SOC capable de répondre à 'Ce fichier est-il connu comme malveillant ?' avec rapport de détection détaillé.",
+      "editeur_organisation": "Google LLC (VirusTotal)",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://www.virustotal.com/api/v3/. Header d'authentification : x-apikey (clé gratuite disponible). Routes clés : GET /files/{id}, GET /urls/{id}, GET /domains/{domain}, GET /ip_addresses/{ip}. Réponse JSON structurée avec attributs 'last_analysis_stats'. Rate limit 4 req/min en version gratuite.",
+      "url_source_donnees": "https://www.virustotal.com/",
+      "url_documentation_integration": "https://developers.virustotal.com/reference/overview"
+    },
+    {
+      "id": "b5f8a1d9-72e4-4b03-c6d2-9a3f0e7b4c18",
+      "nom_ressource": "MISP - Malware Information Sharing Platform (Projet communautaire)",
+      "description": "Plateforme open source de partage d'informations sur les menaces cyber (IoC, TTPs, événements) utilisée par des CERTs et SOCs dans le monde entier. La communauté MISP héberge des instances publiques avec des flux d'événements partagés. Usage RAG : ingestion structurée d'événements de threat intelligence en format MISP JSON pour alimenter une knowledge base cyber ; automatisation du partage d'IoC entre organisations dans un pipeline SIEM.",
+      "editeur_organisation": "MISP Project (porté par CIRCL Luxembourg & communauté internationale)",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "STIX",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST disponible sur toute instance MISP. Endpoint : https://{instance}/events/restSearch. Authentification via clé API (header Authorization). Paramètres clés : type, category, to_ids, timestamp, limit. Bibliothèque Python officielle 'PyMISP'. Documentation complète sur GitHub misp/misp-book.",
+      "url_source_donnees": "https://www.misp-project.org/",
+      "url_documentation_integration": "https://www.misp-project.org/openapi/"
+    },
+    {
+      "id": "c3d9e5f7-14b2-4a88-d1c4-7b5e2f0a9d36",
+      "nom_ressource": "CERT-In Vulnerability Notes (Inde)",
+      "description": "Bulletins officiels de vulnérabilités publiés par le CERT national indien, couvrant les logiciels et équipements déployés en Asie du Sud. Complémentaire au NVD avec un focus géographique Asie-Pacifique et des délais de publication parfois distincts. Usage RAG : veille cyber spécialisée sur les menaces affectant les infrastructures indiennes et sud-asiatiques ; croisement avec NVD pour identifier des vulnérabilités sous-documentées régionalement.",
+      "editeur_organisation": "Indian Computer Emergency Response Team (CERT-In) - Gouvernement de l'Inde",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "HTML",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Pas d'API publique officielle. Données accessibles par scraping structuré de la page de bulletins (https://www.cert-in.org.in/). Flux RSS disponible pour les alertes. Intégration RAG via extraction HTML + parsing des tableaux de vulnérabilités et conversion en JSON normalisé.",
+      "url_source_donnees": "https://www.cert-in.org.in/",
+      "url_documentation_integration": "https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES01"
+    },
+    {
+      "id": "d7a4c1b8-96f5-4e27-e2a0-4d8c3b6f5e92",
+      "nom_ressource": "Have I Been Pwned - Breach API",
+      "description": "Base de données australienne référençant plus de 14 milliards de comptes compromis issus de fuites de données mondiales (breaches). Couverture historique depuis les années 2000 jusqu'à aujourd'hui. Usage RAG : assistant de sécurité capable de répondre à 'Ce domaine d'entreprise a-t-il été impliqué dans une fuite de données ?' ; enrichissement d'un pipeline d'analyse de risque tiers avec le niveau d'exposition historique d'un partenaire.",
+      "editeur_organisation": "Troy Hunt (Have I Been Pwned - Australie)",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://haveibeenpwned.com/api/v3/. Clé API requise (header hibp-api-key, accès payant). Routes clés : GET /breachedaccount/{email}, GET /breaches, GET /breach/{name}, GET /dataclasses. Rate limiting : 1 requête/1500ms. Réponse JSON avec détail des breaches (date, type de données exposées, vérification).",
+      "url_source_donnees": "https://haveibeenpwned.com/",
+      "url_documentation_integration": "https://haveibeenpwned.com/API/v3"
+    },
+    {
+      "id": "e6b3f9c5-27d8-4f14-a9b2-1c5e8d3a7f04",
+      "nom_ressource": "Exploit-DB",
+      "description": "Archive publique gérée par Offensive Security recensant les exploits et preuves de concept (PoC) pour les vulnérabilités connues, utilisée mondialement par les pentesters et chercheurs en sécurité. Contient plus de 50 000 entrées depuis 1999. Usage RAG : assistant de test d'intrusion capable de récupérer les PoC disponibles pour une CVE donnée ; génération automatique de fiches de risque incluant la disponibilité publique d'un exploit.",
+      "editeur_organisation": "Offensive Security",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "TXT"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement CSV complet : https://www.exploit-db.com/csv/. Recherche via URL paramétrée : https://www.exploit-db.com/search?cve={CVE-ID}. API non officielle disponible via SearchSploit (outil CLI livré avec Kali Linux) qui interroge une copie locale du dépôt Git (github.com/offensive-security/exploitdb).",
+      "url_source_donnees": "https://www.exploit-db.com/",
+      "url_documentation_integration": "https://github.com/offensive-security/exploitdb"
+    },
+    {
+      "id": "f4e2d8b6-53a9-4c71-b7e3-2d9f1c5a8b30",
+      "nom_ressource": "AbuseIPDB",
+      "description": "Base de données communautaire mondiale de signalements d'adresses IP malveillantes (brute force, spam, DDoS, scan), avec historique de signalements et score de confiance. Plus de 3 millions d'IPs référencées, contributions mondiales. Usage RAG : pipeline de tri automatique d'alertes réseau pour contextualiser une IP source avec son score de réputation et ses catégories d'abus ; enrichissement de tickets SIEM avec données de réputation en temps réel.",
+      "editeur_organisation": "AbuseIPDB (Marathon Studios Inc., États-Unis)",
+      "domaine_principal": "Cybersecurite & Informatique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Endpoint principal : https://api.abuseipdb.com/api/v2/. Header d'authentification : Key (clé gratuite disponible). Routes clés : GET /check?ipAddress={ip}&maxAgeInDays=90, GET /blacklist?confidenceMinimum=90 (CSV ou JSON). Rate limit 1000 req/jour en version gratuite. Réponse JSON avec abuseConfidenceScore, totalReports, countryCode.",
+      "url_source_donnees": "https://www.abuseipdb.com/",
+      "url_documentation_integration": "https://docs.abuseipdb.com/"
+    },
+    {
+      "id": "a1f3c2e7-4b89-4d12-9e56-3a7f8c1d0b45",
+      "nom_ressource": "USPTO Patent Full-Text and Image Database",
+      "description": "Base de données complète des brevets américains déposés depuis 1976, incluant textes intégraux, revendications, descriptions techniques et images. Couvre tous les secteurs industriels et d'ingénierie. Usage RAG : extraction automatique de prior art pour assistants de R&D, ou indexation sémantique de revendications brevet pour moteurs de recherche d'innovation.",
+      "editeur_organisation": "United States Patent and Trademark Office (USPTO)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "FTP",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST via endpoint https://developer.uspto.gov/api-catalog ; paramètres : query (texte libre), dateRange, category ; réponse JSON paginée (25 résultats/page, paramètre 'start') ; bulk FTP disponible sur datasets.uspto.gov pour téléchargement par semaine.",
+      "url_source_donnees": "https://www.uspto.gov/learning-and-resources/ip-policy/economic-research/patents-data",
+      "url_documentation_integration": "https://developer.uspto.gov/api-catalog"
+    },
+    {
+      "id": "b2d4e6f8-5c90-4e23-af67-4b8e9d2c1f56",
+      "nom_ressource": "European Patent Office (EPO) – Open Patent Services (OPS)",
+      "description": "API d'accès aux données de brevets européens et mondiaux (via WIPO) couvrant plus de 100 millions de documents depuis le XIXe siècle. Inclut bibliographie, citations, statut juridique et texte intégral. Usage RAG : construction d'un pipeline de veille technologique multi-langues, ou alimentation d'un chatbot de conseil en propriété intellectuelle industrielle.",
+      "editeur_organisation": "European Patent Office (EPO)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "OGC WFS"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST OAuth2 sur endpoint https://ops.epo.org/3.2/rest-services/ ; authentification par client_id/client_secret ; endpoints clés : /published-data/search (recherche full-text), /published-data/publication/{docnumber}/biblio (métadonnées) ; réponse XML ou JSON selon Accept header ; quota : 4 Go/semaine gratuit.",
+      "url_source_donnees": "https://www.epo.org/en/searching-for-patents/data/bulk-data-sets",
+      "url_documentation_integration": "https://developers.epo.org/ops-v3-2/apis"
+    },
+    {
+      "id": "e5a7b9c1-8f23-4156-d290-7e1b2a5f4c89",
+      "nom_ressource": "Open Energy Data Initiative (OEDI) – U.S. Department of Energy",
+      "description": "Plateforme nationale américaine de données ouvertes sur l'énergie, couvrant efficacité énergétique industrielle, performance de bâtiments, réseaux électriques, énergies renouvelables et systèmes de stockage. Inclut données de simulation et de terrain. Usage RAG : construction d'un assistant de diagnostic énergétique pour sites industriels, ou pipeline d'analyse comparative de consommation d'énergie par secteur.",
+      "editeur_organisation": "U.S. Department of Energy (DOE) – National Renewable Energy Laboratory (NREL)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "Parquet",
+        "HDF5"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès S3 public via AWS (bucket : oedi-data-lake) sans authentification pour lecture ; API REST NREL sur developer.nrel.gov/api avec clé API gratuite ; paramètres : dataset, location, year ; réponse JSON ou CSV ; documentation Jupyter Notebooks disponible.",
+      "url_source_donnees": "https://oedi-data-lake.s3.amazonaws.com",
+      "url_documentation_integration": "https://openei.org/wiki/OEDI"
+    },
+    {
+      "id": "f6b8c0d2-9a34-4267-e301-8f2c3b6a5d90",
+      "nom_ressource": "Eurostat – Industrial Production Index (STS)",
+      "description": "Statistiques officielles européennes de production industrielle couvrant 30+ pays, décomposées par secteur NACE (métallurgie, chimie, textile, automobile, etc.) depuis 1990. Données mensuelles harmonisées. Usage RAG : alimentation d'un dashboard d'analyse de la conjoncture industrielle européenne, ou intégration dans un moteur de prévision de demande pour chaînes d'approvisionnement.",
+      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST JSON sur https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode} ; code dataset : sts_inpr_m ; paramètres filtres : geo, nace_r2, s_adj, time ; réponse JSON-stat ; pagination non requise (dataset entier retourné) ; SDK Python 'eurostat' disponible sur PyPI.",
+      "url_source_donnees": "https://ec.europa.eu/eurostat/web/short-term-business-statistics/data/database",
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+    },
+    {
+      "id": "b8d0e2f4-1c56-4489-a523-0b4e5d8c7f12",
+      "nom_ressource": "Australian Bureau of Statistics – Manufacturing Industry Dataset",
+      "description": "Données officielles australiennes sur l'industrie manufacturière couvrant valeur de production, emploi, dépenses en capital, consommation d'énergie et matières premières par subdivision ANZSIC. Horizon temporel : depuis 1994. Usage RAG : benchmark sectoriel pour l'industrie Asie-Pacifique dans un pipeline d'analyse économique, ou intégration dans un outil de scoring RSE pour fournisseurs industriels australiens.",
+      "editeur_organisation": "Australian Bureau of Statistics (ABS)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST sur https://api.data.abs.gov.au/data/{datasetIdentifier} ; dataset : ABS_MANUFACTURING ; paramètres : startPeriod, endPeriod, dimensionAtObservation ; réponse JSON-stat2 ou CSV ; documentation SDMX RESTful API disponible ; aucune authentification requise.",
+      "url_source_donnees": "https://www.abs.gov.au/statistics/industry/manufacturing",
+      "url_documentation_integration": "https://api.data.abs.gov.au"
+    },
+    {
+      "id": "c9e1f3a5-2d67-4590-b634-1c5f6e9d8a23",
+      "nom_ressource": "CORDIS – EU Research & Innovation Projects Database",
+      "description": "Base de données officielle de l'Union européenne répertoriant tous les projets de R&D financés par les programmes-cadres européens (H2020, Horizon Europe) depuis 1990. Inclut descriptions techniques, partenaires, résultats livrables et publications pour les domaines d'ingénierie, fabrication avancée, robotique et industrie 4.0. Usage RAG : alimentation d'un assistant de recherche de partenaires pour consortiums industriels européens, ou extraction de l'état de l'art technologique par domaine d'ingénierie.",
+      "editeur_organisation": "European Commission – CORDIS",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "CSV",
+        "RDF"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST sur https://cordis.europa.eu/api/project/query ; paramètres : q (recherche full-text), p (page), num (résultats/page), sort ; réponse XML ou JSON ; bulk download mensuel complet disponible en CSV/XML sur la page data.europa.eu ; aucune clé API requise.",
+      "url_source_donnees": "https://cordis.europa.eu/projects",
+      "url_documentation_integration": "https://data.europa.eu/data/datasets/cordis-eu-research-projects-under-horizon-europe"
+    },
+    {
+      "id": "d0f2a4b6-3e78-4601-c745-2d6a7f0e9b34",
+      "nom_ressource": "OECD STAN Database for Structural Analysis",
+      "description": "Base de données internationale de l'OCDE couvrant la structure industrielle de 40+ pays membres et partenaires : valeur ajoutée, emploi, formation brute de capital fixe, R&D et commerce par branche industrielle (ISIC/NACE), depuis 1970. Usage RAG : analyse structurelle multi-pays pour des rapports de stratégie industrielle, ou entraînement de modèles économétriques sur la désindustrialisation et la réindustrialisation.",
+      "editeur_organisation": "Organisation de coopération et de développement économiques (OCDE)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SDMX",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST SDMX sur https://stats.oecd.org/sdmx-json/data/STAN_IO/{series} ; paramètres : country, industry (ISIC code), variable, year ; réponse SDMX-JSON ; SDK Python 'pandasdmx' compatible ; bulk CSV téléchargeable depuis stats.oecd.org sans authentification.",
+      "url_source_donnees": "https://stats.oecd.org/index.aspx?DataSetCode=STAN08BIS",
+      "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
+    },
+    {
+      "id": "e1a3b5c7-4f89-4712-d856-3e7b8a1f0c45",
+      "nom_ressource": "Fraunhofer Open Data Portal – Manufacturing & Production Engineering",
+      "description": "Portail de données ouvertes du réseau Fraunhofer (Allemagne), premier réseau européen de recherche appliquée industrielle, publiant datasets issus de projets en fabrication additive, usinage, automatisation, contrôle qualité et systèmes cyber-physiques. Couverture principalement européenne. Usage RAG : enrichissement d'un assistant IA pour le diagnostic de défauts de fabrication, ou pipeline d'annotation de données de capteurs industriels IoT.",
+      "editeur_organisation": "Fraunhofer-Gesellschaft zur Förderung der angewandten Forschung e.V.",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "Téléchargement bulk",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "HDF5",
+        "Parquet",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Accès via portail https://fordatis.fraunhofer.de ; navigation par domaine thématique ou recherche full-text ; téléchargement direct des datasets après acceptation de licence (CC BY ou spécifique projet) ; certains datasets exposent une API OAI-PMH pour moissonnage de métadonnées.",
+      "url_source_donnees": "https://fordatis.fraunhofer.de",
+      "url_documentation_integration": "https://fordatis.fraunhofer.de/about"
+    },
+    {
+      "id": "f2b4c6d8-5a90-4823-e967-4f8c9b2a1d56",
+      "nom_ressource": "African Development Bank – African Industrialization Data",
+      "description": "Données statistiques sur l'industrialisation en Afrique subsaharienne et Afrique du Nord, incluant indicateurs de transformation structurelle, valeur ajoutée manufacturière, infrastructures industrielles et zones économiques spéciales pour 54 pays africains. Série temporelle : depuis 2000. Usage RAG : alimentation d'un assistant d'analyse de risques pour investissements industriels en Afrique, ou construction d'un tableau de bord de suivi des ODD industriels (ODD 9) pour le continent africain.",
+      "editeur_organisation": "African Development Bank Group (AfDB)",
+      "domaine_principal": "Ingenierie & Industrie",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Accès via portail open data AfDB sur https://dataportal.opendataforafrica.org ; API REST disponible avec paramètres country, indicator, year ; réponse JSON ; export CSV direct ; certains indicateurs industriels accessibles également via la plateforme Data.AfDB.org avec filtres sectoriels.",
+      "url_source_donnees": "https://dataportal.opendataforafrica.org/nmgitnf/afdb-socio-economic-database",
+      "url_documentation_integration": "https://data.afdb.org/api"
     }
   ]
 }
