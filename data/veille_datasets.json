@@ -1480,21 +1480,23 @@
     {
       "id": "c1e5a8b3-7f2d-4c0e-b6a9-2d4f8c1e5a7b",
       "nom_ressource": "UN Comtrade Database",
-      "description": "Base de données mondiale du commerce international de marchandises, agrégant les statistiques d'import/export de plus de 200 pays, avec classification HS et SITC. Historique disponible depuis 1962. Exemple RAG : pipeline de veille commerciale pour identifier les flux d'exportation de produits électroniques entre Asie et Europe ; assistant IA répondant aux questions sur les partenaires commerciaux d'un pays donné.",
-      "editeur_organisation": "Division de statistique des Nations Unies (UNSD)",
-      "domaine_principal": "Gestion & Commerce",
+      "description": "Base de données mondiale du commerce international des marchandises, couvrant plus de 200 pays et territoires depuis 1962, avec des données annuelles et mensuelles sur les importations/exportations par produit (nomenclature HS, SITC). Usage RAG : alimenter un chatbot d'analyse commerciale pour comparer les flux d'exportation d'un pays par secteur ; enrichir un pipeline de veille économique sur les tendances d'échanges bilatéraux.",
+      "editeur_organisation": "United Nations Statistics Division (UNSD)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
       "protocoles_acces": [
-        "API REST"
+        "API REST",
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
+        "CSV",
         "JSON",
-        "CSV"
+        "XML"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST v1 : endpoint https://comtradeapi.un.org/data/v1/get/{typeCode}/{freqCode}/{clCode}. Paramètres clés : reporterCode (pays déclarant ISO), partnerCode (partenaire), cmdCode (code produit HS), period (YYYYMM). Nécessite une clé API (gratuite). Limite 500 lignes/appel, pagination via page et pageSize.",
+      "methode_integration_technique": "Endpoint principal : https://comtradeapi.un.org/data/v1/get/{typeCode}/{freqCode}/{clCode}. Paramètres clés : reporterCode (pays), period (YYYYMM), cmdCode (code produit HS). Réponse JSON paginée (max 250 lignes/requête). Authentification par API key gratuite.",
       "url_source_donnees": "https://comtradeplus.un.org/",
-      "url_documentation_integration": "https://comtradeapi.un.org/documents/v1/Comtrade_APIReference.pdf"
+      "url_documentation_integration": "https://comtradeapi.un.org/documents/v1/swaggerUI/index.html"
     },
     {
       "id": "d9b2f4a7-6e3c-4d8b-a1f5-3c7e0b9d2f4a",
@@ -2023,26 +2025,26 @@
     },
     {
       "id": "f2b5e8a0-7c3d-4f1b-8e6a-0d9c2f5b7e3a",
-      "nom_ressource": "ILOSTAT – Base de données de l'Organisation Internationale du Travail",
-      "description": "Référence mondiale en statistiques du travail : indicateurs d'emploi, chômage, salaires, temps de travail, conditions de travail pour 200+ pays. Données harmonisées selon les normes BIT, couverture depuis 1969. Usage RAG : comparer les taux de chômage des jeunes entre pays africains et asiatiques pour un rapport d'analyse ; enrichir un LLM avec des définitions standardisées des indicateurs du marché du travail (KILM).",
-      "editeur_organisation": "Organisation Internationale du Travail (OIT / ILO)",
-      "domaine_principal": "Metiers & Emploi",
+      "nom_ressource": "ILOSTAT – Statistiques du travail et de l'emploi",
+      "description": "Base de données statistiques de l'Organisation internationale du Travail (OIT) couvrant plus de 100 indicateurs du marché du travail pour 190 pays : taux de chômage, emploi informel, conditions de travail, migrations de main-d'œuvre, inégalités salariales hommes-femmes et travail des enfants. Séries longues depuis 1969. Usage RAG : assistant IA de comparaison internationale des marchés du travail ; pipeline automatisé de surveillance des indicateurs d'emploi pour des rapports ODD (ODD 8).",
+      "editeur_organisation": "Organisation internationale du Travail (OIT / ILO)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
       "protocoles_acces": [
         "API REST",
-        "SDMX",
-        "Téléchargement direct"
+        "Téléchargement direct",
+        "SPARQL"
       ],
       "formats_fichiers": [
         "CSV",
-        "XLSX",
         "JSON",
-        "SDMX-ML"
+        "XML",
+        "SDMX"
       ],
-      "frequence_mise_a_jour": "Annuel",
+      "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API SDMX : endpoint https://www.ilo.org/sdmx/rest/data/{agency},{id},{version}/{key} . Requêtes filtrables par pays (REF_AREA), indicateur (ex: UNE_TUNE_SEX_AGE_NB), et période. Format JSON ou XML. Téléchargement bulk CSV disponible directement sur ilostat.ilo.org par indicateur ou pays.",
+      "methode_integration_technique": "API REST SDMX : https://sdmx.ilo.org/rest/data/{agencyId},{dataflowId},{version}/{key}?format=jsondata. Ex dataflow : DF_STI_ALL_A (indicateurs clés annuels). Filtres par country (ISO2), sex, classif1. Réponse JSON-stat. Données bulk téléchargeables par indicateur sur ilostat.ilo.org.",
       "url_source_donnees": "https://ilostat.ilo.org/data/",
-      "url_documentation_integration": "https://www.ilo.org/sdmx/index.html"
+      "url_documentation_integration": "https://ilostat.ilo.org/resources/ilostat-developer-tools/ilostat-sdmx-api/"
     },
     {
       "id": "03c7f1b4-9a2e-4d8c-b3f6-1e5a0d7c2b9f",
@@ -2425,6 +2427,1217 @@
       "methode_integration_technique": "Téléchargement direct depuis le portail BITRE : https://www.bitre.gov.au/statistics. Données structurées en CSV/Excel par thématique (aviation, maritime, road). Intégration RAG via ingestion batch des fichiers CSV avec parsing pandas, puis chunking et vectorisation. Pas d'API REST native documentée.",
       "url_source_donnees": "https://www.bitre.gov.au/statistics",
       "url_documentation_integration": "https://www.bitre.gov.au/publications"
+    },
+    {
+      "id": "b8e1d4f2-5c9a-4b3e-8d7f-2a6c0e1b3d5f",
+      "nom_ressource": "World Trade Organization (WTO) Stats Portal",
+      "description": "Portail statistique officiel de l'Organisation Mondiale du Commerce fournissant des données sur les tarifs douaniers, les flux commerciaux de biens et services, et les mesures commerciales pour l'ensemble des membres de l'OMC. Couvre les données de 1980 à aujourd'hui. Usage RAG : construire un assistant d'analyse de politiques tarifaires par secteur industriel ; intégrer dans un pipeline de détection de barrières commerciales non tarifaires.",
+      "editeur_organisation": "Organisation Mondiale du Commerce (OMC / WTO)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint SDMX-REST : https://api.wto.org/timeseries/v1/data?i={indicator}&r={reporter}&p={partner}&ps={period}. Headers requis : Ocp-Apim-Subscription-Key (clé gratuite). Réponse JSON avec pagination via paramètre offset.",
+      "url_source_donnees": "https://stats.wto.org/",
+      "url_documentation_integration": "https://apiportal.wto.org/apis"
+    },
+    {
+      "id": "c1d5e8a3-6f0b-4c4d-9e2a-3b7d1f2c4e6a",
+      "nom_ressource": "Eurostat – Commerce international de biens",
+      "description": "Données officielles de l'Union Européenne sur le commerce extérieur de biens (Comext), couvrant les 27 États membres avec une granularité mensuelle par produit NC8 (nomenclature combinée à 8 chiffres) et par pays partenaire. Données disponibles depuis 1988. Usage RAG : alimenter un système de recommandation de marchés d'exportation pour les PME européennes ; construire un pipeline de prévision de déficits commerciaux sectoriels en zone euro.",
+      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV",
+        "SPARQL"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SDMX-ML",
+        "TSV"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API JSON : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}?format=JSON&lang=FR. DatasetCode pour commerce : DS-018995. Paramètres : geo, time, product. Pagination non requise pour les séries courtes.",
+      "url_source_donnees": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/database",
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+    },
+    {
+      "id": "d2e6f9b4-7a1c-4d5e-0f3b-4c8e2a3d5f7b",
+      "nom_ressource": "Google Trends (via PyTrends)",
+      "description": "Données d'intérêt de recherche relatives à des mots-clés ou sujets marketing sur Google, couvrant l'ensemble des pays et régions du monde, avec une granularité horaire, quotidienne, hebdomadaire ou mensuelle depuis 2004. Usage RAG : alimenter un pipeline de veille concurrentielle en mesurant l'intérêt relatif pour des marques ou produits ; enrichir un modèle de prévision de la demande saisonnière pour un e-commerce.",
+      "editeur_organisation": "Google LLC",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST (non officielle via PyTrends)",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Bibliothèque Python PyTrends : TrendReq(hl='fr-FR', tz=360) puis build_payload(kw_list, timeframe, geo). Réponse DataFrame pandas. Limite de taux : ~1 requête/seconde. Pas de clé API requise mais CAPTCHA possible en cas de volume élevé.",
+      "url_source_donnees": "https://trends.google.com/trends/",
+      "url_documentation_integration": "https://pypi.org/project/pytrends/"
+    },
+    {
+      "id": "e3f7a0c5-8b2d-4e6f-1a4c-5d9f3b4e6a8c",
+      "nom_ressource": "Open Food Facts",
+      "description": "Base de données collaborative mondiale recensant plus de 3 millions de produits alimentaires avec leurs caractéristiques commerciales (marque, distributeur, code-barres EAN, pays de vente, prix indicatif, labels marketing). Couvre plus de 180 pays. Usage RAG : construire un assistant de comparaison de produits pour une application e-commerce alimentaire ; alimenter un pipeline d'extraction d'entités de marques dans un système de veille concurrentielle.",
+      "editeur_organisation": "Open Food Facts (association loi 1901)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV",
+        "S3 Bucket"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "JSONL",
+        "MongoDB dump"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint produit par code-barres : https://world.openfoodfacts.org/api/v2/product/{barcode}.json. Recherche : https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms={query}. Dump complet téléchargeable sur https://static.openfoodfacts.org/data/openfoodfacts-products.csv.gz.",
+      "url_source_donnees": "https://world.openfoodfacts.org/data",
+      "url_documentation_integration": "https://openfoodfacts.github.io/openfoodfacts-server/api/"
+    },
+    {
+      "id": "f4a8b1d6-9c3e-4f7a-2b5d-6e0a4c5f7b9d",
+      "nom_ressource": "Data.gov – U.S. Census Bureau Trade Data",
+      "description": "Données officielles américaines sur le commerce international des États-Unis (importations et exportations), fournies par le Census Bureau avec une granularité mensuelle par code HS, pays partenaire et état fédéral. Couvre les États-Unis depuis les années 1990. Usage RAG : alimenter un pipeline d'analyse de la balance commerciale US par secteur pour un rapport d'investissement ; construire un assistant de recherche de débouchés export pour les entreprises américaines.",
+      "editeur_organisation": "U.S. Census Bureau / U.S. International Trade Commission",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API Census : https://api.census.gov/data/timeseries/intltrade/exports?get=CTY_CODE,ALL_VAL_MO&key={API_KEY}&time={YYYY-MM}. Inscription gratuite pour obtenir une clé API. Réponse JSON tabulaire sans pagination pour les requêtes simples.",
+      "url_source_donnees": "https://www.census.gov/foreign-trade/data/index.html",
+      "url_documentation_integration": "https://www.census.gov/data/developers/data-sets/international-trade.html"
+    },
+    {
+      "id": "a5b9c2e7-0d4f-4a8b-3c6e-7f1b5d6a8c0e",
+      "nom_ressource": "OCDE – Statistics on International Trade in Services (OECD STRI)",
+      "description": "Base de données de l'OCDE sur les échanges internationaux de services commerciaux (tourisme, finance, transport, TIC) et les investissements directs étrangers (IDE), couvrant 38 pays membres et partenaires clés depuis les années 1990. Usage RAG : enrichir un système de veille stratégique sur la compétitivité des services financiers par pays ; alimenter un modèle d'évaluation des barrières à l'entrée dans le commerce de services pour un cabinet de conseil.",
+      "editeur_organisation": "Organisation de Coopération et de Développement Économiques (OCDE)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV",
+        "SDMX"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XML",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "SDMX endpoint : https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_BOP@DF_BOP/{filter}. API REST JSON : https://stats.oecd.org/SDMX-JSON/data/{datasetCode}/{filter}/all?contentType=application/json. Explorer via OECD.Stat pour identifier les codes de datasets.",
+      "url_source_donnees": "https://stats.oecd.org/Index.aspx?DataSetCode=TISP_EBOPS2010",
+      "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
+    },
+    {
+      "id": "b6c0d3f8-1e5a-4b9c-4d7f-8a2c6e7b9d1f",
+      "nom_ressource": "Statista – Global Consumer Survey & Market Data",
+      "description": "Plateforme d'agrégation de données marketing, de sondages consommateurs et d'études de marché couvrant plus de 170 secteurs et 60 pays, avec des données sur les parts de marché, les comportements d'achat, les revenus par segment et les prévisions sectorielles. Usage RAG : intégrer des statistiques de marché validées dans un pipeline de génération de rapports marketing automatisés ; alimenter un agent conversationnel de veille concurrentielle par secteur.",
+      "editeur_organisation": "Statista GmbH",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLS",
+        "PNG",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API Statista (accès payant/académique) : https://api.statista.com/statistic/en/{statistic_id}/. Paramètres : format (json/csv), lang. Authentification OAuth2. Accès limité au gratuit, abonnement requis pour le volume. Documentation via portail partenaire.",
+      "url_source_donnees": "https://www.statista.com/",
+      "url_documentation_integration": "https://www.statista.com/page/statista-api"
+    },
+    {
+      "id": "c7d1e4a9-2f6b-4c0d-5e8a-9b3d7f8c0e2a",
+      "nom_ressource": "African Development Bank – African Trade Statistics",
+      "description": "Portail statistique de la Banque Africaine de Développement fournissant des données sur le commerce intra-africain et international, les flux d'IDE, et les indicateurs économiques pour les 54 pays du continent africain. Données annuelles disponibles depuis les années 2000. Usage RAG : construire un pipeline d'analyse des opportunités commerciales dans le cadre de la Zone de Libre-Échange Continentale Africaine (ZLECAf) ; alimenter un assistant d'investissement en Afrique subsaharienne.",
+      "editeur_organisation": "Banque Africaine de Développement (BAD / AfDB)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLS"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Portail Open Data AfDB : https://dataportal.opendataforafrica.org/api/1.0/data/{datasetId}. Format JSON ou CSV selon paramètre format=. Filtres par pays (geo=), indicateur (indicator=) et période (time=). Clé API gratuite sur inscription.",
+      "url_source_donnees": "https://dataportal.opendataforafrica.org/",
+      "url_documentation_integration": "https://dataportal.opendataforafrica.org/api-docs"
+    },
+    {
+      "id": "d8e2f5b0-3a7c-4d1e-6f9b-0c4e8a9d1f3b",
+      "nom_ressource": "Australian Bureau of Statistics – International Trade in Goods & Services",
+      "description": "Données officielles australiennes sur les exportations et importations de biens et services, publiées mensuellement par l'ABS avec une décomposition par catégorie de produits, pays partenaires et État australien. Couvre l'Océanie et les échanges de la région Asie-Pacifique depuis 1988. Usage RAG : alimenter un pipeline de suivi des flux commerciaux australiens dans la région ASEAN ; construire un assistant de prospection pour les exportateurs australiens vers la Chine et le Japon.",
+      "editeur_organisation": "Australian Bureau of Statistics (ABS)",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLS",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API ABS Data Explorer : https://api.data.abs.gov.au/data/{dataflowIdentifier}/{dataKey}?format=jsondata. Identifiant pour le commerce : MERCH_EXP ou MERCH_IMP. Paramètres : startPeriod, endPeriod, dimensionAtObservation. Réponse SDMX-JSON standard.",
+      "url_source_donnees": "https://www.abs.gov.au/statistics/economy/international-trade/international-trade-goods-and-services-australia",
+      "url_documentation_integration": "https://api.data.abs.gov.au/"
+    },
+    {
+      "id": "e9f3a6c1-4b8d-4e2f-7a0c-1d5f9b0e2a4c",
+      "nom_ressource": "India Trade Portal – DGFT Export-Import Data",
+      "description": "Portail officiel indien du Directeur Général du Commerce Extérieur (DGFT) fournissant des données sur les politiques commerciales, les licences d'import-export, les tarifs douaniers et les statistiques de commerce bilatéral pour l'Inde, acteur majeur du commerce mondial. Usage RAG : alimenter un pipeline de recherche de réglementations d'importation pour accéder au marché indien ; construire un assistant de conformité export-import pour les entreprises opérant en Asie du Sud.",
+      "editeur_organisation": "Directorate General of Foreign Trade (DGFT), Ministère du Commerce et de l'Industrie de l'Inde",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLS",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API DGFT : https://dgft.gov.in/api/{endpoint} avec paramètres de filtrage par code ITC-HS, pays et période. Interface de téléchargement disponible sur le portail. Données agrégées UNCTAD également disponibles comme source complémentaire vérifiable.",
+      "url_source_donnees": "https://www.indiatradeportal.in/",
+      "url_documentation_integration": "https://dgft.gov.in/CP/"
+    },
+    {
+      "id": "f0a4b7d2-5c9e-4f3a-8b1d-2e6a0c1f3b5d",
+      "nom_ressource": "ITC Trade Map – International Trade Centre",
+      "description": "Base de données du Centre du Commerce International (ITC, agence conjointe OMC/ONU) fournissant des statistiques d'import-export pour 220 pays et plus de 5 300 produits, avec des indicateurs de compétitivité commerciale et des données sur la demande mondiale. Couvre les années 2001 à aujourd'hui. Usage RAG : construire un pipeline d'identification des marchés à fort potentiel pour un produit donné ; alimenter un agent de conseil en développement export pour les PME des pays en développement.",
+      "editeur_organisation": "International Trade Centre (ITC) – agence OMC/ONU",
+      "domaine_principal": "Ventes, Commerce & Marketing",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLS",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API Trade Map (accès enregistré gratuit) : https://www.trademap.org/api/. Paramètres : reporterCode, productCode (HS), period, tradeType (I/E). Réponse JSON ou CSV. Inscription requise sur le portail ITC pour obtenir un token d'accès.",
+      "url_source_donnees": "https://www.trademap.org/",
+      "url_documentation_integration": "https://www.intracen.org/itc/market-info-tools/trade-statistics/"
+    },
+    {
+      "id": "a3f1c2d4-8b5e-4a9f-b012-3e7d6c1f4a82",
+      "nom_ressource": "UN World Population Prospects (WPP)",
+      "description": "Estimations et projections démographiques mondiales produites par la Division de la population des Nations Unies, couvrant 237 pays et territoires de 1950 à 2100. Données sur la fécondité, la mortalité, les migrations et la structure par âge et sexe. Usage RAG : alimentation d'un chatbot d'analyse démographique prospective ; enrichissement de rapports sur le vieillissement des populations par pays.",
+      "editeur_organisation": "United Nations Department of Economic and Social Affairs (UN DESA) – Population Division",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Biennal",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement bulk via https://population.un.org/wpp/ ; API REST disponible à https://population.un.org/dataportal/about/dataapi avec paramètres : indicators (ex: SRB, TFR), locations (code numérique ISO), startYear/endYear. Réponse JSON paginée.",
+      "url_source_donnees": "https://population.un.org/wpp/",
+      "url_documentation_integration": "https://population.un.org/dataportal/about/dataapi"
+    },
+    {
+      "id": "b7e2d5f1-3c4a-4b8e-9f01-2a6c8d3e5b17",
+      "nom_ressource": "World Bank Open Data – Population & Social Development",
+      "description": "Portail de données ouvertes de la Banque Mondiale agrégant plus de 1 400 indicateurs sociaux et démographiques pour 217 économies, avec historiques depuis 1960. Couvre la pauvreté, l'éducation, la santé, l'égalité de genre et les migrations. Usage RAG : construction d'un index vectoriel d'indicateurs de développement pour des requêtes comparatives inter-pays ; alimentation d'un agent IA de suivi des Objectifs de Développement Durable (ODD).",
+      "editeur_organisation": "World Bank Group",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "CSV",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://api.worldbank.org/v2/country/{iso2}/indicator/{indicatorCode}?format=json&per_page=100&page=1. Indicateurs clés : SP.POP.TOTL (population), SI.POV.DDAY (pauvreté). Authentification non requise. Réponse JSON avec pagination via champs 'page' et 'pages'.",
+      "url_source_donnees": "https://data.worldbank.org/topic/8",
+      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation"
+    },
+    {
+      "id": "c9a4e7b2-1d6f-4c3a-8e52-5b0f2d1c7e43",
+      "nom_ressource": "Eurostat – Statistiques démographiques et sociales",
+      "description": "Base de données officielle de l'office statistique de l'Union européenne, couvrant les 27 États membres et pays associés sur des thématiques démographiques (naissances, décès, migrations), sociales (conditions de vie, revenus, exclusion) et de citoyenneté. Séries temporelles depuis 1960 pour certains indicateurs. Usage RAG : pipeline de veille sur l'évolution des flux migratoires intra-UE ; assistant IA pour l'analyse comparative des inégalités de revenus entre régions NUTS.",
+      "editeur_organisation": "Eurostat – Office statistique de l'Union européenne",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "SPARQL"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "TSV",
+        "SDMX",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API JSON-stat : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}?format=JSON&lang=EN&{filtres}. Ex dataset : demo_gind (indicateurs démographiques généraux). Paramètres : geo, time, sex, age. Réponse JSON-stat compacte.",
+      "url_source_donnees": "https://ec.europa.eu/eurostat/web/population-demography",
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/Eurostat+Data+API+-+Getting+started"
+    },
+    {
+      "id": "d2b8f3a5-7e1c-4d9b-a063-4c1e5f2b8d91",
+      "nom_ressource": "IPUMS International – Census Microdata",
+      "description": "Collection harmonisée de microdonnées de recensements de population couvrant plus de 100 pays et 300 échantillons, soit plus de 500 millions d'enregistrements individuels anonymisés. Portée géographique mondiale avec une couverture particulièrement forte en Afrique sub-saharienne, Asie et Amérique latine. Usage RAG : extraction de profils socio-démographiques granulaires pour des analyses de clustering ; enrichissement d'un LLM avec des données structurées sur la composition des ménages.",
+      "editeur_organisation": "IPUMS – University of Minnesota",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata (.dta)",
+        "SPSS (.sav)",
+        "SAS",
+        "Parquet"
+      ],
+      "frequence_mise_a_jour": "Historique",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API IPUMS : https://api.ipums.org/extracts?collection=ipumsi&version=2 (authentification par token API). Sélection de variables et d'échantillons via JSON body (POST). Téléchargement de l'extrait via GET une fois traité. Documentation Swagger disponible.",
+      "url_source_donnees": "https://international.ipums.org/international/",
+      "url_documentation_integration": "https://developer.ipums.org/docs/v2/apiprogram/"
+    },
+    {
+      "id": "e5c7a1d9-2f3b-4e8c-b174-6d2f3a5c9e02",
+      "nom_ressource": "INSEE – Recensement de la population française",
+      "description": "Données officielles du recensement de la population française couvrant l'ensemble des communes de France métropolitaine et des DOM-TOM, mises à jour annuellement par roulement quinquennal. Informations sur la structure démographique, les ménages, le logement, l'activité et la mobilité. Usage RAG : chatbot d'aide à la décision pour les collectivités territoriales françaises ; pipeline de géomarketing enrichissant des données commerciales avec des profils socio-démographiques locaux.",
+      "editeur_organisation": "Institut national de la statistique et des études économiques (INSEE)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API INSEE (sdmx) : https://api.insee.fr/series/BDM/V1/data/{flow}/{key} ou portail open data https://www.insee.fr/fr/statistiques. Authentification OAuth2 pour l'API BDM. Données de recensement également en téléchargement bulk par fichiers millésimés (ex: RP2020).",
+      "url_source_donnees": "https://www.insee.fr/fr/statistiques/series/102760650",
+      "url_documentation_integration": "https://api.insee.fr/catalogue/"
+    },
+    {
+      "id": "f1d6b4e8-5a2c-4f7d-c285-7e3a4b6d1f53",
+      "nom_ressource": "OECD.Stat – Social and Welfare Statistics",
+      "description": "Portail statistique de l'OCDE centralisant des données sociales comparatives pour les 38 pays membres et partenaires, incluant : inégalités de revenus (Gini), bien-être subjectif, cohésion sociale, engagement civique et protection sociale. Séries temporelles de 1970 à aujourd'hui. Usage RAG : moteur de recherche sémantique sur les politiques sociales comparées ; pipeline d'analyse automatique de la pauvreté relative dans les pays de l'OCDE.",
+      "editeur_organisation": "Organisation de Coopération et de Développement Économiques (OCDE)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API SDMX-JSON : https://stats.oecd.org/SDMX-JSON/data/{datasetIdentifier}/{filter}/{agencyName}?contentType=application/vnd.sdmx.data+json. Ex dataset : IDD (Revenus et distribution). Réponse JSON-stat avec séries temporelles. Pagination via paramètre 'startTime' et 'endTime'.",
+      "url_source_donnees": "https://stats.oecd.org/Index.aspx?DataSetCode=IDD",
+      "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
+    },
+    {
+      "id": "a8e3c2f7-4b1d-4a6e-d396-8f4b5c7e2a64",
+      "nom_ressource": "Demographic and Health Surveys (DHS Program)",
+      "description": "Programme international de collecte de microdonnées d'enquêtes sur la santé et la démographie dans plus de 90 pays à revenu faible et intermédiaire (principalement Afrique, Asie du Sud, Amérique latine), depuis 1984. Couvre la fécondité, la mortalité infantile, la nutrition, l'utilisation des services de santé et la condition féminine. Usage RAG : base vectorielle pour l'analyse de la mortalité maternelle dans les pays en développement ; pipeline de suivi des indicateurs santé-démographie pour des ONG humanitaires.",
+      "editeur_organisation": "USAID – DHS Program (ICF International)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata (.dta)",
+        "SPSS (.sav)",
+        "SAS",
+        "Flat ASCII"
+      ],
+      "frequence_mise_a_jour": "Continu (nouvelles enquêtes ajoutées)",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://api.dhsprogram.com/rest/dhs/v8/ avec endpoints /data, /surveys, /indicators. Paramètres : countryIds, indicatorIds, surveyYear, breakdown. Réponse JSON. Inscription gratuite requise pour les microdonnées. Données agrégées librement accessibles sans authentification.",
+      "url_source_donnees": "https://dhsprogram.com/data/",
+      "url_documentation_integration": "https://api.dhsprogram.com/"
+    },
+    {
+      "id": "b4f9d1c6-3e7a-4b2f-e407-9a5c6d8f3b75",
+      "nom_ressource": "Australian Bureau of Statistics (ABS) – Census of Population and Housing",
+      "description": "Données du recensement de la population australienne (dernier millésime 2021) couvrant 25,5 millions de personnes. Informations détaillées sur les caractéristiques socio-démographiques, le logement, l'emploi, l'éducation et la diversité culturelle à l'échelle des Statistical Areas (SA1 à SA4). Usage RAG : assistant IA pour l'analyse de la diversité culturelle en Australie ; pipeline de segmentation géo-démographique pour des études de marché régionales.",
+      "editeur_organisation": "Australian Bureau of Statistics (ABS)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX",
+        "GeoJSON"
+      ],
+      "frequence_mise_a_jour": "Quinquennal",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API ABS Data : https://api.data.abs.gov.au/data/{dataflowIdentifier}/{dataKey}?format=jsondata. Ex dataflow : ABS_CENSUS2021_T01 (population par région). Réponse SDMX-JSON. Documentation Swagger disponible sur le portail. Téléchargement bulk via le TableBuilder en ligne.",
+      "url_source_donnees": "https://www.abs.gov.au/census",
+      "url_documentation_integration": "https://api.data.abs.gov.au/"
+    },
+    {
+      "id": "c6a1e8d3-9f2b-4c5a-f518-0b6d7e9a4c86",
+      "nom_ressource": "Statistics South Africa (Stats SA) – Community Survey & Census",
+      "description": "Données officielles de recensement et d'enquêtes communautaires pour l'Afrique du Sud, couvrant 60 millions d'habitants avec des informations sur la structure démographique, les niveaux d'éducation, l'accès aux services de base (eau, électricité), le chômage et les inégalités raciales et économiques héritées de l'apartheid. Usage RAG : pipeline d'analyse des inégalités sociales post-apartheid ; enrichissement d'un système RAG de suivi des politiques de réduction de la pauvreté en Afrique australe.",
+      "editeur_organisation": "Statistics South Africa (Stats SA)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "PDF",
+        "Stata (.dta)"
+      ],
+      "frequence_mise_a_jour": "Annuel (enquêtes) / Décennal (recensement)",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Téléchargement direct depuis le portail SuperWEB2 de Stats SA : https://superweb.statssa.gov.za/webapi/. Sélection de tableaux par thème, géographie et période. Export CSV ou XLSX. Microdonnées disponibles sur demande via le portail DataFirst de l'Université du Cap.",
+      "url_source_donnees": "https://www.statssa.gov.za/?page_id=3839",
+      "url_documentation_integration": "https://superweb.statssa.gov.za/webapi/"
+    },
+    {
+      "id": "d9b5f4e1-2c8a-4d7b-g629-1c7e8f0b5d97",
+      "nom_ressource": "UNICEF Data Warehouse",
+      "description": "Entrepôt de données mondial de l'UNICEF regroupant plus de 100 indicateurs sur les droits et le bien-être des enfants dans 190 pays, incluant la mortalité infantile, la malnutrition, l'éducation primaire, le travail des enfants et la protection sociale. Séries temporelles depuis 1990. Usage RAG : moteur de recherche IA sur les indicateurs de protection de l'enfance par pays et région ; pipeline de monitoring automatique des droits des enfants pour des rapports institutionnels.",
+      "editeur_organisation": "Fonds des Nations Unies pour l'enfance (UNICEF)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API UNICEF : https://sdmx.data.unicef.org/ws/public/sdmxapi/rest/data/{agency},{id},{version}/{key}?format=csv. Ou interface de requête : https://data.unicef.org/resources/data_explorer/unicef_f/?ag=UNICEF. Réponse SDMX/CSV. Filtres par indicateur, pays (ISO3) et période.",
+      "url_source_donnees": "https://data.unicef.org/",
+      "url_documentation_integration": "https://sdmx.data.unicef.org/ws/public/sdmxapi/rest/"
+    },
+    {
+      "id": "f5d2c8b4-1e9f-4f1d-i841-3e9a0b2d7f19",
+      "nom_ressource": "India Open Government Data – Census of India",
+      "description": "Données du recensement de la population indienne (dernier millésime officiel 2011, avec projections 2021) publiées sur le portail open data du gouvernement indien, couvrant 1,3 milliard d'habitants au niveau des districts et sous-districts. Indicateurs sur la structure par âge, la religion, la langue, l'alphabétisation, le travail et l'accès aux services. Usage RAG : pipeline d'analyse de la diversité linguistique et religieuse en Inde ; assistant IA de planification urbaine basé sur les profils démographiques de districts.",
+      "editeur_organisation": "Office of the Registrar General & Census Commissioner, India (Ministère de l'Intérieur)",
+      "domaine_principal": "Demographie, Social & Citoyennete",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Décennal",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Portail open data indien : https://data.gov.in/catalog/census-india avec API REST (authentification par api-key gratuite) : https://api.data.gov.in/resource/{resourceId}?api-key={key}&format=json&limit=100&offset=0. Paramètres de filtrage par état (state), district. Données du recensement également disponibles sur https://censusindia.gov.in/ en téléchargement direct.",
+      "url_source_donnees": "https://censusindia.gov.in/census.website/",
+      "url_documentation_integration": "https://data.gov.in/page/ogpl-api-documentation"
+    },
+    {
+      "id": "a3f7c2d1-4b8e-4a09-b5f6-1e2d3c4a5b6c",
+      "nom_ressource": "Varieties of Democracy (V-Dem) Dataset",
+      "description": "Base de données académique couvrant plus de 200 pays depuis 1789, mesurant des centaines d'indicateurs de démocratie (élections, libertés civiles, état de droit, participation). Exemple d'usage RAG : alimenter un agent de veille politique comparée pour scorer la qualité démocratique d'un pays ; construire un pipeline de question-réponse sur l'évolution historique des régimes politiques.",
+      "editeur_organisation": "V-Dem Institute, Université de Göteborg",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "RDS",
+        "Stata"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct depuis le portail officiel ; API disponible via le package R 'vdemdata' ou le client Python 'vdem'. Paramètres : sélection de pays (code ISO), indicateurs, plage d'années. Réponse en CSV/RDS tabulaire. Pour RAG : indexer par pays-année avec embeddings sur les descriptions d'indicateurs.",
+      "url_source_donnees": "https://www.v-dem.net/data/the-v-dem-dataset/",
+      "url_documentation_integration": "https://www.v-dem.net/data/reference-documents/"
+    },
+    {
+      "id": "b1e9d4f2-5c7a-4b1e-a8d3-2f3e4d5c6b7a",
+      "nom_ressource": "Comparative Constitutions Project (CCP)",
+      "description": "Jeu de données mondial recensant le contenu de plus de 900 constitutions nationales depuis 1789, avec des variables codées sur les droits fondamentaux, les pouvoirs exécutifs, législatifs et judiciaires. Couverture : 194 pays. Exemple d'usage RAG : moteur de recherche sémantique sur les dispositions constitutionnelles comparées ; pipeline d'analyse des tendances d'érosion des droits civiques.",
+      "editeur_organisation": "Comparative Constitutions Project (Universités du Texas et Chicago)",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement CSV depuis le portail Dataverse de Harvard. Colonnes clés : country, year, variable codée (0/1 ou texte). Pour RAG : chunking par article constitutionnel, embedding du texte brut des constitutions (disponibles en PDF), indexation par pays et date d'adoption.",
+      "url_source_donnees": "https://comparativeconstitutionsproject.org/download-data/",
+      "url_documentation_integration": "https://comparativeconstitutionsproject.org/ccp-data-documentation/"
+    },
+    {
+      "id": "c2d8e5f3-6b9c-4c2f-b9e4-3a4b5c6d7e8f",
+      "nom_ressource": "MIT Election Data and Science Lab (MEDSL)",
+      "description": "Référentiel open data centré sur les États-Unis, couvrant les résultats électoraux fédéraux et étatiques (présidentielles, Congrès, Sénat, gouverneurs) depuis 1976, avec granularité au niveau du comté. Exemple d'usage RAG : pipeline de récit de résultats électoraux locaux pour journalisme automatisé ; agent de comparaison des comportements de vote par circonscription.",
+      "editeur_organisation": "MIT Election Data and Science Lab, Massachusetts Institute of Technology",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "GitHub"
+      ],
+      "formats_fichiers": [
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Quadriennal (post-élection)",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement de fichiers CSV depuis Harvard Dataverse ou GitHub. Structure : colonnes year, state, county, candidate, party, candidatevotes, totalvotes. Pour RAG : indexer par entité géographique et cycle électoral, enrichir avec embeddings des descriptions de candidats et contexte partisan.",
+      "url_source_donnees": "https://electionlab.mit.edu/data",
+      "url_documentation_integration": "https://github.com/MEDSL/elections"
+    },
+    {
+      "id": "d3e7f6a4-7c0d-4d3a-c0f5-4b5c6d7e8f9a",
+      "nom_ressource": "Electoral Integrity Project (EIP) – Perceptions of Electoral Integrity",
+      "description": "Données d'enquête internationale évaluant l'intégrité des élections dans plus de 170 pays entre 2012 et 2022, sur 11 dimensions (lois électorales, médias, financement, vote, résultats). Exemple d'usage RAG : pipeline de détection des élections contestées pour un système de veille géopolitique ; chatbot d'analyse comparative de la fraude électorale perçue.",
+      "editeur_organisation": "Electoral Integrity Project, Harvard Kennedy School / University of Sydney",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata",
+        "SPSS"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Téléchargement des fichiers depuis le portail officiel après inscription libre. Variables clés : PEI_Index (score global), sous-scores par dimension, country, year, election_type. Pour RAG : structurer par élection (entité unique), enrichir avec métadonnées contextuelles (résultat, participation).",
+      "url_source_donnees": "https://www.electoralintegrityproject.com/eip-datasets",
+      "url_documentation_integration": "https://www.electoralintegrityproject.com/methodology"
+    },
+    {
+      "id": "e4f8a7b5-8d1e-4e4b-d1a6-5c6d7e8f9a0b",
+      "nom_ressource": "Manifesto Project (MARPOR)",
+      "description": "Base de données de science politique codifiant les programmes électoraux de partis politiques dans plus de 50 pays (principalement Europe, Amérique du Nord, Israël, Japon) depuis 1945 — plus de 4 000 documents analysés phrase par phrase. Exemple d'usage RAG : moteur de recherche sémantique dans les programmes partisans pour comparer les positions idéologiques ; pipeline de suivi de glissement idéologique d'un parti dans le temps.",
+      "editeur_organisation": "WZB Berlin Social Science Center / MARPOR",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST disponible sur manifestoproject.wzb.eu/api/v1/. Authentification par clé API (inscription gratuite). Endpoints : /datasets (liste), /texts_and_annotations (texte intégral annoté par catégorie). Paramètres : party_id, election_date. Format JSON. Pour RAG : indexer les quasi-phrases annotées avec leur catégorie idéologique (per101–per706).",
+      "url_source_donnees": "https://manifesto-project.wzb.eu/datasets",
+      "url_documentation_integration": "https://manifesto-project.wzb.eu/information/documents/api"
+    },
+    {
+      "id": "f5a9b8c6-9e2f-4f5c-e2b7-6d7e8f9a0b1c",
+      "nom_ressource": "Global Elections Database – IDEA International",
+      "description": "Base de données mondiale de l'Institut International pour la Démocratie et l'Assistance Électorale (IDEA), couvrant les résultats électoraux, taux de participation, systèmes électoraux et partis politiques dans plus de 200 pays depuis les années 1940. Exemple d'usage RAG : agent de recherche sur les tendances d'abstention mondiale ; système de Q&R comparatif sur les systèmes de vote (proportionnel, majoritaire, mixte).",
+      "editeur_organisation": "International Institute for Democracy and Electoral Assistance (IDEA International)",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST disponible sur api.idea.int (documentation sur le portail). Paramètres : country_code (ISO 3166), election_type, year_from/year_to. Réponse JSON paginée. Pour RAG : construire un graphe de connaissances pays → élection → résultats, avec embeddings sur les descriptions des systèmes électoraux.",
+      "url_source_donnees": "https://www.idea.int/data-tools/global-electoral-systems",
+      "url_documentation_integration": "https://www.idea.int/data-tools/api-documentation"
+    },
+    {
+      "id": "a6b0c9d7-0f3a-4a6d-f3c8-7e8f9a0b1c2d",
+      "nom_ressource": "ParlGov – Parlements et Gouvernements",
+      "description": "Base de données académique ouverte sur les partis politiques, les résultats électoraux et les compositions gouvernementales dans 37 pays (principalement UE + OCDE) depuis le début du XXe siècle. Exemple d'usage RAG : pipeline de génération automatique de fiches sur les coalitions gouvernementales européennes ; agent de veille sur les transferts de sièges entre partis entre deux législatures.",
+      "editeur_organisation": "ParlGov Project (porté par l'Université de Brême)",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SQLite"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct en CSV/SQLite depuis parlgov.org. API REST JSON disponible sur parlgov.org/data/json/. Endpoints : /party, /election, /cabinet. Pas de clé API requise. Pour RAG : joindre les tables party ↔ election ↔ cabinet, indexer par entité-parti avec historique complet des scores électoraux.",
+      "url_source_donnees": "https://www.parlgov.org/data/",
+      "url_documentation_integration": "https://www.parlgov.org/documentation/"
+    },
+    {
+      "id": "b7c1d0e8-1a4b-4b7e-a4d9-8f9a0b1c2d3e",
+      "nom_ressource": "African Elections Database",
+      "description": "Base de données spécialisée sur les élections en Afrique subsaharienne et dans tout le continent africain, couvrant les scrutins présidentiels, législatifs et référendums depuis les indépendances (années 1960). Recense résultats, taux de participation, partis en compétition et observateurs électoraux. Exemple d'usage RAG : agent de Q&R sur l'alternance démocratique en Afrique de l'Ouest ; pipeline de veille électorale pré-scrutin pour les marchés émergents africains.",
+      "editeur_organisation": "African Elections Database (projet communautaire indépendant)",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "HTML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Historique",
+      "score_anti_hallucination": 3,
+      "methode_integration_technique": "Scraping structuré des tableaux HTML par pays depuis africanelections.tripod.com. Les données sont tabulaires (candidat, parti, voix, %). Pour RAG : parser les tables pays par pays, normaliser les noms de partis, indexer par événement électoral (pays + année + type d'élection) avec embeddings contextuels.",
+      "url_source_donnees": "http://africanelections.tripod.com/",
+      "url_documentation_integration": "http://africanelections.tripod.com/about.html"
+    },
+    {
+      "id": "c8d2e1f9-2b5c-4c8f-b5e0-9a0b1c2d3e4f",
+      "nom_ressource": "Open Parliament Data – Parlement Européen",
+      "description": "Portail open data officiel du Parlement Européen diffusant votes, présences, profils des eurodéputés (MEPs), groupes politiques et activités législatives pour les 705 membres depuis 1979. Couverture : 27 États membres + historique. Exemple d'usage RAG : pipeline de suivi de cohésion des groupes politiques européens par vote ; chatbot de transparence parlementaire sur les positions des eurodéputés.",
+      "editeur_organisation": "Parlement Européen",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST documentée sur data.europarl.europa.eu. Endpoints : /ep-entities/EU/persons (MEPs), /ep-votes (votes en séance plénière), /ep-activities (activités). Paramètres : term (législature), date, format. Pagination via paramètre offset. Pour RAG : indexer les votes par MEP avec embedding du texte des résolutions associées.",
+      "url_source_donnees": "https://data.europarl.europa.eu/en/home",
+      "url_documentation_integration": "https://data.europarl.europa.eu/en/developer-corner"
+    },
+    {
+      "id": "d9e3f2a0-3c6d-4d9a-c6f1-0b1c2d3e4f5a",
+      "nom_ressource": "Database of Political Institutions (DPI) – Banque Mondiale",
+      "description": "Jeu de données de référence de la Banque Mondiale couvrant 180 pays de 1975 à 2020, avec des variables sur les systèmes de gouvernement, les partis au pouvoir, les systèmes électoraux, les règles de ballottage et l'alignement politique des gouvernements. Exemple d'usage RAG : pipeline d'évaluation du risque politique pour l'analyse d'investissements dans les marchés émergents ; agent comparatif sur les systèmes présidentiels vs parlementaires.",
+      "editeur_organisation": "Banque Mondiale – Development Research Group",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct depuis le portail data.worldbank.org. API REST Banque Mondiale : api.worldbank.org/v2/country/{code}/indicator/{indicator}. Format JSON ou XML. Paramètres : date, per_page, page. Pour RAG : joindre avec les données V-Dem ou ParlGov pour enrichir le contexte institutionnel, indexer par pays-année.",
+      "url_source_donnees": "https://datacatalog.worldbank.org/search/dataset/0038441/Database-of-Political-Institutions",
+      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392"
+    },
+    {
+      "id": "e0f4a3b1-4d7e-4e0b-d7a2-1c2d3e4f5a6b",
+      "nom_ressource": "CLEA – Constituency-Level Elections Archive",
+      "description": "Archive mondiale de résultats électoraux au niveau des circonscriptions, couvrant plus de 1 800 élections législatives dans plus de 160 pays de 1788 à 2020. Niveau de granularité le plus fin disponible pour des données électorales comparées à l'échelle mondiale. Exemple d'usage RAG : analyse géospatiale des clivages électoraux pour un outil de visualisation politique ; pipeline de détection des bastions électoraux partisans.",
+      "editeur_organisation": "Constituency-Level Elections Archive, Université du Michigan",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Stata",
+        "SPSS"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement des fichiers CSV par pays ou en archive complète depuis le portail CLEA. Variables principales : ctr (code pays), yr (année), mn (mois), pty (parti), pvs (voix au niveau circonscription), pcs (% de voix). Pour RAG : indexer par triplet pays-élection-circonscription, croiser avec données géographiques (shapefiles).",
+      "url_source_donnees": "https://electionarchive.org/",
+      "url_documentation_integration": "https://electionarchive.org/ucx/Clea-release-notes.pdf"
+    },
+    {
+      "id": "f1a5b4c2-5e8f-4f1c-e8b3-2d3e4f5a6b7c",
+      "nom_ressource": "data.gouv.fr – Résultats des élections françaises",
+      "description": "Portail officiel des données électorales françaises publié par le Ministère de l'Intérieur, couvrant tous les scrutins nationaux et locaux (présidentielles, législatives, européennes, régionales, municipales, sénatoriales) avec résultats par bureau de vote. Exemple d'usage RAG : pipeline de narration automatique des résultats par commune pour un média local ; agent de veille sur les reports de voix entre tours dans les circonscriptions législatives.",
+      "editeur_organisation": "Ministère de l'Intérieur, Direction de la Modernisation et de l'Administration Territoriale (DMAT)",
+      "domaine_principal": "Politique & Elections",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Post-élection",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API data.gouv.fr via api.gouv.fr/datasets. Téléchargement direct en CSV par type de scrutin et année. Granularité : nation → département → commune → bureau de vote. Variables : libellé_candidat, nuance_politique, voix, % exprimés. Pour RAG : indexer par unité géographique + cycle électoral, utiliser les codes INSEE comme clés de jointure.",
+      "url_source_donnees": "https://www.data.gouv.fr/fr/pages/donnees-des-elections/",
+      "url_documentation_integration": "https://guides.data.gouv.fr/reutiliser-des-donnees/utiliser-les-api-geographiques"
+    },
+    {
+      "id": "a3f1c2d4-1a2b-4c3d-8e5f-1234567890ab",
+      "nom_ressource": "PubMed / MEDLINE",
+      "description": "Base de données bibliographique mondiale de référence en sciences biomédicales et sciences de la vie, gérée par la National Library of Medicine (NLM). Contient plus de 36 millions de citations et résumés d'articles scientifiques depuis les années 1950, couvrant médecine, pharmacologie, biologie et santé publique. Usage RAG : alimentation d'un moteur de recherche sémantique sur la littérature médicale ; extraction de preuves cliniques pour un assistant IA en aide à la décision médicale.",
+      "editeur_organisation": "National Library of Medicine (NLM) — National Institutes of Health (NIH), États-Unis",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "PubMed format"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API Entrez (E-utilities) : endpoint https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi (recherche) + efetch.fcgi (récupération). Paramètres clés : db=pubmed, term=<requête>, retmode=json|xml, retmax=10000. Pagination via retstart. Réponse JSON ou XML avec PMID, titre, résumé, auteurs, MeSH terms. Accès bulk via FTP sur ftp.ncbi.nlm.nih.gov/pubmed/baseline/.",
+      "url_source_donnees": "https://pubmed.ncbi.nlm.nih.gov/",
+      "url_documentation_integration": "https://www.ncbi.nlm.nih.gov/home/develop/api/"
+    },
+    {
+      "id": "b7e2d3f5-2b3c-4d4e-9f6a-234567890abc",
+      "nom_ressource": "Global Health Observatory (GHO) Data Repository",
+      "description": "Entrepôt de données statistiques de l'Organisation Mondiale de la Santé (OMS) couvrant plus de 1000 indicateurs de santé mondiale pour 194 pays membres. Données sur la mortalité, les maladies, les systèmes de santé, les facteurs de risque et les Objectifs de Développement Durable (ODD), avec couverture historique depuis les années 2000. Usage RAG : comparaison d'indicateurs épidémiologiques entre pays pour un chatbot d'analyse de santé publique ; enrichissement contextuel de rapports sur les maladies transmissibles.",
+      "editeur_organisation": "Organisation Mondiale de la Santé (OMS / WHO)",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API OData REST : endpoint principal https://ghoapi.azureedge.net/api/. Lister les indicateurs via /Indicator, récupérer les données via /<IndicatorCode>?$filter=SpatialDim eq 'FRA' (filtrage par pays ISO). Réponse JSON paginée (100 lignes/page). Paramètres clés : $filter, $select, $orderby, $top, $skip. Aucune clé API requise.",
+      "url_source_donnees": "https://www.who.int/data/gho",
+      "url_documentation_integration": "https://www.who.int/data/gho/info/gho-odata-api"
+    },
+    {
+      "id": "c9a4e5b6-3c4d-4e5f-af7b-34567890abcd",
+      "nom_ressource": "ClinicalTrials.gov Dataset",
+      "description": "Registre mondial des essais cliniques géré par la NLM, recensant plus de 480 000 études dans 221 pays. Contient des informations détaillées sur les protocoles d'essais, les conditions médicales étudiées, les interventions, les résultats et les statuts d'avancement. Couverture mondiale depuis 2000. Usage RAG : alimentation d'un assistant IA répondant aux questions de patients sur les essais cliniques disponibles ; extraction structurée de données de protocoles pour analyse de faisabilité.",
+      "editeur_organisation": "National Library of Medicine (NLM) — National Institutes of Health (NIH), États-Unis",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST v2 : endpoint https://clinicaltrials.gov/api/v2/studies. Paramètres clés : query.term (recherche full-text), filter.overallStatus, filter.geo, pageSize (max 1000), pageToken (pagination). Réponse JSON structurée avec objets Study imbriqués. Téléchargement bulk XML/JSON disponible sur le portail. Aucune authentification requise.",
+      "url_source_donnees": "https://clinicaltrials.gov/",
+      "url_documentation_integration": "https://clinicaltrials.gov/data-api/api"
+    },
+    {
+      "id": "d1b5f6c7-4d5e-4f6a-b08c-456789abcdef",
+      "nom_ressource": "Open FDA — FDA Drug, Device & Food Datasets",
+      "description": "Plateforme open data de la Food and Drug Administration (FDA) américaine regroupant des données sur les médicaments approuvés, les effets indésirables (FAERS), les rappels de produits, les dispositifs médicaux (MAUDE) et les aliments. Couvre les États-Unis, avec des données remontant aux années 1990. Usage RAG : pipeline de surveillance pharmacovigilance automatisée pour détecter les signaux d'effets indésirables ; assistant IA de vérification de l'approbation et des contre-indications de médicaments.",
+      "editeur_organisation": "Food and Drug Administration (FDA), États-Unis",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : endpoint https://api.fda.gov/. Endpoints thématiques : /drug/event.json (pharmacovigilance), /drug/label.json (notices médicaments), /device/recall.json. Paramètres : search= (syntaxe Lucene), limit= (max 1000), skip= pour pagination. Clé API optionnelle (sans clé : 40 req/min ; avec clé gratuite : 240 req/min). Réponse JSON avec champ results[].",
+      "url_source_donnees": "https://open.fda.gov/",
+      "url_documentation_integration": "https://open.fda.gov/apis/"
+    },
+    {
+      "id": "e2c6a7d8-5e6f-4a7b-c19d-5678901bcde0",
+      "nom_ressource": "MIMIC-IV (Medical Information Mart for Intensive Care)",
+      "description": "Base de données cliniques de référence mondiale contenant des données réelles de patients hospitalisés en soins intensifs au Beth Israel Deaconess Medical Center (Boston, USA) entre 2008 et 2019. Inclut données vitales, prescriptions, diagnostics CIM-10, résultats biologiques et notes cliniques. Usage RAG : entraînement et évaluation de modèles de NLP médical pour extraction d'information depuis des notes cliniques ; construction d'un pipeline de prédiction de mortalité hospitalière.",
+      "editeur_organisation": "MIT Laboratory for Computational Physiology / Beth Israel Deaconess Medical Center, États-Unis",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "Parquet"
+      ],
+      "frequence_mise_a_jour": "Historique",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès via PhysioNet après signature d'un accord de données (DUA) et formation CITI obligatoire. Téléchargement des fichiers CSV/Parquet par module (hosp, icu, note) depuis physionet.org. CLI wget ou PhysioNet API disponibles. Tables relationnelles linkables par subject_id et hadm_id. Aucun accès en temps réel ; snapshot annuel compressé (~7 Go).",
+      "url_source_donnees": "https://physionet.org/content/mimiciv/",
+      "url_documentation_integration": "https://mimic.mit.edu/docs/iv/"
+    },
+    {
+      "id": "f3d7b8e9-6f7a-4b8c-d20e-678901cdef01",
+      "nom_ressource": "European Health Information Gateway (EHIG)",
+      "description": "Portail européen de données de santé du Bureau régional OMS/Europe, centralisant des indicateurs de santé pour les 53 États membres de la région européenne. Couvre mortalité, morbidité, systèmes de santé, déterminants environnementaux et sociaux de la santé, avec historique depuis les années 1970 pour certains indicateurs. Usage RAG : analyse comparative des systèmes de santé européens pour un rapport IA ; enrichissement de dashboards de veille sanitaire régionale.",
+      "editeur_organisation": "Bureau Régional de l'OMS pour l'Europe (WHO/Europe)",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST publique : endpoint https://gateway.euro.who.int/en/hfa-explorer/. Accès programmatique via https://dw.euro.who.int/api/. Paramètres : indicatorCode, countryCode (ISO 3166), year. Réponse JSON avec séries temporelles. Documentation technique accessible sur le portail développeur. Aucune authentification requise pour la lecture.",
+      "url_source_donnees": "https://gateway.euro.who.int/",
+      "url_documentation_integration": "https://gateway.euro.who.int/en/datasets/"
+    },
+    {
+      "id": "04e8c9fa-7a8b-4c9d-e31f-789012def012",
+      "nom_ressource": "data.gouv.fr — Données de Santé (France)",
+      "description": "Portail officiel français d'open data hébergeant des centaines de jeux de données de santé publique : Système National des Données de Santé (SNDS agrégé), données hospitalières (PMSI), cartographie des professionnels de santé, données de vaccination COVID-19 et indicateurs épidémiologiques Santé Publique France. Couverture nationale. Usage RAG : chatbot d'information sur l'offre de soins en France par département ; pipeline d'analyse des tendances de vaccination par région.",
+      "editeur_organisation": "Direction de la Recherche, des Études, de l'Évaluation et des Statistiques (DREES) / Santé Publique France",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "GeoJSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API data.gouv.fr : endpoint https://www.data.gouv.fr/api/1/datasets/?tag=sante. Recherche par tags, organisation ou mots-clés. Récupération des ressources (fichiers) via /api/1/datasets/<id>/resources/. Téléchargement direct des CSV via l'URL de la ressource. Pagination avec page= et page_size=. Aucune authentification pour la lecture.",
+      "url_source_donnees": "https://www.data.gouv.fr/fr/topics/sante-et-social/",
+      "url_documentation_integration": "https://doc.data.gouv.fr/api/reference/"
+    },
+    {
+      "id": "15f9daab-8b9c-4dae-f42a-890123ef0123",
+      "nom_ressource": "India Health Management Information System (HMIS)",
+      "description": "Système national d'information sanitaire de l'Inde, géré par le Ministère de la Santé et du Bien-être familial (MoHFW). Fournit des données mensuelles et annuelles sur les services de santé des 36 États et Territoires de l'Union : accouchements, vaccinations, soins prénataux, maladies transmissibles et ressources humaines en santé. Usage RAG : analyse des disparités régionales en santé maternelle et infantile en Inde pour un rapport IA ; pipeline de suivi des indicateurs de santé reproductive par district.",
+      "editeur_organisation": "Ministry of Health and Family Welfare (MoHFW), Gouvernement de l'Inde",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Portail web avec téléchargement de rapports CSV/XLSX filtrés par État, district, période et indicateur. Accès à l'API REST publique via https://hmis.nhp.gov.in/downloadfile pour les exports structurés. Filtres disponibles : stateName, districtName, month, year, facilityType. Aucune clé API requise pour les données agrégées publiques.",
+      "url_source_donnees": "https://hmis.nhp.gov.in/",
+      "url_documentation_integration": "https://hmis.nhp.gov.in/#!/standardReports"
+    },
+    {
+      "id": "26aaebc-9cad-4ebf-053b-901234f01234",
+      "nom_ressource": "African Health Observatory (AHO) Data Platform",
+      "description": "Plateforme de données de santé pour la région africaine de l'OMS (47 pays membres), proposant des profils nationaux de santé, des données de surveillance épidémiologique et des indicateurs de performance des systèmes de santé. Couvre les maladies tropicales négligées, VIH/SIDA, paludisme et tuberculose. Usage RAG : chatbot de veille sanitaire panafricaine pour organisations humanitaires ; enrichissement de modèles de prédiction épidémique dans les pays à faible revenu.",
+      "editeur_organisation": "Bureau Régional de l'OMS pour l'Afrique (WHO/AFRO)",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Accès via le portail AHO et l'API partagée avec le GHO de l'OMS. Endpoint : https://aho.afro.who.int/api/. Données filtrables par pays (ISO), indicateur et année. Réponse JSON. Certaines données sont également accessibles via l'API GHO principale avec filtrage SpatialDimType=WORLDBANKINCOMEGROUP ou REGION=AFR.",
+      "url_source_donnees": "https://aho.afro.who.int/",
+      "url_documentation_integration": "https://aho.afro.who.int/en/african-health-observatory-integrated-database"
+    },
+    {
+      "id": "37bbfcd-adbe-4fcg-164c-012345012345",
+      "nom_ressource": "Australian Institute of Health and Welfare (AIHW) Data Portal",
+      "description": "Portail national australien de données de santé et de bien-être, produisant des statistiques officielles sur les maladies chroniques, la santé des peuples autochtones, les hospitalisations, la santé mentale et le vieillissement. Couvre l'Australie avec données remontant aux années 1980 pour certaines séries. Usage RAG : analyse comparative des systèmes de santé en Océanie pour un rapport IA multilingue ; extraction d'indicateurs de santé mentale australiens pour benchmarking international.",
+      "editeur_organisation": "Australian Institute of Health and Welfare (AIHW), Gouvernement australien",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "JSON",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST publique disponible via le portail de données AIHW : https://www.aihw.gov.au/reports-data/. Accès programmatique aux métadonnées et fichiers via https://api.aihw.gov.au/. Téléchargement direct des tableaux CSV/XLSX par sujet (topic) et rapport. Filtres par indicateur, année, État/Territoire, population. Aucune authentification requise.",
+      "url_source_donnees": "https://www.aihw.gov.au/reports-data/",
+      "url_documentation_integration": "https://www.aihw.gov.au/about-our-data/data-governance"
+    },
+    {
+      "id": "48ccgde-bec0-4gdh-275d-123456123456",
+      "nom_ressource": "OpenMRS — Open Medical Records System Dataset",
+      "description": "Plateforme open source de dossiers médicaux électroniques (DME) déployée dans plus de 40 pays en développement (Afrique sub-saharienne, Asie du Sud-Est). Les données démo et les datasets partenaires couvrent consultations, diagnostics CIM-10, prescriptions et suivi VIH/tuberculose. Usage RAG : développement et test de pipelines NLP pour l'extraction d'entités médicales dans des contextes à faibles ressources ; construction d'assistants IA pour cliniciens dans des environnements déconnectés.",
+      "editeur_organisation": "OpenMRS Community (ONG internationale) / Regenstrief Institute",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST FHIR-compatible : endpoint de démonstration https://demo.openmrs.org/openmrs/ws/rest/v1/. Ressources principales : /patient, /encounter, /obs, /concept. Authentification Basic Auth requise (compte démo disponible). Réponse JSON avec pagination (startIndex, limit). Documentation Swagger disponible sur le serveur démo. Données réelles nécessitent déploiement institutionnel.",
+      "url_source_donnees": "https://openmrs.org/",
+      "url_documentation_integration": "https://wiki.openmrs.org/display/docs/REST+Web+Services+API+For+Clients"
+    },
+    {
+      "id": "59ddhe0-cf1d-4hei-386e-234567234567",
+      "nom_ressource": "NHS England Open Data Portal",
+      "description": "Portail de données de santé du Service National de Santé britannique (NHS England), offrant des milliers de jeux de données sur les listes d'attente, les activités hospitalières, les prescriptions médicamenteuses, les urgences et les performances des établissements de santé en Angleterre. Couverture nationale depuis les années 2000. Usage RAG : pipeline d'analyse des délais d'attente hospitaliers par spécialité médicale pour un rapport IA ; assistant de veille sur les prescriptions de médicaments génériques au Royaume-Uni.",
+      "editeur_organisation": "NHS England (National Health Service England)",
+      "domaine_principal": "Medical & Sante",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API CKAN (portail basé sur data.england.nhs.uk) : endpoint https://opendata.england.nhs.uk/api/3/action/package_list. Recherche via /package_search?q=<terme>. Récupération des ressources (fichiers) via /package_show?id=<id_dataset>. Téléchargement direct des CSV via URL de ressource. Pagination avec rows= et start=. Aucune authentification requise pour la lecture.",
+      "url_source_donnees": "https://opendata.england.nhs.uk/",
+      "url_documentation_integration": "https://opendata.england.nhs.uk/pages/api-documentation"
+    },
+    {
+      "id": "a3f7c2e1-4b89-4d3a-9c56-1e2f8a0b7d34",
+      "nom_ressource": "EUR-Lex – Droit de l'Union Européenne",
+      "description": "Base de données officielle de l'ensemble de la législation, de la jurisprudence et des actes réglementaires de l'Union Européenne, couvrant plus de 4 millions de documents depuis 1951. Exemples d'usage RAG : (1) Système de questions-réponses juridiques sur les règlements et directives européennes ; (2) Pipeline de veille réglementaire automatisé pour détecter les nouvelles obligations de conformité.",
+      "editeur_organisation": "Office des publications de l'Union Européenne",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST",
+        "SPARQL",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "PDF",
+        "RDF"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST principale : https://eur-lex.europa.eu/api/endpoint. Endpoint SPARQL disponible via le portail EU Open Data. Paramètres clés : type de document (directive, règlement), langue (FR, EN, DE…), année de publication. Réponse en XML/JSON. Pagination par offset.",
+      "url_source_donnees": "https://eur-lex.europa.eu/homepage.html",
+      "url_documentation_integration": "https://eur-lex.europa.eu/content/tools/webservices/EurLex4.html"
+    },
+    {
+      "id": "b9e4d1f2-7c03-4a1b-8e72-3d5f9c2a6b80",
+      "nom_ressource": "CourtListener – Free Law Project",
+      "description": "Plateforme open data américaine recensant plus de 7 millions de décisions judiciaires fédérales et étatiques (circuit courts, Supreme Court, district courts) depuis le XIXe siècle, avec enrichissement en métadonnées (juridiction, juges, citations). Exemples d'usage RAG : (1) Moteur de recherche sémantique de précédents judiciaires pour cabinets d'avocats ; (2) Analyse des réseaux de citations entre arrêts pour identifier la jurisprudence de référence.",
+      "editeur_organisation": "Free Law Project",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST : https://www.courtlistener.com/api/rest/v3/. Authentification par token Bearer. Endpoints : /opinions/, /dockets/, /citations/. Paramètre de filtre : court, date_filed__gte/lte, type. Réponse JSON paginée (next/previous). Bulk data disponible via S3 : s3://com-courtlistener-storage/",
+      "url_source_donnees": "https://www.courtlistener.com/",
+      "url_documentation_integration": "https://www.courtlistener.com/api/rest-info/"
+    },
+    {
+      "id": "c2b8e5a9-3f74-4c2d-b017-6a1e9d3f8c45",
+      "nom_ressource": "HUDOC – Base de données de la Cour Européenne des Droits de l'Homme",
+      "description": "Base de données officielle de la Cour Européenne des Droits de l'Homme (CEDH) contenant plus de 800 000 documents (arrêts, décisions, avis consultatifs) depuis 1959, couvrant les 46 États membres du Conseil de l'Europe, en français et anglais. Exemples d'usage RAG : (1) Assistant juridique spécialisé en droits fondamentaux pour ONG ; (2) Classification automatique des violations par type d'article de la Convention Européenne.",
+      "editeur_organisation": "Cour Européenne des Droits de l'Homme – Conseil de l'Europe",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "PDF",
+        "DOCX"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST HUDOC : https://hudoc.echr.coe.int/app/query/. Paramètres : contentsitename (ECHR), fulltext (recherche textuelle), documentcollectionid2 (GRANDCHAMBER, CHAMBER…), language, applicability. Réponse JSON avec champ results contenant métadonnées et liens vers documents PDF.",
+      "url_source_donnees": "https://hudoc.echr.coe.int/",
+      "url_documentation_integration": "https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&c="
+    },
+    {
+      "id": "d5f3a7b1-8e29-4f56-a342-9c7b2d0e1f68",
+      "nom_ressource": "Légifrance – Service Public de la Diffusion du Droit Français",
+      "description": "Portail officiel français offrant l'accès à l'intégralité des textes législatifs, réglementaires et jurisprudentiels français : codes, lois, décrets, arrêtés, Journal Officiel, et décisions des juridictions suprêmes (Conseil d'État, Cour de Cassation, Conseil Constitutionnel). Exemples d'usage RAG : (1) Chatbot de conformité réglementaire pour entreprises françaises ; (2) Indexation sémantique des articles du Code du Travail pour applications RH.",
+      "editeur_organisation": "Direction de l'Information Légale et Administrative (DILA) – Gouvernement Français",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API Légifrance v2 (OAuth2) : endpoint principal https://api.piste.gouv.fr/dila/legifrance/lf-engine-app/. Paramètres : fond (JORF, CODE, JURI…), text, date de vigueur. Jeton OAuth via https://oauth.piste.gouv.fr/. Réponse JSON. Nécessite inscription préalable sur PISTE.",
+      "url_source_donnees": "https://www.legifrance.gouv.fr/",
+      "url_documentation_integration": "https://developer.aife.economie.gouv.fr/index.php?option=com_apiportal&view=apitester&usage=api&apitab=tests&apiName=L%C3%A9gifrance&apiId=&menuId=1"
+    },
+    {
+      "id": "e8c1b6d4-2a47-4e89-f053-7b3d5e9a2c10",
+      "nom_ressource": "Indian Kanoon – Jurisprudence Indienne",
+      "description": "Moteur de recherche et archive de jurisprudence indienne couvrant la Cour Suprême, les Hautes Cours et les Tribunaux, avec plus de 14 millions de documents juridiques en anglais. Exemples d'usage RAG : (1) Système de recherche de précédents pour praticiens du droit indien ; (2) Entraînement de modèles NLP spécialisés dans le droit common law du sous-continent.",
+      "editeur_organisation": "Indian Kanoon (initiative privée open access)",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "HTML"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST : https://api.indiankanoon.org/. Endpoint de recherche : POST /search/ avec paramètre formInput (requête textuelle), pagenum (pagination). Endpoint de document : POST /doc/{docid}/. Réponse JSON. Accès nécessitant une clé API (formulaire de demande sur le site).",
+      "url_source_donnees": "https://indiankanoon.org/",
+      "url_documentation_integration": "https://api.indiankanoon.org/index/"
+    },
+    {
+      "id": "f1d4a9c7-6b32-4718-e29a-8c0f3b5d7e92",
+      "nom_ressource": "African Legal Information Institute (AfricanLII)",
+      "description": "Réseau panafricain d'accès libre à la jurisprudence, à la législation et aux traités de plus de 30 pays africains, hébergé par l'Université du Cap. Couvre notamment l'Afrique du Sud, le Kenya, le Ghana, le Nigeria et les pays francophones d'Afrique subsaharienne. Exemples d'usage RAG : (1) Base de connaissances juridiques multilingue (anglais/français) pour l'Afrique subsaharienne ; (2) Analyse comparative des systèmes constitutionnels africains post-indépendances.",
+      "editeur_organisation": "African Legal Information Institute (AfricanLII) – Université du Cap",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "PDF",
+        "HTML"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST basée sur le framework AKN (Akoma Ntoso) via https://api.africanlii.org/api/v2/. Endpoints : /documents/, /taxonomies/, /countries/. Filtres : country, language, nature (judgment, legislation). Réponse JSON paginée. Clé API optionnelle pour volumes élevés.",
+      "url_source_donnees": "https://africanlii.org/",
+      "url_documentation_integration": "https://laws.africa/open-african-law"
+    },
+    {
+      "id": "04e7f2a8-c531-4b9d-d167-5a2e8c1b6f37",
+      "nom_ressource": "United Nations Treaty Collection (UNTC)",
+      "description": "Référentiel officiel de l'ONU recensant plus de 60 000 traités et accords internationaux enregistrés depuis 1945, avec statut de ratification par État membre, textes en anglais et français. Exemples d'usage RAG : (1) Assistant de recherche en droit international public pour juristes et diplomates ; (2) Système de veille sur les signatures/ratifications de nouveaux traités pour organisations intergouvernementales.",
+      "editeur_organisation": "Bureau des Affaires Juridiques – Organisation des Nations Unies (ONU)",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST ODS (Official Document System) : endpoint https://treaties.un.org/api/. Recherche par : mtdsg_no (numéro de traité), chapter, lang (E/F). Réponse JSON avec champs : title, status, signatories, date_entry_into_force. Documentation disponible sur le portail développeurs UN.",
+      "url_source_donnees": "https://treaties.un.org/",
+      "url_documentation_integration": "https://treaties.un.org/pages/Help.aspx?section=5"
+    },
+    {
+      "id": "17b9c4e5-3d68-4a02-f891-2b6f0c8d4a53",
+      "nom_ressource": "Case Law Australia – AustLII (Australasian Legal Information Institute)",
+      "description": "La plus grande base de données juridiques d'Australasie (Australie, Nouvelle-Zélande, Pacifique), avec plus de 1 000 bases de données incluant jurisprudence, législation, traités et revues académiques depuis les années 1980. Exemples d'usage RAG : (1) Moteur de recherche sémantique pour la common law australienne et néo-zélandaise ; (2) Analyse comparative de l'évolution jurisprudentielle sur des thèmes comme le droit des autochtones.",
+      "editeur_organisation": "Australasian Legal Information Institute (AustLII) – University of Technology Sydney & UNSW",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "HTML",
+        "PDF",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API LawCite REST : https://www.austlii.edu.au/cgi-bin/LawCite. Paramètre de recherche : query (textuelle), rank (pertinence/date), mask_path (filtrer par juridiction). Réponse HTML/JSON. Le projet AUSTLII Data Service offre aussi un accès bulk via FTP pour partenaires académiques.",
+      "url_source_donnees": "https://www.austlii.edu.au/",
+      "url_documentation_integration": "https://www.austlii.edu.au/austlii/techinfo.html"
+    },
+    {
+      "id": "29a5d8f3-1c74-4e6b-b024-4f9a7c2e5b81",
+      "nom_ressource": "United States Code & Federal Register – govinfo.gov (GPO)",
+      "description": "Portail officiel du Government Publishing Office américain donnant accès au United States Code (USC), au Code of Federal Regulations (CFR) et au Federal Register, couvrant l'intégralité du droit fédéral américain depuis 1994 avec mise à jour quotidienne. Exemples d'usage RAG : (1) Assistant de conformité réglementaire fédérale pour entreprises US ; (2) Extraction et vectorisation des sections du CFR pour pipelines de veille réglementaire sectorielle.",
+      "editeur_organisation": "U.S. Government Publishing Office (GPO)",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "PDF",
+        "MODS"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API GovInfo : https://api.govinfo.gov/. Endpoints principaux : /collections/ (lister), /packages/{packageId}/granules (contenu). Paramètres : collection (USCODE, CFR, FR), startDate/endDate, pageSize (max 1000). Authentification par clé API (inscription gratuite). Réponse JSON avec liens de téléchargement.",
+      "url_source_donnees": "https://www.govinfo.gov/",
+      "url_documentation_integration": "https://api.govinfo.gov/docs/"
+    },
+    {
+      "id": "3c6e0b1d-9f28-4d75-a458-7e1c4a8b2f09",
+      "nom_ressource": "OpenLex – Jurisprudence et Législation Canadienne (CanLII)",
+      "description": "Base de données d'accès libre à la jurisprudence et à la législation canadiennes (fédérale et provinciale), couvrant toutes les provinces et territoires, en anglais et en français, avec plus de 3 millions de documents depuis les années 1800. Exemples d'usage RAG : (1) Système de recherche bilingue de précédents judiciaires canadiens pour barreau ; (2) Pipeline d'analyse des tendances jurisprudentielles en droit constitutionnel canadien.",
+      "editeur_organisation": "Institut canadien d'information juridique (CanLII) – Fédération des ordres professionnels de juristes du Canada",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "HTML",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API CanLII REST v1 : https://api.canlii.org/v1/. Endpoints : /caseBrowse/{language}/{databaseId}/, /caseSearch/, /legislationBrowse/. Paramètre language : en/fr. Authentification par clé API (inscription gratuite). Réponse JSON paginée avec offset et resultCount.",
+      "url_source_donnees": "https://www.canlii.org/",
+      "url_documentation_integration": "https://developer.canlii.org/"
+    },
+    {
+      "id": "4d7f1c2e-5a89-4b0d-c573-8f2e6b0a3d96",
+      "nom_ressource": "ECLI Search – European Case Law Identifier Portal",
+      "description": "Système européen d'identifiant unifié pour la jurisprudence (ECLI) permettant d'interroger et de relier les décisions de justice de 28 juridictions européennes (Cour de Justice de l'UE, cours nationales) via un identifiant standardisé. Exemples d'usage RAG : (1) Graphe de connaissances jurisprudentiel européen pour applications LegalTech ; (2) Récupération croisée de décisions nationales et européennes sur une même question juridique.",
+      "editeur_organisation": "Commission Européenne – Direction Générale Justice",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST",
+        "SPARQL"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "RDF"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST e-Justice : https://e-justice.europa.eu/ecli/. Paramètres : ecli (identifiant normalisé ex: ECLI:EU:C:2020:123), country, court, year, date. Endpoint SPARQL pour requêtes fédérées. Réponse JSON/RDF avec métadonnées et liens vers textes complets dans les systèmes nationaux.",
+      "url_source_donnees": "https://e-justice.europa.eu/content_ecli_search_forms-414-fr.do",
+      "url_documentation_integration": "https://e-justice.europa.eu/content_ecli-175-fr.do"
+    },
+    {
+      "id": "5e8a2d4f-6c13-4f87-d684-9b3f7e1c5a02",
+      "nom_ressource": "World Legal Information Institute (WorldLII)",
+      "description": "Méta-moteur de recherche juridique mondial agrégant les contenus de plus de 1 200 bases de données provenant de plus de 123 pays (LII membres : AustLII, BAILII, AfricanLII, AsianLII, etc.), offrant un point d'accès unifié à la jurisprudence et à la législation internationales. Exemples d'usage RAG : (1) Pipeline de comparaison de droit international privé entre pays de common law et civil law ; (2) Constitution d'un corpus multilingue mondial pour l'entraînement de LLMs juridiques.",
+      "editeur_organisation": "World Legal Information Institute (WorldLII) – AustLII Foundation",
+      "domaine_principal": "Judiciaire & Droit",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "HTML",
+        "PDF",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Moteur de recherche REST via https://www.worldlii.org/cgi-bin/sino/search. Paramètres : query (texte libre), method (boolean/any/phrase), mask_world (filtrer par région), rank. Réponse HTML parsable. Accès bulk possible via les nœuds membres pour partenaires académiques accrédités.",
+      "url_source_donnees": "https://www.worldlii.org/",
+      "url_documentation_integration": "https://www.worldlii.org/worldlii/techinfo.html"
     }
   ]
 }
