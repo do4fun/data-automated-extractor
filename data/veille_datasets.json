@@ -3638,6 +3638,536 @@
       "methode_integration_technique": "Moteur de recherche REST via https://www.worldlii.org/cgi-bin/sino/search. Paramètres : query (texte libre), method (boolean/any/phrase), mask_world (filtrer par région), rank. Réponse HTML parsable. Accès bulk possible via les nœuds membres pour partenaires académiques accrédités.",
       "url_source_donnees": "https://www.worldlii.org/",
       "url_documentation_integration": "https://www.worldlii.org/worldlii/techinfo.html"
+    },
+    {
+      "id": "a1f3c2e7-4b89-4d12-9e34-1a2b3c4d5e6f",
+      "nom_ressource": "Open Science Framework (OSF) – Psychology Datasets",
+      "description": "Plateforme collaborative hébergeant des milliers de jeux de données en sciences psychologiques et cognitives, déposés par des chercheurs du monde entier. Couvre des études comportementales, cognitives, cliniques et sociales avec données brutes et matériaux d'études. Usage RAG : alimenter un moteur de recherche de réplication d'études en psychologie ; extraire des données comportementales brutes pour entraîner des modèles de détection de biais cognitifs.",
+      "editeur_organisation": "Center for Open Science (COS)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SPSS",
+        "R",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST principale : https://api.osf.io/v2/ . Endpoints clés : /nodes/ pour projets, /files/ pour datasets. Paramètres : filter[tags]=psychology, pagination via 'next' dans les métadonnées JSON. Réponse JSON-API standard. Authentification via token Bearer optionnelle pour accès privé.",
+      "url_source_donnees": "https://osf.io/search/?q=psychology&resourceType=Dataset",
+      "url_documentation_integration": "https://developer.osf.io/"
+    },
+    {
+      "id": "b2e4d1f8-5c90-4e23-af45-2b3c4d5e6f7a",
+      "nom_ressource": "OpenNeuro – Neuroimaging Data Repository",
+      "description": "Dépôt mondial de données de neuroimagerie (IRMf, EEG, MEG) ouvert, conforme au standard BIDS (Brain Imaging Data Structure), hébergeant plus de 800 jeux de données issus de laboratoires internationaux. Couvre des expériences cognitives (mémoire, attention, langage, perception). Usage RAG : construire un index de paradigmes expérimentaux en neurosciences cognitives ; pipeline de retrieval pour associer des régions cérébrales activées à des fonctions cognitives spécifiques.",
+      "editeur_organisation": "OpenNeuro (Stanford University / Poldrack Lab)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "NIfTI",
+        "BIDS",
+        "TSV",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API GraphQL : https://openneuro.org/crn/graphql . Requêtes pour lister datasets, accéder aux fichiers BIDS. Accès S3 public : s3://openneuro.org/{datasetId}/ via AWS CLI sans authentification. Pagination native GraphQL avec cursors. Téléchargement via openneuro-py CLI.",
+      "url_source_donnees": "https://openneuro.org/",
+      "url_documentation_integration": "https://docs.openneuro.org/api"
+    },
+    {
+      "id": "c3f5e2a9-6d01-4f34-b056-3c4d5e6f7a8b",
+      "nom_ressource": "ICPSR – Inter-university Consortium for Political and Social Research (Psychology Studies)",
+      "description": "Archive de données de recherche en sciences sociales et comportementales de l'Université du Michigan, avec une collection majeure en psychologie clinique, développementale et sociale. Offre des enquêtes longitudinales, études expérimentales et données épidémiologiques sur la santé mentale. Couverture mondiale, depuis les années 1940. Usage RAG : enrichir un assistant virtuel sur la santé mentale avec des études longitudinales ; pipeline de recherche sur les facteurs de risque psychosociaux.",
+      "editeur_organisation": "Inter-university Consortium for Political and Social Research (ICPSR) – University of Michigan",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "SPSS",
+        "SAS",
+        "Stata",
+        "R",
+        "TSV"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://www.icpsr.umich.edu/icpsrweb/ICPSR/ssvd/api . Paramètres de recherche : subject=psychology, format=json. Réponse JSON avec métadonnées et liens de téléchargement. Authentification par compte gratuit requis pour téléchargement de certains fichiers. Pagination via offset/limit.",
+      "url_source_donnees": "https://www.icpsr.umich.edu/web/pages/ICPSR/index.html",
+      "url_documentation_integration": "https://www.icpsr.umich.edu/web/pages/ICPSR/access/index.html"
+    },
+    {
+      "id": "d4a6f3b0-7e12-4a45-c167-4d5e6f7a8b9c",
+      "nom_ressource": "UK Data Service – Mental Health & Psychology Datasets",
+      "description": "Service national britannique d'archives de données de recherche en sciences sociales, comportementales et de santé mentale. Héberge des enquêtes nationales clés comme le UK Household Longitudinal Study (UKHLS) et l'Adult Psychiatric Morbidity Survey. Couverture principalement UK, depuis les années 1970. Usage RAG : alimenter un modèle de prédiction de troubles anxieux à partir de données longitudinales UK ; retrieval de statistiques de prévalence des troubles mentaux par cohorte démographique.",
+      "editeur_organisation": "UK Data Service (ESRC / University of Essex / University of Manchester)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "SPSS",
+        "Stata",
+        "SAS",
+        "Tab-delimited"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST Discover : https://beta.ukdataservice.ac.uk/api/search/ . Paramètres : query=psychology, format=json. Téléchargement via compte enregistré gratuit. Réponse JSON avec liste de datasets et DOIs. Compatible Dataverse API pour certains dépôts.",
+      "url_source_donnees": "https://ukdataservice.ac.uk/find-data/browse/",
+      "url_documentation_integration": "https://ukdataservice.ac.uk/help/getting-started/api/"
+    },
+    {
+      "id": "e5b7a4c1-8f23-4b56-d278-5e6f7a8b9c0d",
+      "nom_ressource": "PsycINFO (APA PsycArticles Open Access)",
+      "description": "Base de données bibliographique de référence mondiale en psychologie et sciences comportementales, éditée par l'American Psychological Association (APA). Couvre plus de 4 millions de références depuis 1887, avec résumés structurés, mots-clés APA Thesaurus, affiliations et DOIs. Usage RAG : base documentaire pour un assistant de recherche bibliographique en psychologie clinique ; extraction de résumés pour clustering thématique automatique de la littérature.",
+      "editeur_organisation": "American Psychological Association (APA)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "RIS",
+        "BibTeX"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Accès via APA PsycNET API (abonnement institutionnel) ou via EBSCOhost API. Endpoint EBSCO : https://eds-api.ebscohost.com/edsapi/rest/Search avec paramètre db=psyh. Réponse JSON. Les résumés d'articles open access sont accessibles sans abonnement via PubMed Central pour les articles NIH-funded.",
+      "url_source_donnees": "https://www.apa.org/pubs/databases/psycinfo",
+      "url_documentation_integration": "https://www.ebsco.com/products/research-databases/apis"
+    },
+    {
+      "id": "f6c8b5d2-9a34-4c67-e389-6f7a8b9c0d1e",
+      "nom_ressource": "Cognitive Atlas – Ontology of Mental Functions",
+      "description": "Ontologie collaborative et base de connaissances des fonctions cognitives et des paradigmes de tâches psychologiques, développée par Stanford. Recense plus de 800 concepts cognitifs (mémoire de travail, inhibition, attention divisée) liés à des paradigmes expérimentaux et des structures cérébrales. Usage RAG : graphe de connaissances pour un chatbot clinique associant symptômes à des déficits cognitifs ; enrichissement sémantique d'un index de tâches neuropsychologiques.",
+      "editeur_organisation": "Stanford University – Poldrack Lab / Cognitive Atlas Consortium",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "RDF",
+        "OWL"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://cognitiveatlas.org/api/v-alpha/concept pour lister les concepts cognitifs. Endpoint /task pour les paradigmes expérimentaux, /disorder pour les troubles. Réponse JSON sans authentification. Paramètres : id, name. Idéal pour construire un graphe de connaissances (knowledge graph) dans un pipeline RAG.",
+      "url_source_donnees": "https://cognitiveatlas.org/",
+      "url_documentation_integration": "https://cognitiveatlas.org/api/"
+    },
+    {
+      "id": "a7d9c6e3-0b45-4d78-f490-7a8b9c0d1e2f",
+      "nom_ressource": "NeuroVault – Statistical Brain Maps Repository",
+      "description": "Dépôt public de cartes statistiques cérébrales (maps IRMf) et ROI issus d'études en neurosciences cognitives. Plus de 3 000 collections et 80 000 cartes cérébrales déposées par des chercheurs mondiaux, associées aux métadonnées des tâches cognitives correspondantes. Usage RAG : retrieval de cartes d'activation cérébrale pour une fonction cognitive donnée ; base de données pour un système de recommandation d'études similaires en neuroimagerie.",
+      "editeur_organisation": "NeuroVault.org – Consortium international (NIMH, Stanford, Université de Californie)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "NIfTI",
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://neurovault.org/api/ . Endpoints : /collections/ pour lister les collections, /images/ pour les cartes cérébrales. Filtres : cognitive_paradigm_cogatlas (lien Cognitive Atlas), map_type. Réponse JSON paginée (next/previous). Téléchargement direct des fichiers NIfTI sans authentification.",
+      "url_source_donnees": "https://neurovault.org/",
+      "url_documentation_integration": "https://neurovault.org/api-docs/"
+    },
+    {
+      "id": "b8e0d7f4-1c56-4e89-a501-8b9c0d1e2f3a",
+      "nom_ressource": "Prolific Academic – Research Metadata & Demographic Profiles (Open Dataset)",
+      "description": "Plateforme britannique de recrutement de participants pour études psychologiques en ligne, avec publication de datasets démographiques agrégés et de résultats d'études partagés publiquement par les chercheurs. Couvre des profils comportementaux et cognitifs de participants internationaux (Europe, Amérique du Nord, Asie). Usage RAG : entraîner un pipeline de détection de caractéristiques démographiques influençant la cognition ; base de données de réponses comportementales pour calibrer des modèles psychométriques.",
+      "editeur_organisation": "Prolific (Prolific Academic Ltd., Oxford, UK)",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST Prolific : https://api.prolific.com/api/v1/ . Authentification Bearer Token. Endpoints : /studies/ pour études publiées, /submissions/ pour réponses. Les datasets publics associés sont souvent hébergés sur OSF et liés dans les métadonnées d'études. Documentation Swagger disponible.",
+      "url_source_donnees": "https://www.prolific.com/researchers",
+      "url_documentation_integration": "https://docs.prolific.com/docs/api-docs/public/"
+    },
+    {
+      "id": "c9f1e8a5-2d67-4f90-b612-9c0d1e2f3a4b",
+      "nom_ressource": "NIMH Data Archive (NDA) – National Institute of Mental Health",
+      "description": "Archive nationale américaine de données sur la santé mentale, collectant des données cliniques, génomiques, neuroimagerie et comportementales issues d'études financées par le NIMH. Couvre des troubles comme l'autisme (ABIDE), la schizophrénie, le TDAH, la dépression. Couverture nationale US et internationale. Usage RAG : pipeline de retrieval pour associer biomarqueurs génomiques et phénotypes comportementaux ; base documentaire pour un assistant clinique en psychiatrie de précision.",
+      "editeur_organisation": "National Institute of Mental Health (NIMH) – U.S. Department of Health and Human Services",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "NIfTI",
+        "FASTQ",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST NDA : https://nda.nih.gov/api/datadictionary/v2/ . Endpoint /datastructure pour les structures de données, /collection pour les collections. Accès aux données via compte NDA gratuit + accord Data Use Agreement. Téléchargement via NDA Download Manager ou AWS S3. Paramètres JSON avec filtres par collection, âge, diagnostic.",
+      "url_source_donnees": "https://nda.nih.gov/",
+      "url_documentation_integration": "https://nda.nih.gov/tools/api-documentation.html"
+    },
+    {
+      "id": "d0a2f9b6-3e78-4a01-c723-0d1e2f3a4b5c",
+      "nom_ressource": "GESIS – Leibniz Institute for Social Sciences (Psychology & Behaviour Surveys)",
+      "description": "Institut allemand de référence pour l'archivage et la diffusion de données en sciences sociales et comportementales en Europe. Héberge notamment l'Eurobaromètre, le ALLBUS et des études psychosociales longitudinales couvrant l'Europe entière. Couverture européenne depuis les années 1960. Usage RAG : analyser les tendances de bien-être psychologique en Europe via pipeline d'interrogation de séries temporelles ; retrieval de variables psychosociales pour modèles prédictifs de santé mentale à l'échelle européenne.",
+      "editeur_organisation": "GESIS – Leibniz-Institut für Sozialwissenschaften",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "OAI-PMH"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "SPSS",
+        "Stata",
+        "SAS",
+        "XML",
+        "DDI"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST DBK (GESIS Data Catalogue) : https://search.gesis.org/search?query=psychology&type=research_data&format=json . Protocole OAI-PMH : https://dbk.gesis.org/dbksearch/oaiprovider.asp?verb=ListRecords&metadataPrefix=oai_dc . Réponse XML/JSON. Téléchargement avec compte gratuit. Pagination standard OAI-PMH via resumptionToken.",
+      "url_source_donnees": "https://search.gesis.org/research_data?q=psychology",
+      "url_documentation_integration": "https://www.gesis.org/en/services/finding-and-accessing-data/data-access"
+    },
+    {
+      "id": "e1b3a0c7-4f89-4b12-d834-1e2f3a4b5c6d",
+      "nom_ressource": "Psychological Science Accelerator – Open Datasets (Multi-Lab Studies)",
+      "description": "Réseau mondial de plus de 1 400 laboratoires de psychologie dans 90 pays coordonnant des réplications massives et des études multinationales. Les datasets de chaque étude menée (ex : biais cognitifs interculturels, reconnaissance des émotions) sont déposés publiquement sur OSF. Couverture mondiale unique avec données collectées sur tous les continents. Usage RAG : base multiculturelle pour tester la généralisabilité de résultats psychologiques ; pipeline de détection des variations interculturelles dans les processus cognitifs.",
+      "editeur_organisation": "Psychological Science Accelerator (PSA) – Réseau international de laboratoires",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "R",
+        "SPSS",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Données hébergées sur OSF, accessibles via l'API OSF REST : https://api.osf.io/v2/nodes/?filter[tags]=PSA . Chaque étude PSA possède un nœud OSF dédié avec ses fichiers bruts. Téléchargement direct sans authentification pour les projets publics. Catalogue des études sur le site officiel PSA avec liens DOI vers chaque dataset.",
+      "url_source_donnees": "https://psysciacc.org/studies/",
+      "url_documentation_integration": "https://developer.osf.io/"
+    },
+    {
+      "id": "f2c4b1d8-5a90-4c23-e945-2f3a4b5c6d7e",
+      "nom_ressource": "Australian Data Archive (ADA) – Behavioural & Social Sciences",
+      "description": "Archive nationale australienne de données en sciences sociales et comportementales, hébergeant des enquêtes psychologiques et de bien-être mental couvrant la population australienne et la région Asie-Pacifique. Inclut des études sur le stress, la résilience, le bonheur et les troubles mentaux. Couverture Océanie depuis les années 1960. Usage RAG : pipeline de comparaison interculturelle Asie-Pacifique vs Europe sur les indicateurs de bien-être psychologique ; retrieval de données pour modèles de santé mentale en contexte multiculturel australien.",
+      "editeur_organisation": "Australian Data Archive (ADA) – Australian National University",
+      "domaine_principal": "Psychologie & Sciences Cognitives",
+      "protocoles_acces": [
+        "Téléchargement direct",
+        "OAI-PMH"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "SPSS",
+        "Stata",
+        "SAS",
+        "DDI/XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Catalogue de données : https://www.ada.edu.au/catalogue/ . Recherche par catégorie 'Health & Wellbeing / Psychology'. Téléchargement après création d'un compte gratuit et acceptation des conditions d'utilisation. OAI-PMH endpoint disponible pour moissonnage de métadonnées. Réponse XML-DDI standard.",
+      "url_source_donnees": "https://www.ada.edu.au/catalogue/",
+      "url_documentation_integration": "https://www.ada.edu.au/ada/about/access-and-use"
+    },
+    {
+      "id": "a1f3c2e7-4b8d-4a1e-9c3f-2d7e5b6a8f01",
+      "nom_ressource": "FAOSTAT – Base de données statistiques de l'alimentation et de l'agriculture",
+      "description": "Base de données mondiale de la FAO couvrant plus de 245 pays et territoires, avec des séries temporelles depuis 1961 sur la production agricole, les échanges commerciaux, la sécurité alimentaire, les émissions GES liées à l'agriculture et l'utilisation des terres. Usage RAG : enrichissement de requêtes sur la production mondiale de blé par pays ou sur l'évolution de la déforestation agricole en Amazonie.",
+      "editeur_organisation": "Organisation des Nations Unies pour l'alimentation et l'agriculture (FAO)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint REST : https://faostatapi.fao.org/api/v1/ . Paramètres clés : area (code pays ISO), element (indicateur), item (produit agricole), year (année ou plage). Réponse JSON paginée avec métadonnées. Téléchargement bulk CSV disponible par domaine thématique.",
+      "url_source_donnees": "https://www.fao.org/faostat/en/#data",
+      "url_documentation_integration": "https://faostatapi.fao.org/"
+    },
+    {
+      "id": "b2e4d1f8-5c9a-4b2f-8d4e-3e8f6c7a9b02",
+      "nom_ressource": "USDA National Agricultural Statistics Service (NASS) – Quick Stats",
+      "description": "Principale base de données statistiques agricoles des États-Unis, couvrant les superficies cultivées, rendements, prix et stocks de centaines de cultures et produits d'élevage, depuis les années 1850 pour certaines séries. Usage RAG : interrogation des rendements historiques du maïs dans l'Iowa ou suivi des prix à la production du soja sur les 10 dernières années.",
+      "editeur_organisation": "United States Department of Agriculture – National Agricultural Statistics Service (USDA NASS)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST avec clé gratuite : https://quickstats.nass.usda.gov/api . Paramètres : commodity_desc, statisticcat_desc, year, state_name, agg_level_desc. Réponse JSON avec champ 'data' contenant les entrées. Limite de 50 000 enregistrements par requête, pagination via offset.",
+      "url_source_donnees": "https://quickstats.nass.usda.gov/",
+      "url_documentation_integration": "https://quickstats.nass.usda.gov/api"
+    },
+    {
+      "id": "c3f5e2a9-6d0b-4c3a-9e5f-4f9a7d8b0c03",
+      "nom_ressource": "Copernicus Global Land Service – Crop Monitoring (CGLS)",
+      "description": "Service européen Copernicus fournissant des données de télédétection satellitaire sur l'état de la végétation et des cultures à l'échelle mondiale : indices de végétation (NDVI, LAI), humidité des sols et biomasse. Couverture temporelle depuis 1998 à résolution de 300 m à 1 km. Usage RAG : surveillance des anomalies de végétation pendant une sécheresse au Sahel ou estimation des rendements agricoles en Europe.",
+      "editeur_organisation": "Copernicus Land Monitoring Service – Agence spatiale européenne (ESA) / Union européenne",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "OGC WFS",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "NetCDF",
+        "GeoTIFF",
+        "HDF5"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Accès via Copernicus Data Space Ecosystem (CDSE) avec authentification OAuth2. Endpoint OGC WMTS/WCS pour tuiles raster. API OpenSearch pour recherche par produit, date et bbox géographique. Téléchargement bulk via S3-compatible storage.",
+      "url_source_donnees": "https://land.copernicus.eu/global/products/",
+      "url_documentation_integration": "https://land.copernicus.eu/global/access"
+    },
+    {
+      "id": "d4a6f3b0-7e1c-4d4b-0f6a-5a0b8e9c1d04",
+      "nom_ressource": "IFPRI – International Food Policy Research Institute Data Portal",
+      "description": "Dépôt de données de l'IFPRI regroupant plus de 900 jeux de données sur la politique alimentaire mondiale, la sécurité nutritionnelle, les marchés agricoles et les systèmes alimentaires en Afrique subsaharienne, Asie du Sud et Amérique latine. Usage RAG : analyse des programmes de filets de sécurité alimentaire en Éthiopie ou évaluation de l'impact des prix des engrais sur la production en Asie du Sud.",
+      "editeur_organisation": "International Food Policy Research Institute (IFPRI)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "STATA",
+        "SPSS",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Portail Harvard Dataverse hébergeant les données IFPRI. API Dataverse REST : https://dataverse.harvard.edu/api/ avec recherche par q (mots-clés), fq (filtres), subtree=ifpri. Réponse JSON listant les datasets avec DOI, téléchargement direct par identifiant de fichier.",
+      "url_source_donnees": "https://www.ifpri.org/data",
+      "url_documentation_integration": "https://guides.dataverse.org/en/latest/api/search.html"
+    },
+    {
+      "id": "e5b7a4c1-8f2d-4e5c-1a7b-6b1c9f0d2e05",
+      "nom_ressource": "Global Food Prices Database (WFP VAM)",
+      "description": "Base de données du Programme alimentaire mondial (PAM) sur les prix alimentaires dans plus de 90 pays en développement, couvrant des marchés locaux ruraux et urbains pour des denrées de base (maïs, riz, haricots, sorgho…) depuis les années 1990. Usage RAG : suivi des pics de prix alimentaires en contexte de crise humanitaire au Yémen ou modélisation des tensions d'accessibilité alimentaire en Afrique de l'Est.",
+      "editeur_organisation": "Programme alimentaire mondial des Nations Unies (WFP) – VAM Food Security Analysis",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API HDX (Humanitarian Data Exchange) : https://data.humdata.org/api/3/ . Recherche du dataset par organization=wfp et tag=food-prices. Endpoint de téléchargement direct en CSV. Également accessible via https://dataviz.vam.wfp.org/api/ avec filtres par pays et marché.",
+      "url_source_donnees": "https://data.humdata.org/dataset/wfp-food-prices",
+      "url_documentation_integration": "https://dataviz.vam.wfp.org/resources/download"
+    },
+    {
+      "id": "f6c8b5d2-9a3e-4f6d-2b8c-7c2d0a1e3f06",
+      "nom_ressource": "Open Food Facts",
+      "description": "Base de données collaborative et open source de plus de 3 millions de produits alimentaires commerciaux provenant de 180 pays, incluant ingrédients, valeurs nutritionnelles, additifs, labels (bio, commerce équitable) et Nutri-Score. Usage RAG : constitution d'une base de connaissances sur la composition nutritionnelle des produits ultra-transformés ou développement d'un assistant IA pour l'analyse d'étiquettes alimentaires.",
+      "editeur_organisation": "Open Food Facts (association loi 1901, France)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "MongoDB dump",
+        "Parquet"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST sans authentification : https://world.openfoodfacts.org/api/v2/product/{barcode}.json pour un produit par code-barres. Recherche : https://world.openfoodfacts.org/cgi/search.pl?search_terms=…&json=1 . Téléchargement bulk : dump mensuel CSV/Parquet disponible sur https://static.openfoodfacts.org/data/.",
+      "url_source_donnees": "https://world.openfoodfacts.org/",
+      "url_documentation_integration": "https://openfoodfacts.github.io/openfoodfacts-server/api/"
+    },
+    {
+      "id": "a7d9c6e3-0b4f-4a7e-3c9d-8d3e1b2f4a07",
+      "nom_ressource": "EUROSTAT – Agriculture Statistics",
+      "description": "Données statistiques officielles d'Eurostat sur l'agriculture européenne (27 États membres + pays candidats) : utilisation des terres, production végétale et animale, comptes économiques agricoles, consommation d'engrais et de pesticides, agriculture biologique. Séries temporelles depuis 1973. Usage RAG : comparaison des surfaces en agriculture biologique entre États membres UE ou analyse de l'évolution des exploitations agricoles par taille en France.",
+      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "TSV",
+        "JSON",
+        "XLSX",
+        "SDMX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API JSON Eurostat SDMX : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset_code}?format=JSON&lang=EN&geo=FR&time=2020 . Codes datasets agricoles : ef_lus_main, apro_cpsh1, org_cropar. Pagination non requise, réponse complète en un appel. Catalogue consultable sur https://ec.europa.eu/eurostat/web/main/data/database.",
+      "url_source_donnees": "https://ec.europa.eu/eurostat/web/agriculture/data/database",
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+    },
+    {
+      "id": "b8e0d7f4-1c5a-4b8f-4d0e-9e4f2c3a5b08",
+      "nom_ressource": "ICRISAT – Open Data Portal (Afrique subsaharienne & Asie du Sud)",
+      "description": "Portail de données de l'Institut international de recherche sur les cultures des zones tropicales semi-arides, couvrant des données agronomiques sur les cultures sèches (sorgho, mil, arachide, pois chiche) en Afrique subsaharienne et en Asie du Sud, incluant des données génomiques, climatiques et d'essais en champs. Usage RAG : analyse des performances variétales du sorgho au Mali ou recherche des meilleures pratiques culturales pour le pois chiche en Inde en conditions de stress hydrique.",
+      "editeur_organisation": "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX",
+        "VCF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Portail Harvard Dataverse hébergeant les données ICRISAT. API REST Dataverse : https://dataverse.harvard.edu/api/search?q=icrisat&subtree=icrisat . Téléchargement direct de fichiers CSV par ID de dataset. Certaines données génomiques disponibles via NCBI SRA.",
+      "url_source_donnees": "https://dataverse.icrisat.org/",
+      "url_documentation_integration": "https://guides.dataverse.org/en/latest/api/"
+    },
+    {
+      "id": "c9f1e8a5-2d6b-4c9a-5e1f-0f5a3d4b6c09",
+      "nom_ressource": "USGS Cropland Data Layer (CDL)",
+      "description": "Cartographie annuelle de l'occupation des sols agricoles aux États-Unis à une résolution de 30 mètres par pixel, produite par satellite depuis 1997, identifiant plus de 100 types de cultures et couvres-sols. Usage RAG : détermination des cultures dominantes dans une région agricole américaine donnée pour un pipeline d'analyse de risque climatique, ou estimation des surfaces en maïs vs soja dans le Corn Belt.",
+      "editeur_organisation": "United States Geological Survey (USGS) / USDA National Agricultural Statistics Service",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "OGC WFS",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "GeoTIFF",
+        "KMZ",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API CropScape : https://nassgeodata.gmu.edu/CropScape/ avec endpoint REST GetCDLValue (coordonnée unique) ou GetCDLStat (statistiques par région). Paramètres : year, bbox ou fips (code comté), format=json. Téléchargement de rasters GeoTIFF par état et année via interface web.",
+      "url_source_donnees": "https://nassgeodata.gmu.edu/CropScape/",
+      "url_documentation_integration": "https://nassgeodata.gmu.edu/CropScape/help_cropscape.html"
+    },
+    {
+      "id": "d0a2f9b6-3e7c-4d0b-6f2a-1a6b4e5c7d10",
+      "nom_ressource": "AGRIS – International System for Agricultural Science and Technology (FAO)",
+      "description": "Système mondial de recherche bibliographique sur la science et la technologie agricoles, indexant plus de 11 millions de références scientifiques, rapports techniques et brevets depuis 1975, avec une forte couverture des pays en développement et publications en langues locales. Usage RAG : base de connaissances pour un assistant de recherche agronomique répondant à des questions sur les méthodes d'agriculture de conservation en Amérique latine ou les maladies du caféier en Éthiopie.",
+      "editeur_organisation": "Organisation des Nations Unies pour l'alimentation et l'agriculture (FAO)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "OAI-PMH",
+        "SPARQL"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "RDF"
+      ],
+      "frequence_mise_a_jour": "Hebdomadaire",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST AGRIS : https://agris.fao.org/agris-search/rest/api/search?q=…&startRecord=1&maximumRecords=20 . Réponse JSON avec métadonnées bibliographiques. Accès OAI-PMH : https://agris.fao.org/agris-search/oai.do?verb=ListRecords&metadataPrefix=oai_dc . SPARQL endpoint disponible pour requêtes liées.",
+      "url_source_donnees": "https://agris.fao.org/",
+      "url_documentation_integration": "https://agris.fao.org/agris-search/rest/api"
+    },
+    {
+      "id": "e1b3a0c7-4f8d-4e1c-7a3b-2b7c5f6d8e11",
+      "nom_ressource": "Australian Bureau of Agricultural and Resource Economics and Sciences (ABARES) – Data",
+      "description": "Données statistiques et économiques sur l'agriculture, la sylviculture et la pêche australiennes publiées par l'ABARES : enquêtes annuelles sur les exploitations agricoles (revenus, coûts, productivité), données sur les exportations de produits agricoles et projections de la production nationale. Usage RAG : analyse de la rentabilité des exploitations bovines australiennes en contexte de sécheresse El Niño ou positionnement des exportations de blé australien sur les marchés asiatiques.",
+      "editeur_organisation": "Australian Bureau of Agricultural and Resource Economics and Sciences (ABARES) – Département de l'Agriculture, des Pêches et des Forêts, Australie",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "Téléchargement",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Portail data.gov.au hébergeant les datasets ABARES. API CKAN REST : https://data.gov.au/api/3/action/package_search?q=ABARES&fq=organization:abares . Réponse JSON avec liste de packages et URLs de ressources téléchargeables. Téléchargement direct en CSV/XLSX via les URLs de ressource.",
+      "url_source_donnees": "https://www.agriculture.gov.au/abares/data",
+      "url_documentation_integration": "https://data.gov.au/data/api/3"
+    },
+    {
+      "id": "f2c4b1d8-5a9e-4f2d-8b4c-3c8d6a7e9f12",
+      "nom_ressource": "AfricaRice – Données sur la riziculture africaine",
+      "description": "Centre de recherche africain spécialisé dans le riz, proposant des données agronomiques, génomiques et socio-économiques sur la production rizicole en Afrique subsaharienne (35 pays membres) : variétés, rendements, pratiques culturales, données de marché et cartographies des rizières. Usage RAG : identification des variétés de riz tolérantes à la sécheresse adaptées à l'Afrique de l'Ouest ou analyse des systèmes de riziculture irriguée au Sénégal pour un pipeline de recommandation agricole.",
+      "editeur_organisation": "AfricaRice – Centre du riz pour l'Afrique (CGIAR)",
+      "domaine_principal": "Alimentation & Agriculture",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX",
+        "JSON",
+        "GeoJSON"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Données hébergées sur le portail CGIAR GARDIAN et Dataverse. API GARDIAN : https://gardian.bigdata.cgiar.org/api/v1/datasets?keywords=rice+africa . Réponse JSON listant datasets avec DOI et liens de téléchargement. Certains datasets directement sur https://dataverse.harvard.edu/ avec organisation AfricaRice.",
+      "url_source_donnees": "https://africarice.org/our-tools-and-resources/open-access-resources",
+      "url_documentation_integration": "https://gardian.bigdata.cgiar.org/"
     }
   ]
 }
