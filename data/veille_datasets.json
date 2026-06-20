@@ -598,10 +598,10 @@
     },
     {
       "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
-      "nom_ressource": "Canada Open Government — open.canada.ca",
-      "description": "Portail fédéral canadien réunissant plus de 100 000 jeux de données, publications gouvernementales et informations sur les services fédéraux provenant de 100+ ministères et agences. Données disponibles en anglais et en français, couvrant l'ensemble des provinces. Exemples d'usage : (1) Système RAG bilingue pour répondre à des questions sur les programmes de subventions gouvernementaux canadiens ; (2) Pipeline d'extraction pour l'analyse des contrats fédéraux et des dépenses publiques.",
-      "editeur_organisation": "Treasury Board of Canada Secretariat — Government of Canada",
-      "domaine_principal": "Administration & Open Data",
+      "nom_ressource": "Government of Canada – Open Government Transport Datasets",
+      "description": "Portail open data canadien regroupant les données de transport fédérales : statistiques du transport ferroviaire, aérien, maritime et routier, accidents de transport, données de Nav Canada sur le trafic aérien. Couverture nationale Canada. Usage RAG : alimentation d'un assistant de conformité réglementaire transport au Canada, ou analyse de la performance des corridors ferroviaires pour la logistique des matières premières (grain, pétrole).",
+      "editeur_organisation": "Transport Canada – Gouvernement du Canada",
+      "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct"
@@ -609,13 +609,12 @@
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "XML",
         "GeoJSON",
-        "XLSX"
+        "XML"
       ],
-      "frequence_mise_a_jour": "Quotidien",
+      "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API CKAN disponible via https://open.canada.ca/data/api/3/action/. Recherche : package_search?q=&rows=20&start=0. Filtrage par thème avec fq=groups:. Téléchargement direct des ressources via les URLs déclarées. Réponse JSON structurée.",
+      "methode_integration_technique": "API REST Canada Open Government : endpoint https://open.canada.ca/data/en/api/3/action/package_search?q=transport. Paramètres : q (recherche textuelle), fq (filtres), rows, start (pagination offset). Réponse JSON CKAN avec liste de datasets incluant URLs de ressources téléchargeables en CSV/GeoJSON.",
       "url_source_donnees": "https://open.canada.ca/en/open-data",
       "url_documentation_integration": "https://open.canada.ca/en/using-open-data"
     },
@@ -1260,13 +1259,13 @@
     },
     {
       "id": "c7d3b6e9-5f4a-4c8d-b1e3-3e5f7a9c1d03",
-      "nom_ressource": "Libraries.io Open Source Repository and Dependency Metadata",
-      "description": "Dataset open source recensant plus de 6 millions de projets sur 36 gestionnaires de paquets (npm, PyPI, Maven, NuGet, RubyGems, etc.) avec leurs dépendances, versions, scores de popularité et métadonnées. Couverture mondiale. Exemples d'usage RAG : (1) enrichir un chatbot de gestion de dépendances avec les relations entre bibliothèques et leurs versions stables ; (2) détecter des chaînes de dépendances transitives à risque dans une base de code.",
+      "nom_ressource": "Libraries.io Open Source Repository & Dependency Data",
+      "description": "Dataset open source recensant plus de 6 millions de projets open source et leurs dépendances à travers 36 gestionnaires de paquets (npm, PyPI, Maven, RubyGems, etc.). Couverture mondiale, mise à jour régulière. Exemples d'usage RAG : graphe de dépendances pour détecter des vulnérabilités transitives dans un pipeline de sécurité ; recommandation de bibliothèques alternatives basée sur l'analyse des dépendances.",
       "editeur_organisation": "Tidelift / Libraries.io",
       "domaine_principal": "Logiciel & Code Source",
       "protocoles_acces": [
         "API REST",
-        "S3 Bucket"
+        "FTP"
       ],
       "formats_fichiers": [
         "CSV",
@@ -1274,7 +1273,7 @@
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "API REST : endpoint https://libraries.io/api/<platform>/<name>?api_key=<key>. Dump complet téléchargeable sur Zenodo (CSV, ~plusieurs Go). Pagination via paramètres page et per_page. Authentification par api_key. Réponse JSON avec champs : name, platform, language, latest_release_number, dependents_count.",
+      "methode_integration_technique": "Téléchargement du dataset complet sur https://libraries.io/data (fichiers CSV par type : projects, versions, dependencies). API REST disponible sur https://libraries.io/api avec clé API. Endpoint ex : GET https://libraries.io/api/{platform}/{name}?api_key=xxx. Pagination via paramètre page.",
       "url_source_donnees": "https://libraries.io/data",
       "url_documentation_integration": "https://libraries.io/api"
     },
@@ -1301,9 +1300,9 @@
     },
     {
       "id": "e2f7d1a4-9c8e-4b2a-d5f7-5a9c3e5b7d05",
-      "nom_ressource": "Common Crawl – Software & Code Subset (The Stack)",
-      "description": "The Stack est un dataset de 3,1 To de code source extrait du Common Crawl et de GitHub, couvrant 358 langages de programmation, produit par BigCode/HuggingFace. Utilisé pour l'entraînement de modèles de code (StarCoder). Exemples d'usage RAG : (1) constituer un retriever dense de snippets de code par langage pour un pipeline de génération assistée ; (2) évaluer la couverture d'un modèle de code sur des langages rares ou emergents.",
-      "editeur_organisation": "BigCode Project / Hugging Face",
+      "nom_ressource": "The Stack (BigCode / Hugging Face)",
+      "description": "Dataset massif de code source dédupiqué issu de 358 langages de programmation, collecté depuis GitHub (licences permissives uniquement). Contient plus de 6 To de code. Couverture mondiale, snapshot de 2022-2023. Exemples d'usage RAG : construction d'un index vectoriel de fonctions Python/JavaScript pour copilote de code ; fine-tuning et évaluation de LLMs spécialisés en génération de code.",
+      "editeur_organisation": "BigCode Project (Hugging Face / ServiceNow)",
       "domaine_principal": "Logiciel & Code Source",
       "protocoles_acces": [
         "API REST",
@@ -1315,9 +1314,9 @@
       ],
       "frequence_mise_a_jour": "Historique",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Accessible via Hugging Face Datasets Hub : dataset_name='bigcode/the-stack'. Chargement Python : `load_dataset('bigcode/the-stack', data_dir='data/python')`. Stockage S3 public. Filtrage par langage via le champ lang. Format Parquet partitionné. Nécessite acceptation des conditions d'utilisation sur HF Hub.",
+      "methode_integration_technique": "Accès via Hugging Face Hub : datasets.load_dataset('bigcode/the-stack', split='train', data_dir='data/python'). Requiert acceptation de licence sur https://huggingface.co/datasets/bigcode/the-stack. Filtrage par langage via le paramètre data_dir. Streaming possible pour éviter le téléchargement complet (streaming=True).",
       "url_source_donnees": "https://huggingface.co/datasets/bigcode/the-stack",
-      "url_documentation_integration": "https://huggingface.co/docs/datasets/index"
+      "url_documentation_integration": "https://www.bigcode-project.org/docs/about/the-stack/"
     },
     {
       "id": "a1b8d5f3-2c7e-4f1b-f9b1-7c2f5a7d9f07",
@@ -1361,8 +1360,8 @@
     },
     {
       "id": "c5d2f9b7-6e1a-4h3d-h3e5-9e4b7c0f2b09",
-      "nom_ressource": "SPDX License List (Software Package Data Exchange)",
-      "description": "Liste officielle et normalisée de toutes les licences logicielles reconnues (SPDX), maintenue par la Linux Foundation, incluant texte complet, identifiants courts, OSI-approval et FSF-libre status. Référence internationale pour la conformité légale du code. Exemples d'usage RAG : (1) alimenter un assistant de conformité open source pour classifier automatiquement les licences détectées dans un projet ; (2) comparer les compatibilités entre licences dans un pipeline d'analyse de composition logicielle (SCA).",
+      "nom_ressource": "SPDX License List",
+      "description": "Liste officielle et structurée des licences logicielles reconnues par la Linux Foundation, incluant identifiants SPDX, textes complets, URLs officielles et métadonnées de compatibilité. Couverture mondiale, référence internationale. Exemples d'usage RAG : moteur de conformité légale pour classifier automatiquement les licences dans un dépôt ; enrichissement d'un assistant juridique open source pour répondre aux questions de compatibilité de licences.",
       "editeur_organisation": "Linux Foundation / SPDX Workgroup",
       "domaine_principal": "Logiciel & Code Source",
       "protocoles_acces": [
@@ -1373,9 +1372,9 @@
         "XML",
         "CSV"
       ],
-      "frequence_mise_a_jour": "Annuel",
+      "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Endpoint API SPDX : https://spdx.org/licenses/licenses.json (liste complète) et https://spdx.org/licenses/<licenseId>.json (détail). Pas d'authentification requise. Champs clés : licenseId, name, isOsiApproved, isFsfLibre, licenseText. Données également disponibles en Markdown et XML sur le dépôt GitHub officiel : https://github.com/spdx/license-list-data.",
+      "methode_integration_technique": "Endpoint principal : https://spdx.org/licenses/licenses.json (liste complète sans authentification). Chaque licence accessible via https://spdx.org/licenses/{SPDX-ID}.json. GitHub du projet : https://github.com/spdx/license-list-data avec exports CSV, JSON, RDFa, XML. Aucune pagination nécessaire.",
       "url_source_donnees": "https://spdx.org/licenses/",
       "url_documentation_integration": "https://github.com/spdx/license-list-data"
     },
@@ -1440,51 +1439,30 @@
     {
       "id": "a3f8c2d1-4b7e-4a9f-8c3d-1e5f2b6a9c0e",
       "nom_ressource": "World Bank Open Data – Enterprise Surveys",
-      "description": "Enquêtes menées auprès de plus de 170 000 entreprises dans 148 pays sur leurs conditions d'exploitation, obstacles à la croissance, accès au financement et pratiques de gestion. Couverture temporelle de 2002 à aujourd'hui. Exemple RAG : alimenter un assistant IA sur le climat des affaires par pays ; construire un pipeline d'analyse comparative des PME en Afrique subsaharienne vs Asie du Sud.",
+      "description": "Enquêtes standardisées menées auprès de plus de 170 000 entreprises dans 145 pays sur les conditions d'affaires, la gouvernance, la corruption, le financement et la productivité. Couvre la période 2006–2023. Usage RAG : enrichir un assistant IA sur le climat des affaires par pays ; alimenter un moteur de recommandation sectoriel pour l'investissement international.",
       "editeur_organisation": "Banque Mondiale (World Bank Group)",
       "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
         "CSV",
-        "JSON",
-        "Excel"
+        "Excel",
+        "JSON"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST : endpoint https://api.worldbank.org/v2/sources/5/series/{indicator}/data?format=json. Paramètres clés : country (code ISO2), date (plage d'années), per_page (pagination, max 1000). Réponse JSON structurée avec métadonnées et valeurs numériques.",
+      "methode_integration_technique": "API REST via https://api.worldbank.org/v2/. Paramètres clés : country (code ISO), indicator (ex: IC.BUS.EASE.XQ), format=json. Pagination via page= et per_page=. Réponse JSON avec métadonnées + valeurs temporelles.",
       "url_source_donnees": "https://www.enterprisesurveys.org/en/data",
-      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/898581-api-basic-call-structures"
+      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889386-developer-information-overview"
     },
     {
       "id": "b7d4e9f2-3c6a-4f1b-9d2e-8a0c5f3b7e1d",
       "nom_ressource": "Eurostat – Business Demography Statistics",
-      "description": "Données officielles européennes sur la démographie des entreprises : naissances, morts, taux de survie, emploi généré par les nouvelles entreprises. Couvre les 27 États membres de l'UE ainsi que plusieurs pays candidats, de 2004 à aujourd'hui. Exemple RAG : chatbot d'analyse de la dynamique entrepreneuriale européenne ; pipeline d'extraction pour comparer les taux de création d'entreprises par secteur NACE.",
-      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
+      "description": "Données officielles européennes sur la naissance, la survie et la mort des entreprises, l'emploi et le chiffre d'affaires des entreprises actives, couvrant les 27 États membres de l'UE et plusieurs pays associés depuis 2004. Usage RAG : moteur de recherche intelligent sur la compétitivité européenne par secteur NACE ; pipeline de scoring de risque pour l'entrée sur de nouveaux marchés européens.",
+      "editeur_organisation": "Eurostat – Office statistique de l'Union européenne",
       "domaine_principal": "Gestion & Commerce",
-      "protocoles_acces": [
-        "API REST",
-        "Téléchargement direct"
-      ],
-      "formats_fichiers": [
-        "CSV",
-        "JSON",
-        "TSV"
-      ],
-      "frequence_mise_a_jour": "Annuel",
-      "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST JSON : endpoint https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}?format=JSON&lang=EN. Paramètres clés : geo (code pays), nace_r2 (secteur), sizeclas (classe de taille). Pagination non nécessaire, réponse complète par appel. Codes de datasets disponibles via le catalogue Eurostat.",
-      "url_source_donnees": "https://ec.europa.eu/eurostat/web/structural-business-statistics/business-demography",
-      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
-    },
-    {
-      "id": "c1e5a8b3-7f2d-4c0e-b6a9-2d4f8c1e5a7b",
-      "nom_ressource": "UN Comtrade Database",
-      "description": "Base de données mondiale du commerce international des marchandises, couvrant plus de 200 pays et territoires depuis 1962, avec des données annuelles et mensuelles sur les importations/exportations par produit (nomenclature HS, SITC). Usage RAG : alimenter un chatbot d'analyse commerciale pour comparer les flux d'exportation d'un pays par secteur ; enrichir un pipeline de veille économique sur les tendances d'échanges bilatéraux.",
-      "editeur_organisation": "United Nations Statistics Division (UNSD)",
-      "domaine_principal": "Ventes, Commerce & Marketing",
       "protocoles_acces": [
         "API REST",
         "Téléchargement CSV"
@@ -1492,19 +1470,38 @@
       "formats_fichiers": [
         "CSV",
         "JSON",
-        "XML"
+        "SDMX-ML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST JSON : https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}?geo=FR&time=2022. Paramètres : datasetCode (ex: bd_9bd_sz_cl_r2), géographie, classification sectorielle NACE. Réponse JSON-stat. Pagination non requise, filtres via paramètres URL.",
+      "url_source_donnees": "https://ec.europa.eu/eurostat/web/structural-business-statistics/business-demography",
+      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+    },
+    {
+      "id": "c1e5a8b3-7f2d-4c0e-b6a9-2d4f8c1e5a7b",
+      "nom_ressource": "UN Comtrade Database",
+      "description": "Base de données mondiale du commerce international de marchandises et services, compilant les statistiques officielles de plus de 200 pays depuis 1962. Fournit des flux d'import/export détaillés par produit (classification HS, SITC), par partenaire commercial et par année. Usage RAG : construire un système de veille commerciale sectorielle ; alimenter une IA d'analyse de chaînes d'approvisionnement mondiales.",
+      "editeur_organisation": "United Nations Statistics Division (UNSD)",
+      "domaine_principal": "Gestion & Commerce",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Endpoint principal : https://comtradeapi.un.org/data/v1/get/{typeCode}/{freqCode}/{clCode}. Paramètres clés : reporterCode (pays), period (YYYYMM), cmdCode (code produit HS). Réponse JSON paginée (max 250 lignes/requête). Authentification par API key gratuite.",
+      "methode_integration_technique": "API REST v2 : https://comtradeapi.un.org/data/v1/get/{typeCode}/{freqCode}/{clCode}. Authentification par clé API (subscription). Paramètres : reporterCode, partnerCode, period, cmdCode (HS code). Réponse JSON paginée, 250 lignes max par requête.",
       "url_source_donnees": "https://comtradeplus.un.org/",
-      "url_documentation_integration": "https://comtradeapi.un.org/documents/v1/swaggerUI/index.html"
+      "url_documentation_integration": "https://comtradeapi.un.org/documents/v1/swaggerUI/Comtrade/Public"
     },
     {
       "id": "d9b2f4a7-6e3c-4d8b-a1f5-3c7e0b9d2f4a",
       "nom_ressource": "Open Corporates",
-      "description": "La plus grande base de données ouverte d'informations sur les entreprises dans le monde, avec plus de 200 millions d'entités légales enregistrées dans plus de 140 juridictions. Données extraites de registres officiels nationaux. Exemple RAG : enrichissement automatique de profils d'entreprise dans un CRM IA ; pipeline de KYC (Know Your Customer) pour identifier les actionnaires et structures de holding.",
-      "editeur_organisation": "OpenCorporates Ltd",
+      "description": "La plus grande base de données mondiale ouverte sur les entreprises, agrégeant les registres légaux de plus de 140 juridictions (130+ millions d'entités). Fournit données d'identité, structures de propriété, dirigeants et historique légal. Usage RAG : moteur de recherche d'entités légales multi-pays pour due diligence internationale ; graphe de connaissances pour l'analyse des réseaux d'entreprises.",
+      "editeur_organisation": "OpenCorporates Ltd (Royaume-Uni)",
       "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
         "API REST"
@@ -1512,9 +1509,9 @@
       "formats_fichiers": [
         "JSON"
       ],
-      "frequence_mise_a_jour": "Quotidien",
+      "frequence_mise_a_jour": "Hebdomadaire",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "API REST : endpoint https://api.opencorporates.com/v0.4/companies/search?q={nom_entreprise}&jurisdiction_code={code}. Paramètres clés : q (nom), jurisdiction_code (pays/région), per_page (max 100), page. Réponse JSON avec champs : company_number, registered_address, status, officers. Clé API requise pour usage intensif.",
+      "methode_integration_technique": "API REST : https://api.opencorporates.com/v0.4/companies/search?q={name}&jurisdiction_code={iso}. Authentification par token API (plan freemium). Endpoints : /companies/{jurisdiction}/{company_number}, /officers/search. Réponse JSON paginée (page, per_page). Accès bulk via licence commerciale.",
       "url_source_donnees": "https://opencorporates.com/",
       "url_documentation_integration": "https://api.opencorporates.com/documentation/API-Reference"
     },
@@ -1561,33 +1558,33 @@
     },
     {
       "id": "a1d7f3b5-9c2e-4a6d-8f1b-3e5c7a9d1f2b",
-      "nom_ressource": "Global Entrepreneurship Monitor (GEM) – Public Datasets",
-      "description": "Enquêtes annuelles menées dans plus de 100 pays sur les attitudes, activités et aspirations entrepreneuriales des populations adultes. Inclut des indicateurs comme le TEA (Total Early-stage Entrepreneurial Activity) et des données sur les intentions de création. Couverture depuis 1999. Exemple RAG : assistant de recherche académique sur l'entrepreneuriat féminin en Afrique ; pipeline d'analyse comparative des écosystèmes startup entre régions du monde.",
+      "nom_ressource": "Global Entrepreneurship Monitor (GEM) – Data Hub",
+      "description": "Enquêtes annuelles sur l'activité entrepreneuriale dans plus de 50 pays depuis 1999, couvrant les attitudes envers l'entrepreneuriat, les taux de création d'entreprise, l'accès au financement et l'écosystème entrepreneurial national. Usage RAG : assistant de conseil en stratégie d'entrée sur de nouveaux marchés ; pipeline de comparaison internationale des conditions de création d'entreprise.",
       "editeur_organisation": "Global Entrepreneurship Research Association (GERA)",
       "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
-        "Téléchargement direct"
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
         "CSV",
-        "SPSS",
-        "Stata"
+        "Excel",
+        "SPSS"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "Téléchargement direct après inscription gratuite sur le portail GEM. Fichiers microdata disponibles en CSV/SPSS par année et par vague d'enquête. Pas d'API REST disponible. Enrichissement possible via le GEM Data Hub avec filtres interactifs exportables en CSV.",
+      "methode_integration_technique": "Téléchargement direct depuis le portail GEM Data Hub après inscription gratuite. Fichiers CSV/SPSS par vague d'enquête. Pas d'API REST publique. Données individuelles (APS) et agrégées (NES) disponibles séparément. Intégration via lecture pandas/polars des fichiers téléchargés.",
       "url_source_donnees": "https://www.gemconsortium.org/data",
-      "url_documentation_integration": "https://www.gemconsortium.org/wiki/1143"
+      "url_documentation_integration": "https://www.gemconsortium.org/data/sets"
     },
     {
       "id": "b5e1c8d4-2f7a-4b9e-c3d6-8a0f1b5e3c7d",
       "nom_ressource": "data.gouv.fr – Registre National des Entreprises (RNE)",
-      "description": "Registre officiel français centralisé par l'INPI depuis 2023, regroupant l'ensemble des entreprises immatriculées en France (plus de 10 millions d'unités légales). Contient les données d'identification, statuts juridiques, représentants légaux et activité (code APE). Exemple RAG : pipeline d'enrichissement de bases prospects B2B ; chatbot juridique sur les obligations des sociétés commerciales françaises.",
-      "editeur_organisation": "Institut National de la Propriété Industrielle (INPI) – République Française",
+      "description": "Registre officiel français recensant l'ensemble des entreprises immatriculées en France, avec données d'identité légale (SIREN, SIRET, forme juridique, date de création, code NAF/APE, adresse, dirigeants). Mis à jour en temps quasi-réel via l'API de l'INPI. Usage RAG : enrichissement automatique de fiches entreprise dans un CRM intelligent ; vérification d'identité légale pour un assistant de due diligence.",
+      "editeur_organisation": "Institut National de la Propriété Industrielle (INPI) / Gouvernement français",
       "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
         "JSON",
@@ -1595,19 +1592,19 @@
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST INPI RNE : endpoint https://registre-national-entreprises.inpi.fr/api/companies/{siren}. Paramètres clés : siren (identifiant 9 chiffres), ou recherche full-text via /api/companies/search?q=. Format JSON avec objets company, directors, establishments. Authentification OAuth2 requise (inscription gratuite). Dump CSV complet mensuel disponible sur data.gouv.fr.",
+      "methode_integration_technique": "API REST INPI : https://registre-national-entreprises.inpi.fr/api/companies/{siren}. Authentification Bearer token. Paramètres : siren (9 chiffres), ou recherche full-text via /api/companies?q=. Format JSON. Données bulk téléchargeables sur data.gouv.fr au format CSV/Parquet.",
       "url_source_donnees": "https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/",
-      "url_documentation_integration": "https://registre-national-entreprises.inpi.fr/api/swagger-ui/index.html"
+      "url_documentation_integration": "https://www.inpi.fr/open-data/api-rne"
     },
     {
       "id": "c6f0a9e2-4d3b-4c8f-a2e7-1b9d5c6f0a3e",
-      "nom_ressource": "ITC Trade Map – International Trade Centre",
-      "description": "Outil de visualisation et d'accès aux statistiques du commerce international de marchandises et de services pour plus de 220 pays, avec données bilatérales, indicateurs de compétitivité et parts de marché. Historique depuis 2001. Exemple RAG : pipeline d'identification de marchés d'exportation prioritaires pour une PME agroalimentaire ; assistant IA de conseil à l'internationalisation pour les chambres de commerce.",
-      "editeur_organisation": "Centre du Commerce International (ITC) – OMC/ONU",
+      "nom_ressource": "ITC Trade Map – International Trade Statistics",
+      "description": "Plateforme du Centre du Commerce International fournissant des statistiques détaillées sur les flux commerciaux de 220 pays et territoires pour plus de 5 300 produits (nomenclature HS). Indicateurs de performance à l'exportation, parts de marché, tarifs douaniers. Couvrant la période 2001–2023. Usage RAG : assistant stratégique pour l'export PME avec recommandations de marchés cibles ; pipeline d'analyse compétitive sectorielle internationale.",
+      "editeur_organisation": "International Trade Centre (ITC) – CNUCED/OMC",
       "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement CSV"
       ],
       "formats_fichiers": [
         "CSV",
@@ -1615,8 +1612,8 @@
         "JSON"
       ],
       "frequence_mise_a_jour": "Annuel",
-      "score_anti_hallucination": 4,
-      "methode_integration_technique": "API REST disponible pour les partenaires institutionnels ; accès public via l'interface web avec export CSV. Endpoint de base : https://www.trademap.org/. Pour intégration RAG, le téléchargement CSV par produit (code HS 2-6 chiffres), pays et flux (import/export) est recommandé. Inscription gratuite requise pour les téléchargements.",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST disponible après inscription : https://www.trademap.org/. Paramètres clés : product code (HS), reporter country (ISO), partner country. Accès données tabulaires via interface web + export CSV. API programmatique disponible via contrat institutionnel avec documentation sur le portail ITC.",
       "url_source_donnees": "https://www.trademap.org/Index.aspx",
       "url_documentation_integration": "https://www.intracen.org/itc/market-info-tools/trade-statistics/"
     },
@@ -1684,8 +1681,8 @@
     {
       "id": "a3f7c2d1-4b8e-4a10-9c6f-e12d3f456789",
       "nom_ressource": "OpenAlex",
-      "description": "Index ouvert de la littérature scientifique mondiale couvrant plus de 250 millions d'œuvres académiques (articles, livres, thèses), institutions, auteurs et concepts. Successeur de Microsoft Academic Graph. Usage RAG : enrichissement d'un chatbot de veille scientifique avec résumés et métadonnées d'articles ; construction d'un graphe de connaissances reliant auteurs, institutions et sujets de recherche.",
-      "editeur_organisation": "OurResearch",
+      "description": "Index académique mondial open-source couvrant plus de 250 millions d'œuvres scientifiques (articles, livres, thèses) issues de toutes disciplines, avec métadonnées riches (auteurs, institutions, concepts, citations). Remplaçant officiel de Microsoft Academic Graph. Usage RAG : enrichissement de bases de connaissances scientifiques par récupération d'abstracts et réseaux de citations pour un assistant de veille bibliographique ; construction de graphes de connaissances disciplinaires pour moteurs de recommandation de littérature.",
+      "editeur_organisation": "OurResearch (organisation à but non lucratif)",
       "domaine_principal": "Recherche Academique",
       "protocoles_acces": [
         "API REST",
@@ -1693,11 +1690,12 @@
       ],
       "formats_fichiers": [
         "JSON",
-        "Parquet"
+        "Parquet",
+        "CSV"
       ],
-      "frequence_mise_a_jour": "Mensuel",
+      "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Endpoint principal : https://api.openalex.org/works. Paramètres clés : filter (ex: publication_year:2023), search, select, per-page (max 200), cursor pour pagination. Réponse JSON avec champ 'results'. Snapshots complets disponibles via S3 (s3://openalex).",
+      "methode_integration_technique": "API REST via https://api.openalex.org/works avec filtres (filter=publication_year:2020-2024), pagination par cursor (?cursor=*), réponse JSON paginée (200 résultats/page). Snapshots complets disponibles via S3 (données Parquet mensuelles). Champ 'abstract_inverted_index' à reconstruire pour le texte brut.",
       "url_source_donnees": "https://openalex.org",
       "url_documentation_integration": "https://docs.openalex.org"
     },
@@ -1724,22 +1722,22 @@
     },
     {
       "id": "c4d8e1a3-62b9-4f3c-a5d7-012e5c678901",
-      "nom_ressource": "arXiv Dataset (Kaggle / API officielle)",
-      "description": "Référentiel de prépublications scientifiques (preprints) dans les domaines des mathématiques, physique, informatique, biologie quantitative, finance et économie, avec plus de 2,2 millions d'articles depuis 1991. Couverture mondiale et particulièrement forte en IA/ML. Usage RAG : alimentation d'un assistant IA spécialisé sur les dernières avancées en machine learning ; suivi en temps quasi-réel des nouvelles publications en physique théorique.",
-      "editeur_organisation": "Cornell University / arXiv",
+      "nom_ressource": "arXiv Dataset (Kaggle / arXiv API)",
+      "description": "Serveur de prépublications (preprints) fondé en 1991, couvrant plus de 2,3 millions d'articles en mathématiques, physique, informatique, biologie quantitative, statistiques et économie. Snapshot complet disponible sur Kaggle (métadonnées JSON) et accès temps réel via API officielle. Usage RAG : veille automatisée sur les dernières avancées en IA/ML avec récupération quotidienne des nouveaux dépôts ; construction d'un index vectoriel d'abstracts pour recommandation de papers connexes à une thématique donnée.",
+      "editeur_organisation": "Cornell University / arXiv.org",
       "domaine_principal": "Recherche Academique",
       "protocoles_acces": [
         "API REST",
         "S3 Bucket"
       ],
       "formats_fichiers": [
-        "XML",
         "JSON",
+        "XML",
         "PDF"
       ],
       "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API OAI-PMH : http://export.arxiv.org/oai2?verb=ListRecords&metadataPrefix=arXiv. Paramètres : set (catégorie, ex: cs.AI), from/until (dates). Snapshot Kaggle via téléchargement JSON (1,7 M entrées). Réponse XML avec métadonnées Dublin Core ou arXiv natif.",
+      "methode_integration_technique": "API OAI-PMH via http://export.arxiv.org/oai2?verb=ListRecords&metadataPrefix=arXiv&from=2024-01-01. Alternatively, REST query API : http://export.arxiv.org/api/query?search_query=ti:transformer&max_results=100 (format Atom/XML). Snapshot JSON complet sur S3 (s3://arxiv-dataset).",
       "url_source_donnees": "https://arxiv.org",
       "url_documentation_integration": "https://info.arxiv.org/help/api/index.html"
     },
@@ -1766,8 +1764,8 @@
     {
       "id": "e6a3c4d5-82b9-4f5e-c7f9-234g7e890123",
       "nom_ressource": "CORE (COnnecting REpositories)",
-      "description": "Agrégateur mondial de recherche en accès libre collectant plus de 230 millions d'articles de recherche depuis des dépôts institutionnels et journaux OA du monde entier, particulièrement fort en Europe et Afrique. Usage RAG : indexation de la production scientifique francophone et africaine pour un assistant de recherche multilingue ; récupération de PDFs plein texte pour des pipelines d'extraction et de résumé automatique.",
-      "editeur_organisation": "CORE / The Open University (Royaume-Uni)",
+      "description": "Agrégateur mondial de publications scientifiques en libre accès regroupant plus de 230 millions d'articles issus de plus de 10 000 dépôts institutionnels et journaux OA à travers le monde. Fournit accès aux textes intégraux sous licence ouverte. Couverture internationale forte (Europe, Asie, Amérique latine). Usage RAG : ingestion de textes intégraux d'articles OA pour un pipeline RAG multi-document ; alimentation d'un système d'extraction d'entités nommées dans la littérature scientifique francophone ou hispanophone.",
+      "editeur_organisation": "The Open University (Royaume-Uni) / JISC",
       "domaine_principal": "Recherche Academique",
       "protocoles_acces": [
         "API REST"
@@ -1776,9 +1774,9 @@
         "JSON",
         "PDF"
       ],
-      "frequence_mise_a_jour": "Quotidien",
+      "frequence_mise_a_jour": "Hebdomadaire",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Endpoint : https://api.core.ac.uk/v3/search/works. Paramètres : q (requête full-text), limit (max 100), offset, scroll (pour >10 000 résultats). Authentification par API key (gratuite). Réponse JSON avec abstract, fullText, downloadUrl, et source repository.",
+      "methode_integration_technique": "API REST v3 via https://api.core.ac.uk/v3/search/works?q=QUERY&limit=10&offset=0 avec header Authorization: Bearer API_KEY. Retourne JSON avec fullText, abstract, downloadUrl. Inscription gratuite pour clé API. Pagination par offset/limit.",
       "url_source_donnees": "https://core.ac.uk",
       "url_documentation_integration": "https://api.core.ac.uk/docs/v3"
     },
@@ -1881,23 +1879,23 @@
     {
       "id": "4bg9i0j1-48hf-451k-i3l5-890m3k456789",
       "nom_ressource": "NARCIS – National Academic Research and Collaborations Information System",
-      "description": "Portail agrégateur néerlandais donnant accès à 750 000+ publications académiques, datasets et experts de recherche des universités et instituts de recherche des Pays-Bas. Exposé via protocole OAI-PMH et SPARQL. Usage RAG : interrogation sémantique du réseau de chercheurs néerlandais pour un outil de mise en relation d'experts ; extraction structurée de datasets de recherche pour enrichir une base de connaissances disciplinaire.",
-      "editeur_organisation": "KNAW / DANS – Data Archiving and Networked Services (Pays-Bas)",
+      "description": "Portail national néerlandais agrégeant les publications, datasets et projets de recherche de toutes les universités et instituts de recherche des Pays-Bas (KNAW, NWO, VSNU). Couvre plus de 500 000 publications et 85 000 datasets avec métadonnées enrichies. Usage RAG : accès structuré aux publications en open access d'institutions néerlandaises pour un pipeline multilingue (NL/EN) de synthèse de recherche européenne ; exploration des liens projet-publication-chercheur pour un graphe de connaissances institutionnel.",
+      "editeur_organisation": "DANS – Data Archiving and Networked Services (Pays-Bas)",
       "domaine_principal": "Recherche Academique",
       "protocoles_acces": [
         "API REST",
-        "SPARQL"
+        "OGC WFS"
       ],
       "formats_fichiers": [
         "XML",
         "JSON",
-        "RDF"
+        "CSV"
       ],
       "frequence_mise_a_jour": "Hebdomadaire",
       "score_anti_hallucination": 4,
-      "methode_integration_technique": "OAI-PMH endpoint : https://www.narcis.nl/oai-pmh?verb=ListRecords&metadataPrefix=oai_dc. SPARQL endpoint : https://data.narcis.nl/sparql. Paramètres OAI-PMH : verb (ListRecords, GetRecord), set, from, until. Réponse XML Dublin Core ou MODS. Pagination via resumptionToken.",
+      "methode_integration_technique": "API OAI-PMH via https://www.narcis.nl/oai-pmh?verb=ListRecords&metadataPrefix=didl&set=publication. API de recherche REST disponible avec paramètres q, facet, rows. Réponse XML Dublin Core ou DIDL avec métadonnées complètes et liens vers textes intégraux.",
       "url_source_donnees": "https://www.narcis.nl",
-      "url_documentation_integration": "https://www.narcis.nl/about/Language/en"
+      "url_documentation_integration": "https://www.narcis.nl/info/page/api-en-webservices/Language/EN"
     },
     {
       "id": "5ch0j1k2-59ig-462l-j4m6-901n4l567890",
@@ -1964,25 +1962,25 @@
     },
     {
       "id": "c1e9a4b7-3d5f-4c2e-8a1b-7f0e6d3c9b2a",
-      "nom_ressource": "O*NET OnLine – Occupational Information Network",
-      "description": "Base de données américaine exhaustive décrivant 1 000+ métiers selon 277 descripteurs standardisés : compétences, tâches, connaissances, valeurs, tendances salariales. Référence mondiale pour la classification des professions (O*NET-SOC). Usage RAG : enrichir un pipeline d'analyse de fiches de poste avec des profils de compétences structurés ; générer automatiquement des descriptions de postes à partir des descripteurs O*NET.",
-      "editeur_organisation": "U.S. Department of Labor – Employment and Training Administration",
+      "nom_ressource": "O*NET OnLine - Occupational Information Network",
+      "description": "Base de données américaine la plus complète sur les caractéristiques des métiers : compétences, connaissances, activités de travail, valeurs professionnelles, outils utilisés pour 1 000+ professions. Mise à jour continue via enquêtes nationales. Usage RAG : enrichir des fiches de poste avec des descripteurs de compétences standardisés pour un système de matching talent ; construire un knowledge graph des compétences transférables entre métiers.",
+      "editeur_organisation": "U.S. Department of Labor / Employment and Training Administration",
       "domaine_principal": "Metiers & Emploi",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct"
+        "Téléchargement direct (CSV)"
       ],
       "formats_fichiers": [
         "CSV",
-        "XLSX",
+        "JSON",
         "XML",
-        "JSON"
+        "XLSX"
       ],
-      "frequence_mise_a_jour": "Annuel",
+      "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST : endpoint https://services.onetcenter.org/ws/ avec ressources /occupations/{code}/summary, /occupations/{code}/skills. Authentification par clé API (inscription gratuite). Réponse JSON ou XML. Téléchargement complet de la base (fichiers plats CSV) disponible sur https://www.onetcenter.org/database.html.",
+      "methode_integration_technique": "API REST sur https://services.onetcenter.org/ws/ ; endpoints : /occupations/, /skills/, /knowledge/ ; authentification HTTP Basic (compte gratuit requis) ; réponse JSON ou XML ; paramètre keyword pour recherche textuelle, start/end pour pagination.",
       "url_source_donnees": "https://www.onetcenter.org/database.html",
-      "url_documentation_integration": "https://services.onetcenter.org/reference/"
+      "url_documentation_integration": "https://services.onetcenter.org/"
     },
     {
       "id": "d4f0b3c8-6e1a-4d7b-a2c5-9e3f1b8d0c4e",
@@ -2008,45 +2006,46 @@
     },
     {
       "id": "e7a1d6f2-4b8c-4e3a-b9d0-5c2f7e1a4b8d",
-      "nom_ressource": "LinkedIn Economic Graph – LinkedIn Workforce Report (via data.world partnership)",
-      "description": "Données agrégées et anonymisées sur les tendances du marché du travail mondial : embauches, mobilité professionnelle, compétences émergentes, industries en croissance. Couverture mondiale via le réseau LinkedIn (900M+ membres). Usage RAG : identifier les compétences les plus demandées par secteur pour un outil de veille RH ; détecter les tendances de migration professionnelle intersectorielle pour un conseil en reconversion.",
-      "editeur_organisation": "LinkedIn Corporation",
+      "nom_ressource": "LinkedIn Economic Graph - LinkedIn Workforce Report",
+      "description": "Rapports mensuels sur les dynamiques du marché du travail mondial basés sur les données de 1 milliard de membres LinkedIn : taux d'embauche par secteur, compétences en demande, migrations de talents entre villes et pays, durées de recrutement. Couverture mondiale avec focus sur 20+ pays majeurs. Usage RAG : alimenter un assistant stratégique RH avec les tendances de recrutement en temps réel ; enrichir des analyses de compétences émergentes pour la formation professionnelle.",
+      "editeur_organisation": "LinkedIn Corporation (Microsoft)",
       "domaine_principal": "Metiers & Emploi",
       "protocoles_acces": [
-        "Téléchargement direct"
+        "Téléchargement direct (CSV)",
+        "API REST"
       ],
       "formats_fichiers": [
         "CSV",
-        "XLSX"
+        "JSON"
       ],
       "frequence_mise_a_jour": "Mensuel",
-      "score_anti_hallucination": 3,
-      "methode_integration_technique": "Accès via le portail LinkedIn Economic Graph (https://economicgraph.linkedin.com/resources/linkedin-workforce-report). Données publiées mensuellement sous forme de rapports PDF et tableaux CSV. Certains jeux de données partenaires accessibles via data.world. Pas d'API publique directe : intégration par scraping structuré ou partenariat institutionnel.",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Téléchargement de rapports CSV depuis le portail LinkedIn Economic Graph ; API REST partiellement accessible via le LinkedIn Developer Program (accès restreint partenaires) ; données agrégées publiques téléchargeables sans authentification depuis le site Economic Graph.",
       "url_source_donnees": "https://economicgraph.linkedin.com/resources/linkedin-workforce-report",
-      "url_documentation_integration": "https://economicgraph.linkedin.com/"
+      "url_documentation_integration": "https://developer.linkedin.com/product-catalog"
     },
     {
       "id": "f2b5e8a0-7c3d-4f1b-8e6a-0d9c2f5b7e3a",
-      "nom_ressource": "ILOSTAT – Statistiques du travail et de l'emploi",
-      "description": "Base de données statistiques de l'Organisation internationale du Travail (OIT) couvrant plus de 100 indicateurs du marché du travail pour 190 pays : taux de chômage, emploi informel, conditions de travail, migrations de main-d'œuvre, inégalités salariales hommes-femmes et travail des enfants. Séries longues depuis 1969. Usage RAG : assistant IA de comparaison internationale des marchés du travail ; pipeline automatisé de surveillance des indicateurs d'emploi pour des rapports ODD (ODD 8).",
-      "editeur_organisation": "Organisation internationale du Travail (OIT / ILO)",
-      "domaine_principal": "Demographie, Social & Citoyennete",
+      "nom_ressource": "ILOSTAT - ILO Labour Statistics Database",
+      "description": "Base de données statistiques du travail la plus complète au monde, couvrant 200+ pays avec 100+ indicateurs : taux d'activité, emploi par secteur, durée de travail, salaires, conditions de travail, travail décent. Séries temporelles depuis 1969 pour certains pays. Usage RAG : construire un dashboard mondial de comparaison des marchés du travail par région ONU ; alimenter un système d'alerte sur les crises d'emploi dans les pays en développement.",
+      "editeur_organisation": "Organisation Internationale du Travail (OIT/ILO)",
+      "domaine_principal": "Metiers & Emploi",
       "protocoles_acces": [
         "API REST",
-        "Téléchargement direct",
-        "SPARQL"
+        "Téléchargement direct (CSV)",
+        "SDMX"
       ],
       "formats_fichiers": [
         "CSV",
         "JSON",
         "XML",
-        "SDMX"
+        "XLSX"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST SDMX : https://sdmx.ilo.org/rest/data/{agencyId},{dataflowId},{version}/{key}?format=jsondata. Ex dataflow : DF_STI_ALL_A (indicateurs clés annuels). Filtres par country (ISO2), sex, classif1. Réponse JSON-stat. Données bulk téléchargeables par indicateur sur ilostat.ilo.org.",
+      "methode_integration_technique": "API REST SDMX sur https://rplumber.ilo.org/data/indicator/ ; paramètres : id (code indicateur, ex: UNE_DEAP_SEX_AGE_RT), ref_area (code pays ISO2), timePeriod ; réponse JSON ou CSV ; sans authentification ; bulk download disponible par thème ou pays.",
       "url_source_donnees": "https://ilostat.ilo.org/data/",
-      "url_documentation_integration": "https://ilostat.ilo.org/resources/ilostat-developer-tools/ilostat-sdmx-api/"
+      "url_documentation_integration": "https://ilostat.ilo.org/resources/ilostat-api/"
     },
     {
       "id": "03c7f1b4-9a2e-4d8c-b3f6-1e5a0d7c2b9f",
@@ -2176,24 +2175,24 @@
     },
     {
       "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-      "nom_ressource": "OpenStreetMap (OSM) – Réseau routier et infrastructure de transport mondial",
-      "description": "Base de données géographiques collaborative mondiale couvrant routes, voies ferrées, aéroports, ports, arrêts de bus et pistes cyclables. Données mondiales mises à jour en continu par la communauté. Usage RAG : enrichissement d'un assistant de navigation logistique (itinéraires, contraintes de gabarit), ou alimentation d'un moteur de recherche de points d'intérêt transport pour un chatbot fleet-management.",
+      "nom_ressource": "OpenStreetMap – Transport Data via Overpass API",
+      "description": "Cartographie collaborative mondiale couvrant routes, voies ferrées, pistes cyclables, aéroports, gares et ports dans le monde entier. Données mises à jour en temps quasi-réel par la communauté. Usage RAG : extraction de réseaux routiers pour optimisation d'itinéraires de livraison last-mile, ou constitution d'une base de connaissances sur les infrastructures de transport dans des pays en développement peu couverts.",
       "editeur_organisation": "OpenStreetMap Foundation",
       "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
         "API REST",
-        "FTP",
-        "OGC WFS"
+        "OGC WFS",
+        "FTP"
       ],
       "formats_fichiers": [
-        "PBF",
-        "XML",
         "GeoJSON",
+        "XML",
+        "PBF",
         "Shapefile"
       ],
       "frequence_mise_a_jour": "Temps réel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Overpass API (endpoint : https://overpass-api.de/api/interpreter) avec requêtes en langage OverpassQL ; paramètre 'data' en POST. Réponse JSON ou XML. Données planète entière disponibles via dump PBF hebdomadaire sur planet.openstreetmap.org.",
+      "methode_integration_technique": "Requêtes via Overpass API (https://overpass-api.de/api/interpreter). Paramètres clés : query Overpass QL avec filtres par tag (ex: highway=*, railway=*) et bbox géographique. Réponse en JSON/XML. Exports massifs via Geofabrik (PBF par région). Idéal pour indexation géospatiale dans pgvector ou Elasticsearch.",
       "url_source_donnees": "https://www.openstreetmap.org",
       "url_documentation_integration": "https://wiki.openstreetmap.org/wiki/Overpass_API"
     },
@@ -2220,25 +2219,25 @@
     },
     {
       "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
-      "nom_ressource": "Eurostat – Statistiques transport de l'Union européenne",
-      "description": "Base de données officielle de l'Union européenne regroupant des statistiques harmonisées sur le transport de passagers et de marchandises par mode (route, rail, air, maritime, voies navigables) pour les 27 États membres et pays associés. Couverture temporelle de 1990 à aujourd'hui. Usage RAG : alimentation d'un assistant d'analyse comparative de l'empreinte carbone logistique entre pays européens, ou génération automatique de rapports sur les flux de fret ferroviaire transfrontalier.",
-      "editeur_organisation": "Office statistique de l'Union européenne (Eurostat)",
+      "nom_ressource": "Eurostat – Transport Statistics Database",
+      "description": "Base de données statistiques européenne couvrant le transport de passagers et de marchandises par mode (route, rail, air, mer, voies navigables) pour les 27 États membres de l'UE et pays associés. Séries temporelles depuis les années 1990. Usage RAG : analyse comparative des émissions CO₂ par mode de transport en Europe pour un assistant IA développement durable, ou benchmarking de la performance logistique entre États membres.",
+      "editeur_organisation": "Eurostat – Office statistique de l'Union européenne",
       "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct"
       ],
       "formats_fichiers": [
-        "JSON",
         "CSV",
-        "TSV",
-        "SDMX"
+        "JSON",
+        "SDMX",
+        "TSV"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Eurostat JSON Web Service : GET https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset_code}?format=JSON&lang=EN&geo={code_pays}. Paramètres : geo, time, unit, tra_mode. Réponse JSON-stat. Aucune clé API requise.",
+      "methode_integration_technique": "API REST Eurostat : endpoint https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{datasetCode}. Paramètres : geo, time, unit, tra_mode. Réponse en JSON-stat. Pagination par filtres dimensionnels. Code dataset transport principal : tran_hv_frmod.",
       "url_source_donnees": "https://ec.europa.eu/eurostat/web/transport/data/database",
-      "url_documentation_integration": "https://wikis.ec.europa.eu/display/EUROSTATHELP/API+Statistics+-+data+query"
+      "url_documentation_integration": "https://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/rest-request"
     },
     {
       "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
@@ -2280,9 +2279,9 @@
     },
     {
       "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
-      "nom_ressource": "data.gouv.fr – Base nationale des données transport France (BNTRA / GTFS)",
-      "description": "Portail open data français regroupant l'ensemble des données de transport public national : horaires GTFS de tous les réseaux de transport (SNCF, RATP, TER, cars interurbains), positions en temps réel (GTFS-RT), et données de trafic routier. Couverture nationale française. Usage RAG : assistant de planification multimodale pour voyageurs professionnels, ou indexation des perturbations réseau pour un système de veille logistique.",
-      "editeur_organisation": "Ministère chargé des Transports (France) – Point d'Accès National transport.data.gouv.fr",
+      "nom_ressource": "data.gouv.fr – Base Nationale des Transports (BNT) / transport.data.gouv.fr",
+      "description": "Portail français regroupant l'ensemble des données de mobilité et transport ouvertes : GTFS des réseaux de transport en commun (bus, métro, train), données vélos, covoiturage, parkings, et flux temps réel SIRI. Couverture nationale France. Usage RAG : alimentation d'un chatbot de mobilité urbaine avec les horaires et arrêts GTFS de 300+ réseaux français, ou création d'un assistant de comparaison intermodale pour la logistique urbaine.",
+      "editeur_organisation": "Point d'Accès National transport.data.gouv.fr – Direction générale des Infrastructures, des Transports et des Mobilités (DGITM)",
       "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
         "API REST",
@@ -2290,36 +2289,36 @@
       ],
       "formats_fichiers": [
         "GTFS",
-        "GTFS-RT",
-        "JSON",
         "CSV",
-        "NeTEx"
+        "JSON",
+        "NeTEx",
+        "XML"
       ],
-      "frequence_mise_a_jour": "Temps réel",
+      "frequence_mise_a_jour": "Quotidien",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "API REST transport.data.gouv.fr : GET https://transport.data.gouv.fr/api/datasets. Paramètre 'type' (ex: public-transit), réponse JSON paginée. Flux GTFS-RT disponibles via URLs spécifiques par opérateur. Documentation Swagger disponible sur le portail.",
+      "methode_integration_technique": "API REST via data.gouv.fr : endpoint https://transport.data.gouv.fr/api/datasets. Paramètres : type (ex: public-transit), region, format. Réponse JSON liste de datasets avec URLs de téléchargement GTFS. Pour temps réel SIRI/GTFS-RT : endpoints spécifiques par opérateur. Pagination via page et per_page.",
       "url_source_donnees": "https://transport.data.gouv.fr",
-      "url_documentation_integration": "https://transport.data.gouv.fr/swaggerui"
+      "url_documentation_integration": "https://transport.data.gouv.fr/doc/api"
     },
     {
       "id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
       "nom_ressource": "World Bank – Logistics Performance Index (LPI)",
-      "description": "Indice mondial de performance logistique publié tous les deux ans par la Banque Mondiale, couvrant 160+ pays selon 6 dimensions : douane, infrastructure, expéditions internationales, compétence logistique, traçabilité et ponctualité. Données depuis 2007. Usage RAG : enrichissement d'une IA d'aide à la décision pour l'implantation de hubs logistiques dans les marchés émergents, ou génération de rapports comparatifs pays pour des équipes supply-chain.",
-      "editeur_organisation": "Banque Mondiale (World Bank Group)",
+      "description": "Indice mondial biennal de performance logistique évaluant 160+ pays selon 6 dimensions : douanes, infrastructures, expéditions internationales, compétence logistique, traçabilité, ponctualité. Données disponibles depuis 2007. Usage RAG : enrichissement d'un système de recommandation pour la sélection de corridors d'approvisionnement, ou alimentation d'un assistant IA en trade finance pour l'évaluation des risques logistiques pays.",
+      "editeur_organisation": "The World Bank Group",
       "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
         "API REST",
         "Téléchargement direct"
       ],
       "formats_fichiers": [
-        "JSON",
         "CSV",
+        "JSON",
         "XML",
         "Excel"
       ],
       "frequence_mise_a_jour": "Annuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "World Bank Data API : GET https://api.worldbank.org/v2/country/{iso2}/indicator/LP.LPI.OVRL.XQ?format=json. Indicateurs LPI préfixés 'LP.LPI.*'. Paramètres : date, mrv (most recent values), per_page. Réponse JSON paginée. Aucune clé requise.",
+      "methode_integration_technique": "API World Bank : endpoint https://api.worldbank.org/v2/country/{countryCode}/indicator/LP.LPI.OVRL.XQ?format=json. Paramètres : country (code ISO), date (ex: 2018:2023), per_page. Réponse JSON paginée (page, pages, per_page, total). LPI global indicator code : LP.LPI.OVRL.XQ.",
       "url_source_donnees": "https://lpi.worldbank.org",
       "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation"
     },
@@ -2412,23 +2411,24 @@
     },
     {
       "id": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
-      "nom_ressource": "Australian Bureau of Infrastructure and Transport Research Economics (BITRE) – Open Data",
-      "description": "Portail officiel australien de statistiques sur les transports couvrant l'aviation intérieure et internationale, le fret maritime (ports australiens), le transport routier, ferroviaire et les infrastructures logistiques à l'échelle nationale et régionale. Données historiques depuis les années 1980. Usage RAG : chatbot d'analyse des flux de fret entre les États australiens pour des décisions d'optimisation de chaîne d'approvisionnement, ou indexation des rapports de sécurité aérienne dans un système documentaire intelligent.",
-      "editeur_organisation": "Bureau of Infrastructure and Transport Research Economics (BITRE) – Gouvernement australien",
+      "nom_ressource": "data.gov.au – Australian Bureau of Infrastructure and Transport Research Economics (BITRE)",
+      "description": "Portail australien de données de transport publié par le BITRE : statistiques du transport aérien (passagers, fret, ponctualité), maritime, terrestre et urbain en Australie et Océanie. Données historiques depuis les années 1980 pour l'aviation. Usage RAG : analyse des performances aéroportuaires dans la région Asie-Pacifique pour un assistant logistique export, ou étude des flux de fret aérien vers/depuis l'Australie.",
+      "editeur_organisation": "Bureau of Infrastructure and Transport Research Economics (BITRE) – Australian Government",
       "domaine_principal": "Transport & Logistique",
       "protocoles_acces": [
-        "Téléchargement direct"
+        "Téléchargement direct",
+        "API REST"
       ],
       "formats_fichiers": [
         "CSV",
         "Excel",
-        "PDF"
+        "JSON"
       ],
       "frequence_mise_a_jour": "Mensuel",
       "score_anti_hallucination": 5,
-      "methode_integration_technique": "Téléchargement direct depuis le portail BITRE : https://www.bitre.gov.au/statistics. Données structurées en CSV/Excel par thématique (aviation, maritime, road). Intégration RAG via ingestion batch des fichiers CSV avec parsing pandas, puis chunking et vectorisation. Pas d'API REST native documentée.",
+      "methode_integration_technique": "Téléchargement direct depuis data.gov.au via API CKAN : endpoint https://data.gov.au/api/3/action/package_search?q=BITRE+transport. Fichiers CSV téléchargeables directement (ex: aviation statistics par route, par aéroport). Intégration batch recommandée avec mise à jour mensuelle automatisée via scripts.",
       "url_source_donnees": "https://www.bitre.gov.au/statistics",
-      "url_documentation_integration": "https://www.bitre.gov.au/publications"
+      "url_documentation_integration": "https://data.gov.au/dataset?q=transport&publisher=Bureau+of+Infrastructure+and+Transport+Research+Economics"
     },
     {
       "id": "b8e1d4f2-5c9a-4b3e-8d7f-2a6c0e1b3d5f",
@@ -2584,24 +2584,24 @@
     },
     {
       "id": "c7d1e4a9-2f6b-4c0d-5e8a-9b3d7f8c0e2a",
-      "nom_ressource": "African Development Bank – African Trade Statistics",
-      "description": "Portail statistique de la Banque Africaine de Développement fournissant des données sur le commerce intra-africain et international, les flux d'IDE, et les indicateurs économiques pour les 54 pays du continent africain. Données annuelles disponibles depuis les années 2000. Usage RAG : construire un pipeline d'analyse des opportunités commerciales dans le cadre de la Zone de Libre-Échange Continentale Africaine (ZLECAf) ; alimenter un assistant d'investissement en Afrique subsaharienne.",
-      "editeur_organisation": "Banque Africaine de Développement (BAD / AfDB)",
-      "domaine_principal": "Ventes, Commerce & Marketing",
+      "nom_ressource": "African Development Bank – Open Data Portal",
+      "description": "Portail de données ouvertes de la Banque Africaine de Développement regroupant plus de 1 000 indicateurs socio-économiques pour 54 pays africains, incluant des données sur l'environnement des affaires, le commerce intra-africain (ZLECAF), les PME et la compétitivité. Couvre la période 1960–2023. Usage RAG : assistant de stratégie commerciale pour les marchés africains émergents ; pipeline d'analyse de l'impact de la Zone de Libre-Échange Africaine.",
+      "editeur_organisation": "Banque Africaine de Développement (BAD)",
+      "domaine_principal": "Gestion & Commerce",
       "protocoles_acces": [
         "API REST",
         "Téléchargement CSV"
       ],
       "formats_fichiers": [
-        "CSV",
         "JSON",
-        "XLS"
+        "CSV",
+        "Excel"
       ],
       "frequence_mise_a_jour": "Annuel",
-      "score_anti_hallucination": 4,
-      "methode_integration_technique": "Portail Open Data AfDB : https://dataportal.opendataforafrica.org/api/1.0/data/{datasetId}. Format JSON ou CSV selon paramètre format=. Filtres par pays (geo=), indicateur (indicator=) et période (time=). Clé API gratuite sur inscription.",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://dataportal.opendataforafrica.org/api/1.0/data/{datasource}/{indicator}?country={iso3}&time={year}. Accès public sans authentification. Paramètres : datasource (ex: AFDB), indicator (code), country (ISO-3), time (année ou plage). Réponse JSON. Téléchargement bulk CSV disponible par dataset.",
       "url_source_donnees": "https://dataportal.opendataforafrica.org/",
-      "url_documentation_integration": "https://dataportal.opendataforafrica.org/api-docs"
+      "url_documentation_integration": "https://dataportal.opendataforafrica.org/api/1.0/help"
     },
     {
       "id": "d8e2f5b0-3a7c-4d1e-6f9b-0c4e8a9d1f3b",
@@ -4866,6 +4866,715 @@
       "methode_integration_technique": "Accès via portail open data AfDB sur https://dataportal.opendataforafrica.org ; API REST disponible avec paramètres country, indicator, year ; réponse JSON ; export CSV direct ; certains indicateurs industriels accessibles également via la plateforme Data.AfDB.org avec filtres sectoriels.",
       "url_source_donnees": "https://dataportal.opendataforafrica.org/nmgitnf/afdb-socio-economic-database",
       "url_documentation_integration": "https://data.afdb.org/api"
+    },
+    {
+      "id": "a3f7c2e1-4b89-4d3a-9c56-1e2f8b0d7a34",
+      "nom_ressource": "GitHub REST API & GitHub Archive",
+      "description": "Accès programmatique à l'ensemble des dépôts publics GitHub : code source, commits, issues, pull requests, releases, métadonnées de projets. Couverture mondiale, historique depuis 2011 via GH Archive. Exemples d'usage RAG : indexation de snippets de code pour assistant de développement ; analyse sémantique de README et documentations techniques pour moteur de recherche de bibliothèques.",
+      "editeur_organisation": "GitHub, Inc. (Microsoft)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST",
+        "GraphQL",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "GZ"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://api.github.com. Authentification via token Bearer (header Authorization). Paramètres clés : owner, repo, per_page (max 100), page (pagination via Link header). GraphQL disponible sur https://api.github.com/graphql. GH Archive téléchargeable par heure sur https://data.gharchive.org/YYYY-MM-DD-H.json.gz.",
+      "url_source_donnees": "https://api.github.com",
+      "url_documentation_integration": "https://docs.github.com/en/rest"
+    },
+    {
+      "id": "b1e4d7f0-23a5-4c8b-8e91-3d6a0c5f2b77",
+      "nom_ressource": "GitLab REST API",
+      "description": "API publique de la plateforme GitLab permettant l'accès aux dépôts, merge requests, pipelines CI/CD, snippets et wikis de projets open source hébergés sur gitlab.com. Couverture mondiale, données en temps réel. Exemples d'usage RAG : extraction de pipelines CI/CD commentés pour une base de connaissances DevOps ; récupération de snippets de code annotés pour l'entraînement de modèles de complétion de code.",
+      "editeur_organisation": "GitLab Inc.",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST",
+        "GraphQL"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://gitlab.com/api/v4/projects. Authentification via Private-Token ou OAuth2. Pagination via headers X-Next-Page et X-Total-Pages. Paramètre clé : visibility=public, per_page=100. GraphQL disponible sur https://gitlab.com/api/graphql.",
+      "url_source_donnees": "https://gitlab.com/api/v4",
+      "url_documentation_integration": "https://docs.gitlab.com/ee/api/rest/"
+    },
+    {
+      "id": "c9d2a1b8-56f3-4e7c-a0d4-7b3e9f1c4d82",
+      "nom_ressource": "Software Heritage Archive",
+      "description": "Archive universelle et pérenne du code source logiciel mondial, collectant depuis 2016 des milliards de fichiers source provenant de GitHub, GitLab, Bitbucket, PyPI, CRAN et autres forges. Couverture mondiale et historique unique. Exemples d'usage RAG : reconstruction de l'historique complet d'un projet pour analyse d'évolution de code ; indexation de code source abandonné ou archivé introuvable sur d'autres plateformes.",
+      "editeur_organisation": "Software Heritage (Inria / UNESCO)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "GZ"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://archive.softwareheritage.org/api/1/. Accès public sans authentification (rate-limited) ou avec token Bearer. Requête par SWH-ID (identifiant permanent). Ex : GET /api/1/content/sha1_git:<hash>/raw/ pour récupérer un fichier source. Pagination via paramètre page.",
+      "url_source_donnees": "https://archive.softwareheritage.org",
+      "url_documentation_integration": "https://archive.softwareheritage.org/api/1/doc/"
+    },
+    {
+      "id": "f2c8b5e6-47d1-4b0a-d9e3-6a1f7c3d8e50",
+      "nom_ressource": "PyPI (Python Package Index) – Dataset BigQuery & API JSON",
+      "description": "Registre officiel des paquets Python, exposant métadonnées, versions, dépendances et statistiques de téléchargement pour plus de 500 000 paquets. Dataset BigQuery public pour analyses en masse. Couverture mondiale. Exemples d'usage RAG : enrichissement d'un assistant Python avec la documentation et le changelog de toutes les versions d'un paquet ; analyse de tendances d'adoption de frameworks pour veille technologique.",
+      "editeur_organisation": "Python Software Foundation",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://pypi.org/pypi/{package_name}/json (pas d'authentification). Retourne métadonnées complètes, liste des releases et URLs de téléchargement. Pour analyses en masse : dataset public BigQuery pypi-downloads dans Google Cloud (table bigquery-public-data.pypi.distribution_metadata). Aucune pagination nécessaire par paquet.",
+      "url_source_donnees": "https://pypi.org/simple/",
+      "url_documentation_integration": "https://warehouse.pypa.io/api-reference/json.html"
+    },
+    {
+      "id": "a8e3f6d2-91c4-4b7a-b5e0-4d2c9a1f6b38",
+      "nom_ressource": "npm Registry API",
+      "description": "Registre officiel de l'écosystème JavaScript/Node.js, référençant plus de 2 millions de paquets avec métadonnées, versions, dépendances, README et statistiques de téléchargement hebdomadaire. Couverture mondiale. Exemples d'usage RAG : indexation de documentation de paquets npm pour un assistant développeur JavaScript ; détection automatique de paquets dépréciés ou malveillants dans un pipeline de revue de code.",
+      "editeur_organisation": "npm, Inc. (GitHub / Microsoft)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://registry.npmjs.org/{package-name} (sans authentification). Retourne toutes les versions, dépendances, dist-tags et README. Recherche full-text : https://registry.npmjs.org/-/v1/search?text={query}&size=20. Téléchargements : https://api.npmjs.org/downloads/point/last-week/{package}.",
+      "url_source_donnees": "https://registry.npmjs.org",
+      "url_documentation_integration": "https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md"
+    },
+    {
+      "id": "c1a7e4b9-80d3-4c5f-f2a6-5e8b3d0c7f21",
+      "nom_ressource": "Common Vulnerabilities and Exposures (CVE) / NVD API",
+      "description": "Base de données officielle américaine des vulnérabilités logicielles connues, maintenue par le NIST. Contient plus de 250 000 entrées CVE avec scores CVSS, descriptions, références et mappings CWE. Couverture mondiale, toutes plateformes logicielles. Exemples d'usage RAG : assistant de sécurité répondant aux questions sur les vulnérabilités d'une version de bibliothèque ; pipeline d'alerte automatique associant CVEs aux dépendances d'un projet.",
+      "editeur_organisation": "National Institute of Standards and Technology (NIST)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal NVD 2.0 : https://services.nvd.nist.gov/rest/json/cves/2.0. Paramètres clés : keywordSearch, cveId, cpeName, cvssV3Severity, pubStartDate/pubEndDate. Retourne JSON paginé (resultsPerPage max 2000, startIndex). Clé API recommandée (header apiKey) pour lever le rate limit à 50 req/30s.",
+      "url_source_donnees": "https://nvd.nist.gov/developers/vulnerabilities",
+      "url_documentation_integration": "https://nvd.nist.gov/developers/start-here"
+    },
+    {
+      "id": "d9c5f2a8-14e7-4d3b-a0c9-8f2b6e4d1a95",
+      "nom_ressource": "OSS Insight – GitHub Data Explorer (TiDB Cloud)",
+      "description": "Plateforme d'analyse en temps réel basée sur GitHub Archive, offrant des requêtes SQL analytiques sur plus de 5 milliards d'événements GitHub depuis 2011. Couverture mondiale. Exemples d'usage RAG : extraction de statistiques d'activité de dépôts pour contextualiser la popularité d'un framework dans une base de connaissances ; analyse comparative de l'adoption de langages de programmation par région et période.",
+      "editeur_organisation": "PingCAP (TiDB)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API publique : https://api.ossinsight.io/v1/. Endpoints principaux : /repos/{owner}/{repo}/summary, /collections/{id}/ranking_by_activity. Pas d'authentification requise pour usage standard. Réponse JSON directe, pas de pagination complexe. Explorer SQL interactif disponible sur https://ossinsight.io/explore/.",
+      "url_source_donnees": "https://ossinsight.io",
+      "url_documentation_integration": "https://ossinsight.io/docs/api/"
+    },
+    {
+      "id": "e6b4d1c3-29f8-4e7a-c5d2-3a9e0f8b5c47",
+      "nom_ressource": "Zenodo Software Records",
+      "description": "Dépôt de recherche européen (CERN) hébergeant des snapshots cités de logiciels scientifiques avec DOI persistants, métadonnées structurées et liens vers le code source. Couvre toutes disciplines scientifiques, couverture mondiale, archivage depuis 2013. Exemples d'usage RAG : enrichissement d'un assistant de recherche avec les métadonnées et abstracts des logiciels utilisés dans des publications scientifiques ; résolution de dépendances de reproductibilité pour des workflows de recherche.",
+      "editeur_organisation": "CERN / OpenAIRE",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST",
+        "OAI-PMH"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Endpoint principal : https://zenodo.org/api/records?type=software. Paramètres : q (Elasticsearch query), sort, page, size (max 10000 via scroll). Filtrage par type=software, access_right=open. Authentification OAuth2 pour dépôt, lecture publique sans token. Réponse JSON avec hits.hits[], pagination via links.next.",
+      "url_source_donnees": "https://zenodo.org/search?resource_type=software",
+      "url_documentation_integration": "https://developers.zenodo.org/"
+    },
+    {
+      "id": "f3a9c6d5-47b1-4f8e-d1a7-6c0e3b9f2d84",
+      "nom_ressource": "Open Hub (Black Duck) – Open Source Project Analytics",
+      "description": "Annuaire analytique de plus de 800 000 projets open source avec métriques d'activité, statistiques de lignes de code, langages utilisés, contributeurs et historique de commits. Couverture mondiale, données depuis les années 2000. Exemples d'usage RAG : enrichissement d'une base de connaissances sur la maturité et la santé des projets open source ; comparaison de projets concurrents pour un assistant de sélection de technologies.",
+      "editeur_organisation": "Black Duck Software (Synopsys)",
+      "domaine_principal": "Logiciel & Code Source",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Endpoint principal : https://www.openhub.net/p/{project_name}.json. API REST v1 accessible via https://www.openhub.net/api/v1/ avec clé API (paramètre api_key). Endpoints clés : /projects, /projects/{id}/analyses, /projects/{id}/contributors. Pagination via paramètre page. Format de réponse XML ou JSON selon l'extension.",
+      "url_source_donnees": "https://www.openhub.net",
+      "url_documentation_integration": "https://github.com/blackducksoftware/ohloh_api"
+    },
+    {
+      "id": "c1a59e84-3fd6-4c7a-b201-7d4f3b8e92c0",
+      "nom_ressource": "OCDE – Statistics on Enterprises (SDMX API)",
+      "description": "Données structurées sur la démographie des entreprises (création, faillite, taille, secteur, emploi) dans les pays de l'OCDE, couvrant plus de 38 économies développées. Séries temporelles disponibles depuis 2000. Usage RAG : alimenter un assistant de benchmarking RH ou stratégique pour PME européennes ; construire des pipelines d'analyse de la dynamique entrepreneuriale.",
+      "editeur_organisation": "Organisation de Coopération et de Développement Économiques (OCDE)",
+      "domaine_principal": "Gestion & Commerce",
+      "protocoles_acces": [
+        "API REST",
+        "SDMX"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API SDMX REST : https://sdmx.oecd.org/public/rest/data/{dataflow}/{key}?format=jsondata. Paramètre clé : dataflow (ex: ENTREPRENEURSHIP), key (combinaison pays+indicateur). Format de réponse : JSON-stat ou XML SDMX 2.1.",
+      "url_source_donnees": "https://stats.oecd.org/Index.aspx?DataSetCode=TIMELY_BDS",
+      "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
+    },
+    {
+      "id": "f2e84a17-c36b-4d59-a712-5b3f9e0c8b21",
+      "nom_ressource": "Companies House UK – Free Company Data",
+      "description": "Registre officiel des sociétés britanniques géré par Companies House, fournissant des données sur plus de 5 millions d'entreprises enregistrées au Royaume-Uni : statut légal, dirigeants, comptes annuels déposés, capital, historique des actes. Usage RAG : pipeline de veille concurrentielle automatisé ; assistant de compliance pour vérification d'entités légales UK.",
+      "editeur_organisation": "Companies House – His Majesty's Government (Royaume-Uni)",
+      "domaine_principal": "Gestion & Commerce",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST : https://api.company-information.service.gov.uk/company/{company_number}. Authentification HTTP Basic avec clé API. Endpoints : /search/companies?q=, /company/{id}/filing-history, /company/{id}/officers. Réponse JSON. Bulk data via data.companieshouse.gov.uk (fichiers ZIP/CSV mensuels).",
+      "url_source_donnees": "https://find-and-update.company-information.service.gov.uk/",
+      "url_documentation_integration": "https://developer-specs.company-information.service.gov.uk/companies-house-public-data-api/reference"
+    },
+    {
+      "id": "g7d30b92-48f1-4e75-c843-6a1e2d5f9c37",
+      "nom_ressource": "SEC EDGAR – Corporate Filings Database",
+      "description": "Base de données des déclarations réglementaires des sociétés cotées aux États-Unis auprès de la Securities and Exchange Commission : rapports annuels (10-K), trimestriels (10-Q), fusions-acquisitions (8-K), documents prospectus. Couvre plus de 500 000 entités depuis 1993. Usage RAG : assistant de recherche financière et juridique sur les sociétés américaines ; pipeline d'extraction de données financières structurées (XBRL) pour analyse comparative.",
+      "editeur_organisation": "U.S. Securities and Exchange Commission (SEC)",
+      "domaine_principal": "Gestion & Commerce",
+      "protocoles_acces": [
+        "API REST",
+        "FTP",
+        "Téléchargement bulk"
+      ],
+      "formats_fichiers": [
+        "XBRL",
+        "JSON",
+        "XML",
+        "HTML",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST EDGAR : https://data.sec.gov/submissions/{CIK}.json pour métadonnées entreprise. Endpoints XBRL : https://data.sec.gov/api/xbrl/companyfacts/{CIK}.json. Bulk data indexé par trimestre : https://www.sec.gov/Archives/edgar/full-index/. Pas d'authentification requise, limite de débit : 10 req/s.",
+      "url_source_donnees": "https://www.sec.gov/cgi-bin/browse-edgar",
+      "url_documentation_integration": "https://www.sec.gov/developer"
+    },
+    {
+      "id": "l5c93a80-62e2-4f19-h267-1d4b7f8e6c05",
+      "nom_ressource": "Singapore Department of Statistics – Business Statistics",
+      "description": "Données officielles de Singapour sur la structure industrielle, la démographie des entreprises, les comptes nationaux des entreprises et les indicateurs de productivité pour l'Asie du Sud-Est, avec une couverture depuis 1990. Singapour étant un hub commercial majeur, ces données reflètent les dynamiques commerciales régionales ASEAN. Usage RAG : assistant de benchmarking pour entreprises entrant sur les marchés asiatiques ; pipeline d'analyse de la compétitivité sectorielle en Asie du Sud-Est.",
+      "editeur_organisation": "Singapore Department of Statistics (SingStat)",
+      "domaine_principal": "Gestion & Commerce",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement CSV"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "Excel"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST SingStat Table Builder : https://tablebuilder.singstat.gov.sg/api/table/tabledata/{resourceId}. Paramètres : resourceId (identifiant du tableau), offset, limit. Réponse JSON structurée avec métadonnées et données. Documentation OpenAPI disponible. Accès public sans authentification.",
+      "url_source_donnees": "https://www.singstat.gov.sg/find-data/search-by-theme/industry/companies-and-establishments/latest-data",
+      "url_documentation_integration": "https://tablebuilder.singstat.gov.sg/view-api/for-developers"
+    },
+    {
+      "id": "b5e9d3a2-7f1c-4b8e-c234-4d6f7a8e9012",
+      "nom_ressource": "Semantic Scholar Open Research Corpus (S2ORC)",
+      "description": "Corpus de recherche académique de l'Allen Institute for AI couvrant plus de 200 millions de publications avec texte intégral extrait (pour ~12 millions), abstracts, métadonnées et graphes de citations multi-domaines. Couverture mondiale, toutes disciplines, de 1800 à aujourd'hui. Usage RAG : alimentation d'un pipeline de question-réponse sur la littérature scientifique grâce aux textes intégraux structurés ; création d'embeddings de documents pour recherche sémantique dans un moteur de découverte scientifique.",
+      "editeur_organisation": "Allen Institute for Artificial Intelligence (AI2)",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST",
+        "S3 Bucket"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API Graph via https://api.semanticscholar.org/graph/v1/paper/search avec paramètres fields=title,abstract,year,authors,citationCount. Clé API recommandée (header x-api-key). Pagination offset/limit (max 100). Snapshots S2ORC téléchargeables via AWS S3 (accès sur demande).",
+      "url_source_donnees": "https://www.semanticscholar.org",
+      "url_documentation_integration": "https://api.semanticscholar.org/api-docs/"
+    },
+    {
+      "id": "c1d4f8b3-2a5e-4c7d-e456-5e8g9b0f1234",
+      "nom_ressource": "Europe PubMed Central (Europe PMC) API",
+      "description": "Archive en libre accès de plus de 45 millions de publications biomédicales et sciences de la vie, financée par des institutions européennes dont le Wellcome Trust. Inclut articles, prépublications, brevets et données de recherche liées. Couverture mondiale avec ancrage institutionnel européen. Usage RAG : extraction d'abstracts et full-texts pour un chatbot médical spécialisé en oncologie ou virologie ; indexation des relations article-données pour un assistant de reproductibilité de la recherche.",
+      "editeur_organisation": "European Bioinformatics Institute (EMBL-EBI)",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST",
+        "FTP"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "CSV"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST via https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=QUERY&format=json&pageSize=25&cursorMark=*. Paramètres : query (lucene syntax), resultType=core pour métadonnées complètes. Pagination via cursorMark. Téléchargement bulk FTP pour corpus complet.",
+      "url_source_donnees": "https://europepmc.org",
+      "url_documentation_integration": "https://europepmc.org/RestfulWebService"
+    },
+    {
+      "id": "f4g7c1e6-5d8h-4f0g-h890-8h1j2e3i4567",
+      "nom_ressource": "PubMed / MEDLINE (NCBI E-utilities)",
+      "description": "Base de données bibliographique de référence mondiale en sciences biomédicales gérée par le National Center for Biotechnology Information (NIH, USA), indexant plus de 37 millions de citations avec abstracts depuis 1966. Standard de référence en médecine, pharmacologie et biologie. Usage RAG : récupération ciblée d'abstracts cliniques par MeSH terms pour alimenter un assistant de synthèse médicale ; extraction de preuves scientifiques pour un système d'aide à la décision clinique basé sur les guidelines.",
+      "editeur_organisation": "National Center for Biotechnology Information (NCBI) / U.S. National Library of Medicine",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Quotidien",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "E-utilities REST API : ESearch (https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=QUERY&retmax=100&retmode=json) pour obtenir PMIDs, puis EFetch (https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=PMID&rettype=abstract&retmode=xml). Clé API optionnelle pour augmenter le rate limit à 10 req/s.",
+      "url_source_donnees": "https://pubmed.ncbi.nlm.nih.gov",
+      "url_documentation_integration": "https://www.ncbi.nlm.nih.gov/books/NBK25497/"
+    },
+    {
+      "id": "g5h8d2f7-6e9i-4g1h-i901-9i2k3f4j5678",
+      "nom_ressource": "Crossref Metadata API",
+      "description": "Base de données de métadonnées bibliographiques maintenue par Crossref, enregistrant plus de 155 millions de DOI d'articles, livres, données et autres œuvres académiques avec informations de financement, licences et affiliations. Couverture internationale tous éditeurs confondus. Usage RAG : résolution de DOI et enrichissement de métadonnées pour un pipeline de déduplication de références bibliographiques ; extraction des liens de financement pour un outil d'analyse des flux de financement de la recherche mondiale.",
+      "editeur_organisation": "Crossref (association à but non lucratif)",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST via https://api.crossref.org/works?query=QUERY&rows=20&cursor=* (cursor-based pagination). Filtres puissants : filter=from-pub-date:2020,type:journal-article. Header User-Agent requis avec email de contact (mailto:). Retourne JSON avec items[], total-results, next-cursor.",
+      "url_source_donnees": "https://www.crossref.org",
+      "url_documentation_integration": "https://api.crossref.org/swagger-ui/index.html"
+    },
+    {
+      "id": "h6i9e3g8-7f0j-4h2i-j012-0j3l4g5k6789",
+      "nom_ressource": "JSTOR Data for Research (DfR)",
+      "description": "Programme d'accès aux données de la plateforme JSTOR permettant aux chercheurs d'accéder à des datasets de métadonnées et n-grammes issus de plus de 12 millions d'articles de revues académiques en sciences humaines et sociales couvrant 150 ans de publications. Couverture mondiale, disciplines SHS. Usage RAG : analyse diachronique du vocabulaire scientifique dans les sciences sociales pour un assistant de recherche en histoire des idées ; extraction de co-occurrences terminologiques pour un moteur d'exploration thématique en droit ou philosophie.",
+      "editeur_organisation": "ITHAKA / JSTOR",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XML",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Accès via portail Constellate (successeur de DfR) sur https://constellate.org. API Constellate accessible après inscription, retourne datasets téléchargeables au format JSONL avec métadonnées et n-grammes. Requêtes par builder visuel ou API programmatique avec paramètres de filtre (date, journal, discipline).",
+      "url_source_donnees": "https://constellate.org",
+      "url_documentation_integration": "https://constellate.org/docs"
+    },
+    {
+      "id": "i7j0f4h9-8g1k-4i3j-k123-1k4m5h6l7890",
+      "nom_ressource": "Zenodo REST API",
+      "description": "Référentiel généraliste de données de recherche et publications hébergé par le CERN (Genève), stockant plus de 3 millions de dépôts couvrant toutes disciplines scientifiques avec attribution de DOI. Financement européen (OpenAIRE). Usage RAG : accès à des datasets expérimentaux associés à des publications pour un pipeline de vérification de reproductibilité ; récupération de corpus annotés en NLP ou en bioinformatique déposés par la communauté pour fine-tuning de modèles.",
+      "editeur_organisation": "CERN / OpenAIRE (Union Européenne)",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "Parquet",
+        "XML",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST via https://zenodo.org/api/records?q=QUERY&size=25&page=1&sort=mostrecent. Filtres : type (dataset, publication, software), access_right=open. Retourne JSON avec hits[], chaque record contenant files[].links.self pour téléchargement direct. Pagination par page/size.",
+      "url_source_donnees": "https://zenodo.org",
+      "url_documentation_integration": "https://developers.zenodo.org"
+    },
+    {
+      "id": "k9l2h6j1-0i3m-4k5l-m345-3m6o7j8n9012",
+      "nom_ressource": "African Journals Online (AJOL)",
+      "description": "Plus grande plateforme de diffusion des revues académiques africaines, hébergeant plus de 500 revues peer-reviewed de 35 pays africains couvrant toutes disciplines (santé, agriculture, droit, sciences sociales). Accès métadonnées ouvert, certains textes intégraux OA. Usage RAG : enrichissement d'un corpus RAG avec la perspective scientifique africaine pour corriger les biais géographiques des LLM ; accès à la littérature médicale africaine contextualisée pour un assistant de santé publique en Afrique subsaharienne.",
+      "editeur_organisation": "African Journals Online (AJOL) – organisation à but non lucratif, Afrique du Sud",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "XML",
+        "JSON",
+        "PDF"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API OAI-PMH disponible via https://www.ajol.info/index.php/ajol/oai?verb=ListRecords&metadataPrefix=oai_dc pour harvesting de métadonnées Dublin Core. Accès programmatique aux DOI et abstracts. Pagination OAI-PMH par resumptionToken. Textes intégraux en PDF pour les revues OA.",
+      "url_source_donnees": "https://www.ajol.info",
+      "url_documentation_integration": "https://www.ajol.info/index.php/ajol/pages/view/api"
+    },
+    {
+      "id": "l0m3i7k2-1j4n-4l6m-n456-4n7p8k9o0123",
+      "nom_ressource": "National Diet Library Digital Collections (国立国会図書館デジタルコレクション) – API",
+      "description": "Portail numérique de la Bibliothèque nationale du Japon donnant accès à plus de 4 millions de ressources numérisées incluant publications académiques, thèses, rapports gouvernementaux et périodiques scientifiques japonais depuis le 19e siècle. Couverture Asie-Pacifique unique. Usage RAG : accès à la littérature scientifique et technique japonaise pour un pipeline RAG multilingue orienté recherche en ingénierie ou sciences naturelles ; extraction de corpus historiques académiques japonais pour des études de longue durée en sciences sociales.",
+      "editeur_organisation": "National Diet Library of Japan (国立国会図書館)",
+      "domaine_principal": "Recherche Academique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST v0.1 via https://ndlsearch.ndl.go.jp/api/sru?operation=searchRetrieve&query=QUERY&recordSchema=dcndl&maximumRecords=20. Protocole SRU/SRW. Réponse XML avec métadonnées Dublin Core enrichies (dcndl). Paramètre from/until pour filtrage temporel. Accès sans authentification.",
+      "url_source_donnees": "https://dl.ndl.go.jp",
+      "url_documentation_integration": "https://ndlsearch.ndl.go.jp/help/api"
+    },
+    {
+      "id": "a3f7c2d1-4b8e-4a09-b5f6-1c2e3d4f5a67",
+      "nom_ressource": "Bureau of Labor Statistics (BLS) - Occupational Employment and Wage Statistics (OEWS)",
+      "description": "Données salariales et d'emploi par métier (codes SOC) aux États-Unis, couvrant plus de 800 professions dans tous les secteurs. Mise à jour annuelle avec ventilation par État et zone métropolitaine. Usage RAG : alimenter un assistant RH pour benchmarker les salaires par poste et région ; construire un moteur de recommandation de carrière basé sur les tendances d'emploi sectorielles.",
+      "editeur_organisation": "U.S. Bureau of Labor Statistics (BLS)",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct (CSV)"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST publique sur https://api.bls.gov/publicAPI/v2/timeseries/data/ ; paramètres clés : seriesid (code SOC+zone), startyear, endyear ; réponse JSON paginée par série temporelle ; clé API gratuite requise via inscription.",
+      "url_source_donnees": "https://www.bls.gov/oes/tables.htm",
+      "url_documentation_integration": "https://www.bls.gov/developers/api_signature_v2.htm"
+    },
+    {
+      "id": "b1e8d3c4-52a7-4f1b-9e0d-2f3a4b5c6d78",
+      "nom_ressource": "EUROFOUND - European Jobs Monitor (EJM) Dataset",
+      "description": "Base de données européenne sur la structure et la qualité de l'emploi dans les États membres de l'UE, couvrant la période 1995-2020. Contient des indicateurs sur la polarisation du marché du travail, la qualité des emplois, les transitions professionnelles et les inégalités salariales. Usage RAG : construire un tableau de bord comparatif de la qualité de l'emploi entre pays européens ; alimenter un pipeline d'analyse de la polarisation des métiers en Europe.",
+      "editeur_organisation": "Eurofound - Fondation européenne pour l'amélioration des conditions de vie et de travail",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "Téléchargement direct (CSV)",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct de fichiers CSV depuis le portail Eurofound ; API REST disponible via le portail de données de l'UE (data.europa.eu) avec endpoint SPARQL pour requêtes structurées ; pagination par pays et période.",
+      "url_source_donnees": "https://www.eurofound.europa.eu/en/data-collections",
+      "url_documentation_integration": "https://data.europa.eu/data/datasets?query=eurofound+jobs&locale=fr"
+    },
+    {
+      "id": "c2f9e4d5-63b8-4e2c-af1e-3g4b5c6d7e89",
+      "nom_ressource": "ISCO - International Standard Classification of Occupations (ILO)",
+      "description": "Référentiel international des métiers développé par l'Organisation Internationale du Travail, couvrant 436 groupes de professions à 4 niveaux hiérarchiques (ISCO-08). Données de correspondance entre systèmes de classification nationaux (NOC Canada, SOC USA, ROME France). Usage RAG : normaliser les intitulés de postes dans un moteur de matching CV/offres ; construire un graphe de connaissances des familles de métiers pour un chatbot d'orientation professionnelle.",
+      "editeur_organisation": "Organisation Internationale du Travail (OIT/ILO)",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "Téléchargement direct (CSV)",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Historique",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct des fichiers de classification depuis le site ILO ; API REST ILOSTAT disponible à https://ilostat.ilo.org/resources/ilostat-api/ avec paramètres : indicator, ref_area, sex, classif1 ; réponse en JSON/CSV ; pas de clé API requise pour usage public.",
+      "url_source_donnees": "https://ilostat.ilo.org/resources/concepts-and-definitions/classification-occupation/",
+      "url_documentation_integration": "https://ilostat.ilo.org/resources/ilostat-api/"
+    },
+    {
+      "id": "d4a1b5e6-74c9-4f3d-b02f-4h5c6d7e8f90",
+      "nom_ressource": "ROME 4.0 - Répertoire Opérationnel des Métiers et des Emplois",
+      "description": "Référentiel français officiel des métiers structuré en 531 fiches métiers regroupées en 110 domaines professionnels, incluant les compétences, activités, conditions de travail et certifications associées. Disponible en open data depuis 2022 avec une modélisation en ontologie. Usage RAG : créer un chatbot d'orientation professionnelle ancré sur le référentiel officiel français ; vectoriser les fiches ROME pour un moteur de recommandation de formations/emplois.",
+      "editeur_organisation": "France Travail (ex-Pôle Emploi)",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct (CSV)"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "TTL (RDF/Turtle)"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST sur https://api.francetravail.io/partenaire/rome/v1/ ; endpoints : /metier/{codeRome}, /competence/{codeCompetence} ; authentification OAuth2 client_credentials ; données RDF/Turtle téléchargeables pour import dans un triplestore SPARQL.",
+      "url_source_donnees": "https://www.francetravail.io/nos-api/",
+      "url_documentation_integration": "https://francetravail.io/data/api/referentiel-des-metiers-rome"
+    },
+    {
+      "id": "h8e5f9i0-18g3-4j7h-f46j-8l9g0h1i2j34",
+      "nom_ressource": "CEDEFOP Skills-OVATE - Online Vacancy Analysis Tool for Europe",
+      "description": "Outil européen d'analyse des offres d'emploi en ligne collectant et analysant des millions d'annonces de 28 pays européens. Fournit des données sur les compétences demandées, les professions en tension, les qualifications requises et les tendances du marché du travail numérique. Usage RAG : identifier les compétences numériques émergentes par pays pour un pipeline de veille RH ; comparer les exigences de qualification entre marchés européens pour un outil de mobilité professionnelle.",
+      "editeur_organisation": "Centre européen pour le développement de la formation professionnelle (CEDEFOP)",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct (CSV)"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST accessible via le portail CEDEFOP Skills Intelligence ; endpoint principal : https://www.cedefop.europa.eu/en/tools/skills-intelligence/api ; paramètres : country, occupation (ISCO), skill_type, year ; réponse JSON ; données agrégées téléchargeables en CSV sans authentification.",
+      "url_source_donnees": "https://www.cedefop.europa.eu/en/tools/skills-online-vacancies",
+      "url_documentation_integration": "https://www.cedefop.europa.eu/en/tools/skills-intelligence"
+    },
+    {
+      "id": "i9f6g0j1-29h4-4k8i-g57k-9m0h1i2j3k45",
+      "nom_ressource": "Statistics Canada - Labour Force Survey (LFS) Public Use Microdata",
+      "description": "Enquête mensuelle auprès de 56 000 ménages canadiens mesurant l'emploi, le chômage, les heures travaillées et les caractéristiques des travailleurs par province, industrie et profession (NOC). Microdonnées anonymisées disponibles en open data. Usage RAG : construire un modèle prédictif du chômage régional canadien pour un assistant d'orientation ; alimenter des analyses comparatives des conditions de travail par secteur au Canada.",
+      "editeur_organisation": "Statistics Canada / Statistique Canada",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "Téléchargement direct (CSV)",
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "SAS",
+        "SPSS",
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST Statistics Canada sur https://www150.statcan.gc.ca/t1/tbl1/en/dtbl/ ; paramètre productId pour identifier la table LFS (ex: 14-10-0287-01) ; format de réponse JSON ou CSV ; téléchargement complet des microdonnées via le portail PUMF après enregistrement gratuit.",
+      "url_source_donnees": "https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2018004-eng.htm",
+      "url_documentation_integration": "https://www.statcan.gc.ca/en/developers"
+    },
+    {
+      "id": "j0g7h1k2-30i5-4l9j-h68l-0n1i2j3k4l56",
+      "nom_ressource": "World Bank - Jobs Indicators (JOBI) Database",
+      "description": "Base de données mondiale de la Banque Mondiale regroupant 200+ indicateurs sur l'emploi, le marché du travail, la productivité et les conditions de travail pour 180+ pays depuis 1990. Inclut des données sur l'emploi informel, le travail des enfants, les salaires minimums et l'égalité de genre au travail. Usage RAG : enrichir un rapport d'analyse des marchés du travail des économies émergentes ; alimenter un modèle de scoring pays pour des stratégies d'expansion RH internationale.",
+      "editeur_organisation": "World Bank Group",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct (CSV)"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XML",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST World Bank Data sur https://api.worldbank.org/v2/country/{iso2}/indicator/{indicatorCode} ; exemples d'indicateurs : SL.UEM.TOTL.ZS (chômage), SL.EMP.TOTL.SP.ZS (emploi/population) ; réponse JSON ou XML ; pagination via page et per_page ; aucune authentification requise.",
+      "url_source_donnees": "https://data.worldbank.org/topic/labor-and-social-protection",
+      "url_documentation_integration": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392"
+    },
+    {
+      "id": "k1h8i2l3-41j6-4m0k-i79m-1o2j3k4l5m67",
+      "nom_ressource": "ANZSCO - Australian and New Zealand Standard Classification of Occupations (ABS)",
+      "description": "Classification officielle des professions pour l'Australie et la Nouvelle-Zélande, intégrant les données du recensement et des enquêtes sur la main-d'œuvre. Couvre 1 000+ professions avec indicateurs de revenus, qualifications requises et projections d'emploi. Usage RAG : construire un guide d'immigration professionnelle Australie/NZ basé sur les professions en tension ; alimenter un comparateur de salaires et qualifications pour le bassin Indo-Pacifique.",
+      "editeur_organisation": "Australian Bureau of Statistics (ABS)",
+      "domaine_principal": "Metiers & Emploi",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct (CSV)"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "XLSX"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST ABS Data sur https://api.data.abs.gov.au/data/{dataflowIdentifier}/{dataKey} ; identifiant pour données emploi : LABOUR_FORCE_DETAILED ; paramètres de filtrage par ANZSCO code, région, sexe ; réponse JSON (SDMX-JSON) ou CSV ; sans authentification pour données publiques.",
+      "url_source_donnees": "https://www.abs.gov.au/statistics/labour/jobs/jobs-australia",
+      "url_documentation_integration": "https://api.data.abs.gov.au/"
+    },
+    {
+      "id": "a3f1c2d4-5b6e-4f7a-8c9d-0e1f2a3b4c5d",
+      "nom_ressource": "Bureau of Transportation Statistics (BTS) – National Transportation Atlas Database",
+      "description": "Base de données géospatiale nationale américaine couvrant les infrastructures de transport (routes, rails, aéroports, ports, pipelines). Données historiques et actualisées annuellement. Usage RAG : alimenter un chatbot d'analyse logistique sur les corridors de fret américains, ou enrichir un moteur de recherche sur les capacités portuaires et aéroportuaires des États-Unis.",
+      "editeur_organisation": "Bureau of Transportation Statistics – U.S. Department of Transportation",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct",
+        "GeoJSON"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "GeoJSON",
+        "Shapefile",
+        "KML"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "Téléchargement direct depuis le portail BTS. Données disponibles par couche thématique (ex: airports, rail_lines). Format GeoJSON/Shapefile. Pas de pagination API native ; intégration via batch download et indexation dans un vector store géospatial.",
+      "url_source_donnees": "https://www.bts.gov/topics/national-transportation-atlas-database",
+      "url_documentation_integration": "https://www.bts.gov/topics/national-transportation-atlas-database"
+    },
+    {
+      "id": "e2c5g6i8-9f0d-4e1h-2g3c-4d5e6f7a8b9c",
+      "nom_ressource": "AIS Data – MarineTraffic API (Automatic Identification System)",
+      "description": "Données mondiales de suivi maritime en temps réel et historiques issues du système AIS, couvrant la position, vitesse, cap et statut de plus de 500 000 navires. Couverture mondiale avec densité maximale dans les grandes voies maritimes. Usage RAG : alimentation d'un assistant IA de gestion des risques portuaires avec données de congestion, ou pipeline de détection d'anomalies dans les chaînes d'approvisionnement maritimes mondiales.",
+      "editeur_organisation": "MarineTraffic (Statheros Ltd.)",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST MarineTraffic : endpoint https://services.marinetraffic.com/api/exportvessel/v:8/{API_KEY}. Paramètres clés : MMSI, IMO, timespan, vessel_type, area_xmin/xmax/ymin/ymax. Réponse JSON/CSV. Accès nécessite clé API (plan payant avec tier gratuit limité). Pagination par période temporelle.",
+      "url_source_donnees": "https://www.marinetraffic.com/en/ais/home/centerx:-12.0/centery:25.0/zoom:4",
+      "url_documentation_integration": "https://www.marinetraffic.com/en/ais/details/api_services"
+    },
+    {
+      "id": "f3d6h7j9-0g1e-4f2i-3h4d-5e6f7a8b9c0d",
+      "nom_ressource": "OpenFlights – Airports, Airlines and Routes Database",
+      "description": "Base de données mondiale open source répertoriant 10 000+ aéroports, 6 000+ compagnies aériennes et 67 000+ routes aériennes avec coordonnées, codes IATA/ICAO, fuseaux horaires. Couverture mondiale. Usage RAG : construction d'un graphe de connaissances pour un assistant de planification de vols cargo, ou indexation pour un moteur de recherche sur la connectivité aérienne des hubs logistiques mondiaux.",
+      "editeur_organisation": "OpenFlights.org (communauté open source)",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "DAT"
+      ],
+      "frequence_mise_a_jour": "Historique",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "Téléchargement direct de fichiers DAT/CSV depuis GitHub OpenFlights. Fichiers principaux : airports.dat (14 colonnes : ID, name, city, country, IATA, ICAO, lat, lon, alt, tz...), routes.dat (airline, src_airport, dst_airport, stops...). Intégration batch dans un graph database (Neo4j) ou vector store pour RAG.",
+      "url_source_donnees": "https://openflights.org/data.html",
+      "url_documentation_integration": "https://openflights.org/data.html"
+    },
+    {
+      "id": "h5f8j9l1-2i3g-4h4k-5j6f-7a8b9c0d1e2f",
+      "nom_ressource": "UN Comtrade – International Trade Statistics",
+      "description": "Base de données mondiale des statistiques du commerce international de marchandises, couvrant 200+ pays avec données sur les flux d'importation/exportation par produit (nomenclature HS) depuis 1962. Mise à jour mensuelle. Usage RAG : enrichissement d'un assistant IA de sourcing pour identifier les principaux flux commerciaux par produit et corridor, ou analyse des chaînes d'approvisionnement mondiales pour la gestion des risques.",
+      "editeur_organisation": "United Nations Statistics Division (UNSD)",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "JSON",
+        "CSV",
+        "XML"
+      ],
+      "frequence_mise_a_jour": "Mensuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API REST Comtrade+ : endpoint https://comtradeapi.un.org/data/v1/get/C/A/HS. Paramètres clés : reporterCode (ISO numérique), partnerCode, period (YYYY), cmdCode (code HS), flowCode (M=import, X=export). Clé API requise (gratuite). Réponse JSON, limite 500 lignes/requête avec pagination par page.",
+      "url_source_donnees": "https://comtradeplus.un.org",
+      "url_documentation_integration": "https://comtradeapi.un.org/documents/v1/swaggerUI/index.html"
+    },
+    {
+      "id": "i6g9k0m2-3j4h-4i5l-6k7g-8b9c0d1e2f3a",
+      "nom_ressource": "FlightAware AeroAPI – Aviation Data",
+      "description": "API mondiale de données aéronautiques couvrant les vols commerciaux et cargo en temps réel et historiques : positions, plans de vol, retards, statistiques d'aéroports et de compagnies. Couverture mondiale avec focus sur l'Amérique du Nord, l'Europe et l'Asie-Pacifique. Usage RAG : construction d'un pipeline de surveillance des perturbations du fret aérien pour alertes supply chain, ou chatbot de suivi de colis aériens avec ETA dynamique.",
+      "editeur_organisation": "FlightAware LLC (Collins Aerospace Company)",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "API REST"
+      ],
+      "formats_fichiers": [
+        "JSON"
+      ],
+      "frequence_mise_a_jour": "Temps réel",
+      "score_anti_hallucination": 4,
+      "methode_integration_technique": "API REST AeroAPI v4 : endpoint https://aeroapi.flightaware.com/aeroapi/flights/{ident}. Headers : x-apikey (clé personnelle). Paramètres : start/end datetime, max_pages, cursor (pagination). Réponse JSON structurée avec objets flight, positions, delays. Tier gratuit : 10 requêtes/min.",
+      "url_source_donnees": "https://www.flightaware.com/commercial/aeroapi",
+      "url_documentation_integration": "https://www.flightaware.com/aeroapi/portal/documentation"
+    },
+    {
+      "id": "k8i1m2o4-5l6j-4k7n-8m9i-0d1e2f3a4b5c",
+      "nom_ressource": "OECD – International Transport Forum Statistics",
+      "description": "Base de données statistiques du Forum International des Transports (FIT/OCDE) couvrant 60+ pays membres sur le transport de fret et passagers, sécurité routière, émissions, et infrastructures. Séries temporelles longues (depuis 1970 pour certains indicateurs). Usage RAG : benchmark international pour un assistant IA en stratégie de mobilité durable, ou enrichissement de rapports automatisés sur la sécurité routière mondiale.",
+      "editeur_organisation": "International Transport Forum (ITF) – OCDE",
+      "domaine_principal": "Transport & Logistique",
+      "protocoles_acces": [
+        "API REST",
+        "Téléchargement direct"
+      ],
+      "formats_fichiers": [
+        "CSV",
+        "JSON",
+        "SDMX",
+        "Excel"
+      ],
+      "frequence_mise_a_jour": "Annuel",
+      "score_anti_hallucination": 5,
+      "methode_integration_technique": "API OECD Stats : endpoint https://stats.oecd.org/SDMX-JSON/data/{datasetCode}/{filter}/{agencyName}. Dataset transport principal : ITF_PASSENGER_TRANSPORT, ITF_GOODS_TRANSPORT. Paramètres : country, variable, year. Réponse SDMX-JSON. Téléchargement alternatif via portail stats.oecd.org en CSV.",
+      "url_source_donnees": "https://www.itf-oecd.org/transport-statistics",
+      "url_documentation_integration": "https://data.oecd.org/api/sdmx-json-documentation/"
     }
   ]
 }
